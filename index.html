@@ -350,6 +350,36 @@
             -webkit-mask-image: linear-gradient(to top, transparent 0%, black 10%, black 100%);
         }
 
+        /* ── Face Interaction (Premium Shimmer) ── */
+        .hero__face-hitbox {
+            position: absolute;
+            z-index: 15;
+            top: 15%;
+            left: 50%;
+            transform: translateX(-50%);
+            width: clamp(200px, 20vw, 300px);
+            height: clamp(250px, 25vw, 350px);
+            border-radius: 50%;
+            cursor: default;
+        }
+
+        .hero__shimmer {
+            position: absolute;
+            z-index: 6;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100vw;
+            height: 105vh;
+            background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(227, 231, 235, .12) 3px, transparent 4px);
+            mask-image: radial-gradient(ellipse 20% 25% at 50% 25%, black 0%, transparent 100%);
+            -webkit-mask-image: radial-gradient(ellipse 20% 25% at 50% 25%, black 0%, transparent 100%);
+            pointer-events: none;
+            opacity: 0;
+            mix-blend-mode: overlay;
+            will-change: transform, opacity;
+        }
+
         /* ── Halo — refined, elegant ── */
         .hero__halo {
             position: absolute;
@@ -969,27 +999,6 @@
             animation: beamFall 9s linear infinite 1s
         }
 
-        /* ── Cursor ── */
-        .cursor {
-            position: fixed;
-            z-index: 9998;
-            pointer-events: none;
-            width: 14px;
-            height: 14px;
-            border: 1px solid rgba(201, 210, 218, .35);
-            border-radius: 50%;
-            transform: translate(-50%, -50%);
-            transition: width .3s, height .3s, border-color .3s, background .3s;
-            mix-blend-mode: difference
-        }
-
-        .cursor.is-hover {
-            width: 44px;
-            height: 44px;
-            border-color: var(--accent);
-            background: rgba(201, 210, 218, .06)
-        }
-
         /* ═══════════════════════════════════════════
    RESPONSIVE
    ═══════════════════════════════════════════ */
@@ -1047,10 +1056,6 @@
                 padding-top: 6rem
             }
 
-            .cursor {
-                display: none
-            }
-
             .beams {
                 display: none
             }
@@ -1092,7 +1097,6 @@
 
 <body>
     <div class="noise" aria-hidden="true"></div>
-    <div class="cursor" id="cursor" aria-hidden="true"></div>
 
     <!-- Loader -->
     <div class="loader" id="loader">
@@ -1178,6 +1182,10 @@
             <img src="raw_files/Bora.png" alt="Puzoto Design — Experiências Digitais Premium" id="heroImg"
                 fetchpriority="high" draggable="false" />
         </div>
+
+        <!-- Subtle Face Interaction Layer -->
+        <div class="hero__shimmer" id="heroShimmer"></div>
+        <div class="hero__face-hitbox" id="faceHitbox"></div>
 
         <!-- Overlays -->
         <div class="hero__overlay-radial"></div>
@@ -1271,23 +1279,13 @@
             $('#mobileClose').addEventListener('click', toggleMenu);
             document.querySelectorAll('[data-mobile-link]').forEach(l => l.addEventListener('click', toggleMenu));
 
-            /* ─── CURSOR ────────────────────── */
-            if (!isMobile) {
-                const cursor = $('#cursor');
-                let cx = 0, cy = 0, ax = 0, ay = 0;
-                document.addEventListener('mousemove', e => { cx = e.clientX; cy = e.clientY });
-                (function mc() { ax += (cx - ax) * .12; ay += (cy - ay) * .12; cursor.style.left = ax + 'px'; cursor.style.top = ay + 'px'; requestAnimationFrame(mc) })();
-                document.querySelectorAll('a,button,.btn-primary').forEach(el => {
-                    el.addEventListener('mouseenter', () => cursor.classList.add('is-hover'));
-                    el.addEventListener('mouseleave', () => cursor.classList.remove('is-hover'));
-                });
-            }
-
             /* ─── AMBIENT MOUSE — elegant, no spotlight ── */
             const halo = $('#heroHalo');
             const orbA = $('#orbA');
             const orbB = $('#orbB');
             const orbC = $('#orbC');
+
+            let webglFlash = 0; // Global for hover reaction
 
             if (!isMobile) {
                 let mx = 0, my = 0, smx = 0, smy = 0;
@@ -1303,9 +1301,13 @@
                     smy += (my - smy) * .03;
 
                     // Halo: subtle brightness/blur variation based on mouse position
-                    const hBright = 1 + Math.abs(smx) * .1 + Math.abs(smy) * .06;
-                    const hBlur = 28 - Math.abs(smx) * 3;
-                    if (halo) halo.style.filter = `blur(${Math.max(20, hBlur)}px) brightness(${hBright})`;
+                    const hBright = 1 + Math.abs(smx) * .1 + Math.abs(smy) * .06 + (webglFlash * 0.3);
+                    const hBlur = 28 - Math.abs(smx) * 3 - (webglFlash * 5);
+                    const hScale = 1 + (webglFlash * 0.04);
+                    if (halo) {
+                        halo.style.filter = `blur(${Math.max(20, hBlur)}px) brightness(${hBright})`;
+                        halo.style.transform = `translateX(-50%) scale(${hScale})`;
+                    }
 
                     // Orbs: gentle positional drift responding to mouse
                     if (orbA) orbA.style.transform = `translate(${smx * -15}px,${smy * -10}px)`;
@@ -1314,6 +1316,39 @@
 
                     requestAnimationFrame(ambientLoop);
                 })();
+            }
+
+            /* ─── FACE HOVER INTERACTION (Premium, Clean) ── */
+            const faceHitbox = $('#faceHitbox');
+            const shimmer = $('#heroShimmer');
+            let hoverTl = null;
+
+            if (faceHitbox && !isMobile) {
+                const flashObj = { val: 0 };
+                faceHitbox.addEventListener('mouseenter', () => {
+                    if (hoverTl && hoverTl.isActive()) return;
+
+                    hoverTl = gsap.timeline();
+
+                    // 1. Shimmer overlay (micro interference)
+                    hoverTl.fromTo(shimmer,
+                        { opacity: 0, scaleY: 0.9, y: -20 },
+                        { opacity: 1, scaleY: 1, y: 15, duration: 0.2, ease: 'power2.out' }
+                    ).to(shimmer, { opacity: 0, y: 45, duration: 0.45, ease: 'power2.in' });
+
+                    // 2. Optical distortion (filter pulse on image)
+                    hoverTl.to(heroImg, { filter: 'contrast(1.09) brightness(1.06)', duration: 0.15, ease: 'none' }, 0)
+                        .to(heroImg, { filter: 'contrast(1.05) brightness(1.02)', duration: 0.6, ease: 'power2.out' }, 0.15);
+
+                    // 3. WebGL and Halo light pulse
+                    hoverTl.to(flashObj, {
+                        val: 1, duration: 0.15, ease: 'power2.out',
+                        onUpdate: () => { webglFlash = flashObj.val; }
+                    }, 0).to(flashObj, {
+                        val: 0, duration: 0.8, ease: 'power3.out',
+                        onUpdate: () => { webglFlash = flashObj.val; }
+                    }, 0.15);
+                });
             }
 
             /* ─── WEBGL 3D BACKGROUND ────────── */
@@ -1401,6 +1436,18 @@
 
                     ring2.rotation.y = t * -.018 + (wmx * -.08);
                     ring2.rotation.z = t * -.01 + (wmy * .04);
+
+                    // Reaction to face hover
+                    if (webglFlash > 0) {
+                        closePts.material.opacity = 0.4 + (webglFlash * 0.4);
+                        midPts.material.opacity = 0.3 + (webglFlash * 0.2);
+                        ring.material.opacity = 0.05 + (webglFlash * 0.07);
+                    } else {
+                        // Default opacities
+                        closePts.material.opacity = 0.4;
+                        midPts.material.opacity = 0.3;
+                        ring.material.opacity = 0.05;
+                    }
 
                     renderer.render(scene, camera);
                 })();
