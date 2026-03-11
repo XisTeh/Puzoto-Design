@@ -150,7 +150,7 @@
         }
 
         /* ═══════════════════════════════════════════
-   WEBGL
+   WEBGL — fullscreen canvas
    ═══════════════════════════════════════════ */
         #webgl {
             position: fixed;
@@ -159,8 +159,7 @@
             width: 100%;
             height: 100%;
             z-index: 1;
-            pointer-events: none;
-            opacity: .5
+            pointer-events: none
         }
 
         /* ═══════════════════════════════════════════
@@ -326,7 +325,7 @@
             justify-content: center;
         }
 
-        /* ── Character: CENTERED and DOMINANT ── */
+        /* ── Character CENTERED + DOMINANT ── */
         .hero__figure {
             position: absolute;
             z-index: 5;
@@ -347,99 +346,208 @@
             object-fit: contain;
             display: block;
             filter: contrast(1.05) brightness(1.02);
-            /* Fade bottom only — head fully visible */
             mask-image: linear-gradient(to top, transparent 0%, black 10%, black 100%);
             -webkit-mask-image: linear-gradient(to top, transparent 0%, black 10%, black 100%);
         }
 
-        /* ── Eye-follow overlay (transparent layer over eyes region) ── */
-        .hero__eyes-light {
+        /* ── Eye-follow System ──
+   Two small dark "pupil" overlays positioned over each eye.
+   They shift slightly with mouse to simulate gaze tracking.
+   ────────────────────────────────────────── */
+        .hero__eye-track {
             position: absolute;
             z-index: 6;
-            /* Positioned over the eye area — values tuned for Bora.png at 105vh */
-            top: 18%;
-            left: 50%;
-            transform: translate(-50%, 0);
-            width: 180px;
-            height: 60px;
-            border-radius: 50%;
-            background: radial-gradient(ellipse, rgba(201, 210, 218, .12) 0%, transparent 70%);
             pointer-events: none;
-            opacity: 0;
-            filter: blur(6px);
-            will-change: transform;
-            transition: opacity .3s;
+            /* Container sized/positioned relative to the figure */
+            left: 50%;
+            top: 0;
+            transform: translateX(-50%);
+            width: 100vw;
+            height: 100vh;
         }
 
-        /* ── Halo glow behind head ── */
+        .hero__pupil {
+            position: absolute;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(40, 55, 60, .6) 0%, rgba(40, 55, 60, .25) 60%, transparent 100%);
+            filter: blur(.5px);
+            will-change: transform;
+            transition: transform .15s ease-out;
+        }
+
+        /* Positioned over the left eye iris */
+        .hero__pupil--l {
+            /* These % values correspond to the eye positions in Bora.png at 105vh */
+            top: 24.5%;
+            left: calc(50% - 38px);
+        }
+
+        /* Positioned over the right eye iris */
+        .hero__pupil--r {
+            top: 24.5%;
+            left: calc(50% + 26px);
+        }
+
+        /* ── Blink System ── */
+        .hero__blink {
+            position: absolute;
+            z-index: 7;
+            pointer-events: none;
+            left: 50%;
+            top: 0;
+            transform: translateX(-50%);
+            width: 100vw;
+            height: 100vh;
+        }
+
+        .hero__eyelid {
+            position: absolute;
+            width: 28px;
+            height: 14px;
+            background: #d5ccc5;
+            border-radius: 0 0 50% 50% / 0 0 100% 100%;
+            transform-origin: top center;
+            transform: scaleY(0);
+            will-change: transform;
+        }
+
+        .hero__eyelid--l {
+            top: 23%;
+            left: calc(50% - 46px);
+        }
+
+        .hero__eyelid--r {
+            top: 23%;
+            left: calc(50% + 18px);
+        }
+
+        /* ── Eye Highlight (directional light on iris) ── */
+        .hero__eye-light {
+            position: absolute;
+            z-index: 6;
+            pointer-events: none;
+            width: 20px;
+            height: 12px;
+            border-radius: 50%;
+            background: radial-gradient(ellipse, rgba(220, 230, 240, .35) 0%, transparent 70%);
+            filter: blur(2px);
+            will-change: transform;
+            opacity: 0;
+        }
+
+        .hero__eye-light--l {
+            top: 24%;
+            left: calc(50% - 42px);
+        }
+
+        .hero__eye-light--r {
+            top: 24%;
+            left: calc(50% + 22px);
+        }
+
+        /* ── Face ambient light (follows mouse, illuminates face subtly) ── */
+        .hero__face-light {
+            position: absolute;
+            z-index: 6;
+            top: 15%;
+            left: 50%;
+            transform: translate(-50%, 0);
+            width: 250px;
+            height: 180px;
+            border-radius: 50%;
+            background: radial-gradient(ellipse, rgba(201, 210, 218, .08) 0%, transparent 65%);
+            pointer-events: none;
+            opacity: 0;
+            filter: blur(15px);
+            will-change: transform;
+        }
+
+        /* ── Halo — STRONGER ── */
         .hero__halo {
             position: absolute;
             z-index: 4;
-            top: 2%;
+            top: 0%;
             left: 50%;
             transform: translateX(-50%);
-            width: clamp(400px, 45vw, 800px);
-            height: clamp(400px, 45vw, 800px);
+            width: clamp(500px, 50vw, 900px);
+            height: clamp(500px, 50vw, 900px);
             border-radius: 50%;
-            background: radial-gradient(circle, rgba(201, 210, 218, .1) 0%, rgba(201, 210, 218, .025) 45%, transparent 70%);
-            filter: blur(35px);
+            background: radial-gradient(circle,
+                    rgba(201, 210, 218, .18) 0%,
+                    rgba(201, 210, 218, .08) 30%,
+                    rgba(201, 210, 218, .02) 55%,
+                    transparent 70%);
+            filter: blur(25px);
             will-change: transform, opacity;
-            animation: haloPulse 6s ease-in-out infinite alternate;
+            animation: haloPulse 5s ease-in-out infinite alternate;
         }
 
         @keyframes haloPulse {
             0% {
-                opacity: .45;
-                transform: translateX(-50%) scale(1)
+                opacity: .55;
+                transform: translateX(-50%) scale(1);
+                filter: blur(25px) brightness(1);
             }
 
             100% {
-                opacity: .85;
-                transform: translateX(-50%) scale(1.06)
+                opacity: 1;
+                transform: translateX(-50%) scale(1.08);
+                filter: blur(20px) brightness(1.15);
             }
         }
 
-        /* ── Mouse glow (ambient light following cursor) ── */
+        /* ── Mouse Glow (large ambient) ── */
         .hero__mouse-glow {
             position: fixed;
             z-index: 3;
-            width: 450px;
-            height: 450px;
+            width: 500px;
+            height: 500px;
             border-radius: 50%;
-            background: radial-gradient(circle, rgba(201, 210, 218, .05) 0%, transparent 60%);
+            background: radial-gradient(circle, rgba(201, 210, 218, .07) 0%, transparent 55%);
             transform: translate(-50%, -50%);
             pointer-events: none;
             opacity: 0;
-            transition: opacity .4s;
+            transition: opacity .5s;
             will-change: transform;
         }
 
-        /* ── Ambient orbs ── */
+        /* ── Orbs ── */
         .hero__orb {
             position: absolute;
             z-index: 2;
             border-radius: 50%;
-            filter: blur(80px);
+            filter: blur(70px);
             pointer-events: none;
             will-change: transform
         }
 
         .hero__orb--a {
-            width: 350px;
-            height: 350px;
-            top: 5%;
-            left: 8%;
-            background: rgba(201, 210, 218, .04);
-            animation: orbDrift 14s ease-in-out infinite alternate
+            width: 400px;
+            height: 400px;
+            top: 0;
+            left: 5%;
+            background: rgba(201, 210, 218, .06);
+            animation: orbDrift 12s ease-in-out infinite alternate
         }
 
         .hero__orb--b {
-            width: 280px;
-            height: 280px;
-            bottom: 18%;
-            right: 6%;
-            background: rgba(111, 118, 125, .05);
-            animation: orbDrift 18s ease-in-out infinite alternate-reverse
+            width: 320px;
+            height: 320px;
+            bottom: 10%;
+            right: 5%;
+            background: rgba(111, 118, 125, .07);
+            animation: orbDrift 16s ease-in-out infinite alternate-reverse
+        }
+
+        .hero__orb--c {
+            width: 250px;
+            height: 250px;
+            top: 40%;
+            left: 50%;
+            background: rgba(201, 210, 218, .04);
+            animation: orbDrift 20s ease-in-out infinite alternate
         }
 
         @keyframes orbDrift {
@@ -448,7 +556,7 @@
             }
 
             100% {
-                transform: translate(25px, 35px) scale(1.12)
+                transform: translate(25px, 35px) scale(1.15)
             }
         }
 
@@ -456,7 +564,7 @@
         .hero__overlay-radial {
             position: absolute;
             inset: 0;
-            z-index: 7;
+            z-index: 8;
             background: radial-gradient(ellipse 80% 75% at 50% 45%, transparent 30%, var(--bg) 100%);
             pointer-events: none
         }
@@ -466,9 +574,9 @@
             top: 0;
             left: 0;
             right: 0;
-            height: 8%;
-            z-index: 8;
-            background: linear-gradient(to bottom, var(--bg) 0%, transparent 100%);
+            height: 6%;
+            z-index: 9;
+            background: linear-gradient(to bottom, var(--bg), transparent);
             pointer-events: none
         }
 
@@ -477,21 +585,21 @@
             bottom: 0;
             left: 0;
             right: 0;
-            height: 20%;
-            z-index: 8;
-            background: linear-gradient(to top, var(--bg) 0%, transparent 100%);
+            height: 18%;
+            z-index: 9;
+            background: linear-gradient(to top, var(--bg), transparent);
             pointer-events: none
         }
 
         .hero__vignette {
             position: absolute;
             inset: 0;
-            z-index: 8;
-            box-shadow: inset 0 0 160px 50px rgba(14, 15, 17, .3);
+            z-index: 9;
+            box-shadow: inset 0 0 140px 40px rgba(14, 15, 17, .25);
             pointer-events: none
         }
 
-        /* ── Text content — positioned left, NOT over face ── */
+        /* ── Text — left side ── */
         .hero__content {
             position: relative;
             z-index: 12;
@@ -515,7 +623,7 @@
             text-transform: uppercase;
             color: var(--accent);
             margin-bottom: 2rem;
-            opacity: 0;
+            opacity: 0
         }
 
         .hero__label-dot {
@@ -524,7 +632,7 @@
             border-radius: 50%;
             background: var(--accent);
             box-shadow: 0 0 10px rgba(201, 210, 218, .6);
-            animation: dotPulse 2.5s ease-in-out infinite;
+            animation: dotPulse 2.5s ease-in-out infinite
         }
 
         @keyframes dotPulse {
@@ -549,18 +657,18 @@
             letter-spacing: -.04em;
             margin-bottom: 1.6rem;
             color: var(--text);
-            text-shadow: 0 2px 40px rgba(0, 0, 0, .4);
+            text-shadow: 0 2px 40px rgba(0, 0, 0, .4)
         }
 
         .hero__title-line {
             display: block;
-            overflow: hidden;
+            overflow: hidden
         }
 
         .hero__title-line-inner {
             display: inline-block;
             transform: translateY(120%);
-            will-change: transform;
+            will-change: transform
         }
 
         .hero__title-accent {
@@ -568,7 +676,7 @@
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
-            text-shadow: none;
+            text-shadow: none
         }
 
         .hero__subtitle {
@@ -578,7 +686,7 @@
             max-width: 420px;
             margin-bottom: 2.5rem;
             opacity: 0;
-            text-shadow: 0 1px 20px rgba(0, 0, 0, .5);
+            text-shadow: 0 1px 20px rgba(0, 0, 0, .5)
         }
 
         .hero__ctas {
@@ -586,7 +694,7 @@
             flex-wrap: wrap;
             gap: 1rem;
             align-items: center;
-            opacity: 0;
+            opacity: 0
         }
 
         /* Primary CTA */
@@ -723,7 +831,6 @@
             box-shadow: 0 12px 40px rgba(201, 210, 218, .3)
         }
 
-        /* Ghost CTA */
         .btn-ghost {
             display: inline-flex;
             align-items: center;
@@ -749,7 +856,7 @@
             box-shadow: 0 8px 30px rgba(201, 210, 218, .1)
         }
 
-        /* ── Scroll Indicator ── */
+        /* ── Scroll ── */
         .hero__scroll {
             position: absolute;
             bottom: 2rem;
@@ -800,7 +907,7 @@
             }
         }
 
-        /* ── Side Tags ── */
+        /* ── Tags ── */
         .hero__tag {
             position: absolute;
             z-index: 12;
@@ -950,19 +1057,19 @@
             display: flex;
             max-width: 1340px;
             margin: 0 auto;
-            opacity: .15
+            opacity: .18
         }
 
         .beams__col {
             flex: 1;
-            border-left: 1px solid rgba(255, 255, 255, .02);
+            border-left: 1px solid rgba(255, 255, 255, .025);
             height: 100%;
             position: relative;
             overflow: hidden
         }
 
         .beams__col:last-child {
-            border-right: 1px solid rgba(255, 255, 255, .02)
+            border-right: 1px solid rgba(255, 255, 255, .025)
         }
 
         .beam {
@@ -970,48 +1077,27 @@
             top: 0;
             left: -.5px;
             width: 1px;
-            background: linear-gradient(to bottom, transparent, rgba(201, 210, 218, .35), transparent)
+            background: linear-gradient(to bottom, transparent, rgba(201, 210, 218, .4), transparent)
         }
 
         .beam--a {
             height: 240px;
-            animation: beamFall 6s linear infinite
+            animation: beamFall 5s linear infinite
         }
 
         .beam--b {
             height: 360px;
-            animation: beamFall 8s linear infinite 2s
+            animation: beamFall 7s linear infinite 2s
         }
 
         .beam--c {
             height: 180px;
-            animation: beamFall 7s linear infinite 4s
+            animation: beamFall 6s linear infinite 4s
         }
 
-        /* ── Blobs ── */
-        @keyframes blobFloat {
-            0% {
-                transform: translate(0, 0) scale(1)
-            }
-
-            100% {
-                transform: translate(30px, 50px) scale(1.1)
-            }
-        }
-
-        .blobs {
-            position: fixed;
-            inset: 0;
-            pointer-events: none;
-            z-index: 0
-        }
-
-        .blob {
-            position: absolute;
-            border-radius: 50%;
-            filter: blur(100px);
-            opacity: .04;
-            animation: blobFloat 15s infinite alternate cubic-bezier(.4, 0, .2, 1)
+        .beam--d {
+            height: 280px;
+            animation: beamFall 8s linear infinite 1s
         }
 
         /* ── Cursor ── */
@@ -1104,6 +1190,14 @@
                 width: clamp(250px, 55vw, 400px);
                 height: clamp(250px, 55vw, 400px)
             }
+
+            .hero__eye-track,
+            .hero__blink,
+            .hero__eye-light--l,
+            .hero__eye-light--r,
+            .hero__face-light {
+                display: none
+            }
         }
 
         @media(max-width:480px) {
@@ -1137,10 +1231,7 @@
 </head>
 
 <body>
-    <!-- Noise -->
     <div class="noise" aria-hidden="true"></div>
-
-    <!-- Cursor -->
     <div class="cursor" id="cursor" aria-hidden="true"></div>
 
     <!-- Loader -->
@@ -1161,25 +1252,15 @@
             <div class="beam beam--a"></div>
         </div>
         <div class="beams__col">
+            <div class="beam beam--d"></div>
+        </div>
+        <div class="beams__col">
             <div class="beam beam--b"></div>
         </div>
         <div class="beams__col">
             <div class="beam beam--c"></div>
         </div>
         <div class="beams__col"></div>
-    </div>
-
-    <!-- Blobs -->
-    <div class="blobs" aria-hidden="true">
-        <div class="blob"
-            style="width:500px;height:500px;top:-100px;left:-100px;background:var(--accent);animation-duration:15s">
-        </div>
-        <div class="blob"
-            style="width:400px;height:400px;top:40%;right:-100px;background:var(--accent-dark);animation-duration:20s;animation-delay:-5s">
-        </div>
-        <div class="blob"
-            style="width:600px;height:600px;bottom:-150px;left:20%;background:var(--accent-dark);animation-duration:25s;animation-delay:-10s">
-        </div>
     </div>
 
     <!-- ═══════════════════════════════════════
@@ -1224,21 +1305,38 @@
      ═══════════════════════════════════════ -->
     <section class="hero" id="hero">
 
-        <!-- Ambient Orbs -->
+        <!-- Orbs -->
         <div class="hero__orb hero__orb--a" id="orbA"></div>
         <div class="hero__orb hero__orb--b" id="orbB"></div>
+        <div class="hero__orb hero__orb--c" id="orbC"></div>
 
-        <!-- Halo (behind character head) -->
+        <!-- Halo -->
         <div class="hero__halo" id="heroHalo"></div>
 
-        <!-- Character — CENTERED, STATIC, DOMINANT -->
+        <!-- Character — CENTERED, STATIC -->
         <div class="hero__figure" id="heroFigure">
             <img src="raw_files/Bora.png" alt="Puzoto Design — Experiências Digitais Premium" id="heroImg"
                 fetchpriority="high" draggable="false" />
         </div>
 
-        <!-- Eye-follow light overlay -->
-        <div class="hero__eyes-light" id="eyesLight"></div>
+        <!-- Eye tracking pupils (tiny dark dots over iris) -->
+        <div class="hero__eye-track" id="eyeTrack">
+            <div class="hero__pupil hero__pupil--l" id="pupilL"></div>
+            <div class="hero__pupil hero__pupil--r" id="pupilR"></div>
+        </div>
+
+        <!-- Blink (skin-colored eyelids) -->
+        <div class="hero__blink" id="blinkLayer">
+            <div class="hero__eyelid hero__eyelid--l" id="eyelidL"></div>
+            <div class="hero__eyelid hero__eyelid--r" id="eyelidR"></div>
+        </div>
+
+        <!-- Eye highlights -->
+        <div class="hero__eye-light hero__eye-light--l" id="eyeLightL"></div>
+        <div class="hero__eye-light hero__eye-light--r" id="eyeLightR"></div>
+
+        <!-- Face ambient light -->
+        <div class="hero__face-light" id="faceLight"></div>
 
         <!-- Mouse Glow -->
         <div class="hero__mouse-glow" id="mouseGlow"></div>
@@ -1255,18 +1353,16 @@
         <div class="hero__corner hero__corner--bl"></div>
         <div class="hero__corner hero__corner--br"></div>
 
-        <!-- Side Tags -->
+        <!-- Tags -->
         <div class="hero__tag hero__tag--l" id="tagL">Design Premium</div>
         <div class="hero__tag hero__tag--r" id="tagR">Est. 2024</div>
 
-        <!-- Text Content — positioned left -->
+        <!-- Text Content -->
         <div class="hero__content" id="heroContent">
-
             <div class="hero__label" id="heroLabel">
                 <span class="hero__label-dot"></span>
                 <span>Estúdio de Design Digital</span>
             </div>
-
             <h1 class="hero__title" id="heroTitle">
                 <span class="hero__title-line">
                     <span class="hero__title-line-inner" data-reveal>Criamos Sites</span>
@@ -1276,12 +1372,10 @@
                             class="hero__title-accent">Convertem</span></span>
                 </span>
             </h1>
-
             <p class="hero__subtitle" id="heroSub">
                 Landing pages estratégicas, sites institucionais elegantes e experiências digitais premium — projetados
                 para gerar impacto, autoridade e resultados reais.
             </p>
-
             <div class="hero__ctas" id="heroCtas">
                 <button class="btn-primary" type="button">
                     <div class="particles"><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
@@ -1297,7 +1391,7 @@
             </div>
         </div>
 
-        <!-- Scroll Indicator -->
+        <!-- Scroll -->
         <div class="hero__scroll" id="heroScroll">
             <span class="hero__scroll-text">Scroll</span>
             <div class="hero__scroll-line"></div>
@@ -1312,7 +1406,7 @@
             const $ = s => document.querySelector(s);
             const isMobile = window.matchMedia('(max-width:768px)').matches;
 
-            /* ─── LOADER ─────────────────────── */
+            /* ─── LOADER ────────────────────── */
             const loader = $('#loader'), fill = $('#loaderFill');
             let prog = 0;
             const tick = setInterval(() => { if (prog < 85) { prog += Math.random() * 10; fill.style.width = prog + '%' } }, 180);
@@ -1321,25 +1415,25 @@
             if (heroImg.complete) setTimeout(dismiss, 500);
             else { heroImg.addEventListener('load', () => setTimeout(dismiss, 200), { once: true }); setTimeout(dismiss, 4000) }
 
-            /* ─── LENIS ──────────────────────── */
+            /* ─── LENIS ─────────────────────── */
             const lenis = new Lenis({ duration: 1.2, easing: t => Math.min(1, 1.001 - Math.pow(2, -10 * t)), smoothWheel: true });
             function raf(t) { lenis.raf(t); requestAnimationFrame(raf) }
             requestAnimationFrame(raf);
             gsap.ticker.add(t => lenis.raf(t * 1000));
             gsap.ticker.lagSmoothing(0);
 
-            /* ─── NAV ────────────────────────── */
+            /* ─── NAV ───────────────────────── */
             const nav = $('#nav');
             window.addEventListener('scroll', () => { nav.classList.toggle('is-scrolled', window.scrollY > 60) }, { passive: true });
 
-            /* ─── MOBILE MENU ────────────────── */
+            /* ─── MOBILE MENU ───────────────── */
             const mobileMenu = $('#mobileMenu');
             function toggleMenu() { mobileMenu.classList.toggle('is-open'); const o = mobileMenu.classList.contains('is-open'); document.body.style.overflow = o ? 'hidden' : ''; o ? lenis.stop() : lenis.start() }
             $('#navToggle').addEventListener('click', toggleMenu);
             $('#mobileClose').addEventListener('click', toggleMenu);
             document.querySelectorAll('[data-mobile-link]').forEach(l => l.addEventListener('click', toggleMenu));
 
-            /* ─── CURSOR ─────────────────────── */
+            /* ─── CURSOR ────────────────────── */
             if (!isMobile) {
                 const cursor = $('#cursor');
                 let cx = 0, cy = 0, ax = 0, ay = 0;
@@ -1351,13 +1445,17 @@
                 });
             }
 
-            /* ─── MOUSE INTERACTIONS ─────────── */
-            /* Character stays STATIC. Only ambient light/glow reacts. */
+            /* ─── MOUSE INTERACTIONS ────────── */
             const mouseGlow = $('#mouseGlow');
             const halo = $('#heroHalo');
-            const eyesLight = $('#eyesLight');
+            const faceLight = $('#faceLight');
+            const pupilL = $('#pupilL');
+            const pupilR = $('#pupilR');
+            const eyeLightL = $('#eyeLightL');
+            const eyeLightR = $('#eyeLightR');
             const orbA = $('#orbA');
             const orbB = $('#orbB');
+            const orbC = $('#orbC');
 
             if (!isMobile) {
                 let mx = 0, my = 0, smx = 0, smy = 0;
@@ -1365,92 +1463,193 @@
                 document.addEventListener('mousemove', e => {
                     mx = (e.clientX / window.innerWidth - .5) * 2;
                     my = (e.clientY / window.innerHeight - .5) * 2;
-
-                    // Mouse glow follows cursor
                     mouseGlow.style.left = e.clientX + 'px';
                     mouseGlow.style.top = e.clientY + 'px';
                     mouseGlow.style.opacity = '1';
                 });
 
                 (function ambientLoop() {
-                    smx += (mx - smx) * .04;
-                    smy += (my - smy) * .04;
+                    smx += (mx - smx) * .06;
+                    smy += (my - smy) * .06;
 
-                    // Halo brightness reacts to mouse proximity
-                    const haloBrightness = 1 + Math.abs(smx) * .12 + Math.abs(smy) * .08;
-                    const haloBlur = 35 - Math.abs(smx) * 4;
-                    if (halo) halo.style.filter = `blur(${haloBlur}px) brightness(${haloBrightness})`;
+                    /* Halo reacts — brightness & subtle scale shift */
+                    const hBright = 1 + Math.abs(smx) * .2 + Math.abs(smy) * .12;
+                    const hBlur = 25 - Math.abs(smx) * 6;
+                    halo.style.filter = `blur(${Math.max(15, hBlur)}px) brightness(${hBright})`;
 
-                    // Eye-follow: micro-highlight that shifts with mouse
-                    // This creates the illusion of eyes tracking the cursor
-                    if (eyesLight) {
-                        const eyeShiftX = smx * 8;   // very subtle lateral shift
-                        const eyeShiftY = smy * 4;   // even more subtle vertical
-                        eyesLight.style.transform = `translate(calc(-50% + ${eyeShiftX}px), ${eyeShiftY}px)`;
-                        eyesLight.style.opacity = String(.5 + Math.abs(smx) * .3);
-                        // Shift the glow color temperature slightly based on direction
-                        const warmth = Math.round(201 + smx * 10);
-                        const g = Math.round(210 + smy * 5);
-                        eyesLight.style.background = `radial-gradient(ellipse, rgba(${warmth},${g},218,.15) 0%, transparent 70%)`;
-                    }
+                    /* Eye-follow: pupils shift with mouse */
+                    const pupilShiftX = smx * 4;  // max ~4px lateral
+                    const pupilShiftY = smy * 2.5; // max ~2.5px vertical
+                    pupilL.style.transform = `translate(${pupilShiftX}px, ${pupilShiftY}px)`;
+                    pupilR.style.transform = `translate(${pupilShiftX}px, ${pupilShiftY}px)`;
 
-                    // Orbs drift subtly
-                    if (orbA) orbA.style.transform = `translate(${smx * -12}px,${smy * -8}px)`;
-                    if (orbB) orbB.style.transform = `translate(${smx * 10}px,${smy * 12}px)`;
+                    /* Eye highlights — specular light shifts opposite to gaze */
+                    const hlX = -smx * 5;
+                    const hlY = -smy * 3;
+                    eyeLightL.style.transform = `translate(${hlX}px, ${hlY}px)`;
+                    eyeLightR.style.transform = `translate(${hlX}px, ${hlY}px)`;
+                    eyeLightL.style.opacity = String(.4 + Math.abs(smx) * .3);
+                    eyeLightR.style.opacity = String(.4 + Math.abs(smx) * .3);
+
+                    /* Face ambient light */
+                    faceLight.style.transform = `translate(calc(-50% + ${smx * 25}px), ${smy * 15}px)`;
+                    faceLight.style.opacity = String(.3 + Math.abs(smx) * .3);
+
+                    /* Orbs drift */
+                    orbA.style.transform = `translate(${smx * -18}px,${smy * -12}px)`;
+                    orbB.style.transform = `translate(${smx * 14}px,${smy * 16}px)`;
+                    orbC.style.transform = `translate(${smx * -8}px,${smy * 10}px)`;
 
                     requestAnimationFrame(ambientLoop);
                 })();
             }
 
-            /* ─── WEBGL BACKGROUND ──────────── */
+            /* ─── BLINK SYSTEM ──────────────── */
+            if (!isMobile) {
+                const eyelidL = $('#eyelidL');
+                const eyelidR = $('#eyelidR');
+
+                function doBlink() {
+                    // Close
+                    gsap.to([eyelidL, eyelidR], {
+                        scaleY: 1, duration: .12, ease: 'power2.in',
+                        onComplete: () => {
+                            // Open
+                            gsap.to([eyelidL, eyelidR], {
+                                scaleY: 0, duration: .18, ease: 'power2.out'
+                            });
+                        }
+                    });
+                }
+
+                // Random blink every 3–7 seconds
+                function scheduleBlink() {
+                    const delay = 3000 + Math.random() * 4000;
+                    setTimeout(() => {
+                        doBlink();
+                        scheduleBlink();
+                    }, delay);
+                }
+                // Start after entrance animation
+                setTimeout(scheduleBlink, 3000);
+
+                // Occasional double-blink
+                setInterval(() => {
+                    doBlink();
+                    setTimeout(doBlink, 250);
+                }, 15000);
+            }
+
+            /* ─── WEBGL — ENHANCED 3D BACKGROUND ── */
             try {
                 const canvas = $('#webgl');
                 const scene = new THREE.Scene();
                 scene.background = null;
-                const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, .1, 1000);
-                camera.position.z = 120;
+                scene.fog = new THREE.FogExp2(0x0E0F11, .004);
+                const camera = new THREE.PerspectiveCamera(55, window.innerWidth / window.innerHeight, .1, 1000);
+                camera.position.z = 100;
                 const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true });
                 renderer.setSize(window.innerWidth, window.innerHeight);
                 renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 
-                const geo = new THREE.BufferGeometry();
-                const count = isMobile ? 300 : 750;
-                const pos = new Float32Array(count * 3);
-                for (let i = 0; i < count * 3; i++)pos[i] = (Math.random() - .5) * 300;
-                geo.setAttribute('position', new THREE.BufferAttribute(pos, 3));
-                const mat = new THREE.PointsMaterial({ size: .7, color: '#E3E7EB', transparent: true, opacity: .3, sizeAttenuation: true });
-                const pts = new THREE.Points(geo, mat);
-                scene.add(pts);
+                /* Layer 1 — Deep particles (far away, slow) */
+                const deepGeo = new THREE.BufferGeometry();
+                const deepCount = isMobile ? 200 : 600;
+                const deepPos = new Float32Array(deepCount * 3);
+                for (let i = 0; i < deepCount * 3; i++)deepPos[i] = (Math.random() - .5) * 400;
+                deepGeo.setAttribute('position', new THREE.BufferAttribute(deepPos, 3));
+                const deepMat = new THREE.PointsMaterial({ size: .4, color: '#6F767D', transparent: true, opacity: .25, sizeAttenuation: true });
+                const deepPts = new THREE.Points(deepGeo, deepMat);
+                scene.add(deepPts);
+
+                /* Layer 2 — Mid particles (medium depth) */
+                const midGeo = new THREE.BufferGeometry();
+                const midCount = isMobile ? 150 : 450;
+                const midPos = new Float32Array(midCount * 3);
+                for (let i = 0; i < midCount * 3; i++)midPos[i] = (Math.random() - .5) * 250;
+                midGeo.setAttribute('position', new THREE.BufferAttribute(midPos, 3));
+                const midMat = new THREE.PointsMaterial({ size: .8, color: '#C9D2DA', transparent: true, opacity: .35, sizeAttenuation: true });
+                const midPts = new THREE.Points(midGeo, midMat);
+                scene.add(midPts);
+
+                /* Layer 3 — Close bright particles (foreground) */
+                const closeGeo = new THREE.BufferGeometry();
+                const closeCount = isMobile ? 60 : 180;
+                const closePos = new Float32Array(closeCount * 3);
+                for (let i = 0; i < closeCount * 3; i++)closePos[i] = (Math.random() - .5) * 150;
+                closeGeo.setAttribute('position', new THREE.BufferAttribute(closePos, 3));
+                const closeMat = new THREE.PointsMaterial({ size: 1.2, color: '#E3E7EB', transparent: true, opacity: .45, sizeAttenuation: true });
+                const closePts = new THREE.Points(closeGeo, closeMat);
+                scene.add(closePts);
+
+                /* Layer 4 — Grid ring (subtle geometric element) */
+                const ringGeo = new THREE.TorusGeometry(60, .15, 16, 120);
+                const ringMat = new THREE.MeshBasicMaterial({ color: '#C9D2DA', transparent: true, opacity: .06, wireframe: true });
+                const ring = new THREE.Mesh(ringGeo, ringMat);
+                ring.rotation.x = Math.PI * .45;
+                ring.position.z = -30;
+                scene.add(ring);
+
+                /* Layer 5 — Second ring */
+                const ring2Geo = new THREE.TorusGeometry(45, .1, 12, 80);
+                const ring2Mat = new THREE.MeshBasicMaterial({ color: '#6F767D', transparent: true, opacity: .04, wireframe: true });
+                const ring2 = new THREE.Mesh(ring2Geo, ring2Mat);
+                ring2.rotation.x = Math.PI * .55;
+                ring2.rotation.z = Math.PI * .1;
+                ring2.position.z = -20;
+                scene.add(ring2);
 
                 let wmx = 0, wmy = 0;
-                document.addEventListener('mousemove', e => { wmx = e.clientX / window.innerWidth - .5; wmy = e.clientY / window.innerHeight - .5 });
+                document.addEventListener('mousemove', e => {
+                    wmx = e.clientX / window.innerWidth - .5;
+                    wmy = e.clientY / window.innerHeight - .5;
+                });
                 const clock = new THREE.Clock();
+
                 (function anim() {
                     requestAnimationFrame(anim);
                     const t = clock.getElapsedTime();
-                    pts.rotation.y = t * -.015 + (wmx * .2);
-                    pts.rotation.x = t * .008 + (wmy * .2);
+
+                    // Each layer rotates at different speeds = parallax depth
+                    deepPts.rotation.y = t * -.008 + (wmx * .1);
+                    deepPts.rotation.x = t * .005 + (wmy * .08);
+
+                    midPts.rotation.y = t * -.015 + (wmx * .2);
+                    midPts.rotation.x = t * .01 + (wmy * .15);
+
+                    closePts.rotation.y = t * -.025 + (wmx * .35);
+                    closePts.rotation.x = t * .015 + (wmy * .25);
+
+                    // Rings rotate slowly + react to mouse
+                    ring.rotation.y = t * .03 + (wmx * .15);
+                    ring.rotation.z = t * .01;
+
+                    ring2.rotation.y = t * -.02 + (wmx * -.1);
+                    ring2.rotation.z = t * -.015 + (wmy * .05);
+
                     renderer.render(scene, camera);
                 })();
 
-                window.addEventListener('resize', () => { camera.aspect = window.innerWidth / window.innerHeight; camera.updateProjectionMatrix(); renderer.setSize(window.innerWidth, window.innerHeight) });
-            } catch (e) { console.log('WebGL not initialized') }
+                window.addEventListener('resize', () => {
+                    camera.aspect = window.innerWidth / window.innerHeight;
+                    camera.updateProjectionMatrix();
+                    renderer.setSize(window.innerWidth, window.innerHeight);
+                });
+            } catch (e) { console.log('WebGL error:', e) }
 
-            /* ─── ENTRANCE ───────────────────── */
+            /* ─── ENTRANCE ──────────────────── */
             function runEntrance() {
                 const tl = gsap.timeline({ defaults: { ease: 'power4.out' } });
-
-                // Nav
                 tl.fromTo(nav, { opacity: 0, y: -20 }, { opacity: 1, y: 0, duration: .9 }, .2);
 
-                // Character: scale entrance only, NO mouse-driven motion
+                // Character
                 const fig = $('#heroFigure');
                 tl.fromTo(fig, { scale: 1.06, opacity: 0 }, { scale: 1, opacity: 1, duration: 1.8, ease: 'power2.out' }, 0);
 
                 // Halo
-                tl.fromTo(halo, { opacity: 0, scale: .85 }, { opacity: .5, scale: 1, duration: 1.4, ease: 'power2.out' }, .2);
+                tl.fromTo(halo, { opacity: 0, scale: .8 }, { opacity: .6, scale: 1, duration: 1.4, ease: 'power2.out' }, .2);
 
-                // Title reveals
+                // Title
                 document.querySelectorAll('[data-reveal]').forEach((el, i) => {
                     tl.to(el, { y: 0, duration: 1.3, ease: 'power4.out' }, .25 + i * .12);
                 });
@@ -1477,16 +1676,16 @@
 
                 // Corners
                 tl.to('.hero__corner', { opacity: 1, duration: .6, stagger: .08 }, 1);
-
-                // Eye light appears
-                tl.to(eyesLight, { opacity: .4, duration: 1 }, 1.5);
             }
 
-            /* ─── CINEMATIC SLOW ZOOM ────────── */
+            /* ─── CINEMATIC ZOOM ────────────── */
             gsap.to(heroImg, { scale: 1.02, duration: 20, ease: 'none', repeat: -1, yoyo: true });
 
-            /* ─── HALO PULSE ─────────────────── */
-            gsap.to(halo, { boxShadow: '0 0 100px 30px rgba(201,210,218,.08)', duration: 3, ease: 'sine.inOut', repeat: -1, yoyo: true });
+            /* ─── HALO DEEP PULSE ───────────── */
+            gsap.to(halo, {
+                boxShadow: '0 0 120px 50px rgba(201,210,218,.12)',
+                duration: 3, ease: 'sine.inOut', repeat: -1, yoyo: true
+            });
 
         })();
     </script>
