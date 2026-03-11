@@ -1303,28 +1303,68 @@
 
         .projects__bg-glow {
             position: absolute;
-            top: 10%;
+            top: 50%;
             left: 50%;
             width: 150%;
             height: 150%;
-            background: radial-gradient(ellipse at 50% 30%, rgba(180, 155, 100, 0.05), rgba(201, 210, 218, 0.03), transparent 60%);
-            transform: translateX(-50%);
+            background: radial-gradient(ellipse at center, rgba(180, 155, 100, 0.08), rgba(201, 210, 218, 0.04), transparent 60%);
+            transform: translate(-50%, -50%);
             pointer-events: none;
             z-index: 0;
-            filter: blur(120px);
+            filter: blur(140px);
+            animation: projectsGlowPulse 8s ease-in-out infinite alternate;
+        }
+
+        @keyframes projectsGlowPulse {
+            0% { opacity: 0.6; transform: translate(-50%, -50%) scale(0.95); }
+            100% { opacity: 1; transform: translate(-50%, -50%) scale(1.05); }
+        }
+
+        .projects__flare {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(80px);
+            pointer-events: none;
+            z-index: 0;
+            opacity: 0.5;
+            animation: floatFlare 15s ease-in-out infinite alternate;
+        }
+
+        .projects__flare--1 {
+            width: 400px;
+            height: 400px;
+            background: rgba(180, 155, 100, 0.12);
+            top: -100px;
+            right: -100px;
+            animation-delay: -2s;
+        }
+
+        .projects__flare--2 {
+            width: 500px;
+            height: 500px;
+            background: rgba(14, 165, 233, 0.08); /* Blue accent from your design system */
+            bottom: -150px;
+            left: -150px;
+            animation-delay: -5s;
+        }
+
+        @keyframes floatFlare {
+            0% { transform: translate(0, 0) scale(1); }
+            50% { transform: translate(-30px, 40px) scale(1.1); }
+            100% { transform: translate(20px, -20px) scale(0.9); }
         }
 
         .projects__bg-grid {
             position: absolute;
             inset: -200px 0;
-            background-size: 60px 60px;
+            background-size: 80px 80px;
             background-image:
-                linear-gradient(to right, rgba(255, 255, 255, 0.015) 1px, transparent 1px),
-                linear-gradient(to bottom, rgba(255, 255, 255, 0.015) 1px, transparent 1px);
-            mask-image: radial-gradient(ellipse at center, black 20%, transparent 70%);
-            -webkit-mask-image: radial-gradient(ellipse at center, black 20%, transparent 70%);
+                linear-gradient(to right, rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+            mask-image: radial-gradient(ellipse at center, black 15%, transparent 80%);
+            -webkit-mask-image: radial-gradient(ellipse at center, black 15%, transparent 80%);
             pointer-events: none;
-            z-index: 0;
+            z-index: 1;
             will-change: transform;
         }
 
@@ -2056,6 +2096,8 @@
      PROJECTS CAROUSEL
      ═══════════════════════════════════════ -->
     <section class="projects" id="projetos">
+        <div class="projects__flare projects__flare--1"></div>
+        <div class="projects__flare projects__flare--2"></div>
         <div class="projects__bg-glow"></div>
         <div class="projects__bg-grid" id="projGrid"></div>
 
@@ -2068,12 +2110,12 @@
                         Experiências Premium
                     </div>
                     <h2 class="projects__title">
-                        Plataformas de alta conversão<br>
-                        <span class="projects__title-accent">que dominam o mercado.</span>
+                        Nossos trabalhos<br>
+                        <span class="projects__title-accent">realizados.</span>
                     </h2>
                 </div>
                 <p class="projects__desc">
-                    Desenhamos plataformas digitais de altíssimo valor percebido. Soluções que unem estética impecável, usabilidade intuitiva e gatilhos de conversão para transformar curiosos em clientes fiéis.
+                    Explore uma seleção dos nossos melhores projetos, todos com extrema excelência estética e desenvolvidos com direção, intenção e impacto.
                 </p>
             </div>
         </div>
