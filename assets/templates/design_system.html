@@ -1,0 +1,692 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>PUZOTO — Digital Realities</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+<script src="https://code.iconify.design/2/2.2.1/iconify.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+
+<style>
+:root {
+  --bg: #0E0F11; --bg-elevated: #1C1F23; --text: #F6F8FA; --text-muted: #B8BEC4;
+  --accent: #C9D2DA; --accent-light: #E3E7EB; --accent-dark: #6F767D;
+  --border: #1C1F23; --font-heading: 'Space Grotesk', sans-serif;
+  --font-body: 'Inter', sans-serif; --container: 1340px;
+}
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+::selection { background: var(--accent); color: var(--bg); }
+html { scroll-behavior: smooth; scrollbar-width: thin; scrollbar-color: var(--accent-dark) var(--bg); }
+body { font-family: var(--font-body); background: var(--bg); color: var(--text); overflow-x: hidden; -webkit-font-smoothing: antialiased; }
+a { color: inherit; text-decoration: none; }
+button { border: none; background: none; color: inherit; cursor: pointer; font-family: inherit; }
+.container { width: 100%; max-width: var(--container); margin: 0 auto; padding: 0 clamp(1.25rem, 4vw, 3rem); }
+
+/* Canvas */
+#webgl { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 1; pointer-events: none; opacity: 0.6; }
+
+/* Loader */
+.loader { position: fixed; inset: 0; z-index: 9999; background: var(--bg); display: flex; align-items: center; justify-content: center; transition: opacity 0.6s cubic-bezier(0.22,1,0.36,1), visibility 0.6s; }
+.loader.is-loaded { opacity: 0; visibility: hidden; pointer-events: none; }
+.loader__brand { font-family: var(--font-heading); font-size: 1.2rem; font-weight: 600; letter-spacing: 0.25em; color: var(--accent); position: relative; }
+.loader__brand::after { content: ''; position: absolute; bottom: -8px; left: 0; width: 100%; height: 1px; background: var(--accent); animation: loaderLine 1.2s ease-in-out infinite; }
+@keyframes loaderLine { 0%, 100% { transform: scaleX(0); transform-origin: left; } 50% { transform: scaleX(1); transform-origin: left; } 51% { transform-origin: right; } }
+
+/* Nav */
+.nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; padding: 1.5rem 0; transition: background 0.4s, padding 0.4s, backdrop-filter 0.4s; }
+.nav.is-scrolled { background: rgba(14,15,17,0.85); backdrop-filter: blur(20px); padding: 1rem 0; border-bottom: 1px solid var(--border); }
+.nav__inner { display: flex; align-items: center; justify-content: space-between; }
+.nav__logo { font-family: var(--font-heading); font-size: 1.15rem; font-weight: 700; letter-spacing: 0.18em; }
+.nav__links { display: flex; align-items: center; gap: 2.5rem; }
+.nav__links a { font-size: 0.82rem; font-weight: 500; letter-spacing: 0.04em; color: var(--text-muted); transition: color 0.3s; position: relative; }
+.nav__links a::after { content: ''; position: absolute; bottom: -4px; left: 0; width: 0; height: 1px; background: var(--accent); transition: width 0.3s; }
+.nav__links a:hover { color: var(--text); }
+.nav__links a:hover::after { width: 100%; }
+.nav__cta { display: flex; align-items: center; gap: 0.5rem; font-size: 0.82rem; font-weight: 500; padding: 0.6rem 1.4rem; border: 1px solid var(--border); border-radius: 100px; transition: all 0.35s; }
+.nav__cta:hover { background: var(--accent); border-color: var(--accent); color: var(--bg); }
+.nav__toggle { display: none; font-size: 1.4rem; }
+
+/* Mobile Menu */
+.mobile-menu { position: fixed; inset: 0; z-index: 200; background: var(--bg); display: flex; flex-direction: column; padding: 1.5rem clamp(1.25rem,4vw,3rem); transform: translateX(100%); transition: transform 0.5s cubic-bezier(0.22,1,0.36,1); }
+.mobile-menu.is-open { transform: translateX(0); }
+.mobile-menu__header { display: flex; align-items: center; justify-content: space-between; }
+.mobile-menu__close { font-size: 1.4rem; color: var(--text-muted); }
+.mobile-menu__nav { display: flex; flex-direction: column; margin-top: 4rem; }
+.mobile-menu__nav a { font-family: var(--font-heading); font-size: clamp(2rem,8vw,3.5rem); font-weight: 600; letter-spacing: -0.03em; padding: 0.6rem 0; color: var(--text-muted); border-bottom: 1px solid var(--border); transition: color 0.3s; }
+.mobile-menu__nav a:hover { color: var(--accent); }
+
+/* Hero */
+.hero { position: relative; z-index: 2; min-height: 100vh; display: flex; align-items: center; padding: 8rem 0 4rem; }
+.hero__content { max-width: 820px; }
+.hero__label { display: inline-flex; align-items: center; gap: 0.5rem; font-size: 0.75rem; font-weight: 500; letter-spacing: 0.15em; text-transform: uppercase; color: var(--accent); margin-bottom: 2rem; }
+.hero__label::before { content: ''; width: 32px; height: 1px; background: var(--accent); }
+.hero__title { font-family: var(--font-heading); font-size: clamp(3.5rem,9.5vw,8.5rem); font-weight: 700; line-height: 0.92; letter-spacing: -0.04em; margin-bottom: 2rem; }
+.hero__line { display: block; overflow: hidden; }
+.hero__line span { display: block; }
+.hero__line--accent { color: var(--accent); background: linear-gradient(135deg, var(--accent) 0%, var(--accent-light) 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;}
+.hero__subtitle { font-size: clamp(0.95rem,1.3vw,1.1rem); line-height: 1.7; color: var(--text-muted); max-width: 440px; margin-bottom: 2.5rem; }
+
+/* Buttons */
+.btn { display: inline-flex; align-items: center; gap: 0.6rem; font-family: var(--font-heading); font-size: 0.85rem; font-weight: 500; letter-spacing: 0.02em; padding: 1rem 2rem; border-radius: 100px; position: relative; overflow: hidden; transition: all 0.4s cubic-bezier(0.22,1,0.36,1); will-change: transform; cursor: pointer; }
+.btn--primary { background: var(--accent); color: var(--bg); }
+.btn--primary:hover { background: var(--accent-light); transform: translateY(-2px); box-shadow: 0 8px 30px rgba(201,210,218,0.25); }
+.btn--outline { border: 1px solid var(--border); color: var(--text); }
+.btn--outline:hover { border-color: var(--accent); color: var(--accent); }
+.btn--large { font-size: 1rem; padding: 1.2rem 2.8rem; }
+
+/* Particles Button */
+.button-custom { cursor: pointer; position: relative; display: inline-flex; align-items: center; justify-content: center; overflow: hidden; transition: all 0.25s; background: radial-gradient(65.28% 65.28% at 50% 100%, rgba(201,210,218,0.8) 0%, rgba(201,210,218,0) 100%), linear-gradient(0deg, var(--accent), var(--accent)); border-radius: 9999px; border: none; padding: 10px 24px; min-height: 48px; font-family: var(--font-heading); }
+.button-custom::before { content: ""; position: absolute; inset: 1px; background: linear-gradient(178deg, rgba(255,255,255,0.3) 0%, rgba(255,255,255,0) 100%); border-radius: 9999px; z-index: 0; }
+.button-custom::after { content: ""; position: absolute; inset: 2px; background: radial-gradient(65.28% 65.28% at 50% 100%, rgba(227,231,235,0.8) 0%, rgba(201,210,218,0) 100%), linear-gradient(0deg, var(--accent), var(--accent)); border-radius: 9999px; z-index: 0; }
+.button-custom .inner { z-index: 2; gap: 6px; position: relative; color: var(--bg); display: inline-flex; align-items: center; font-size: 0.95rem; font-weight: 600; letter-spacing: 0.02em; }
+.points_wrapper { overflow: hidden; width: 100%; height: 100%; pointer-events: none; position: absolute; z-index: 1; }
+.points_wrapper .point { bottom: -10px; position: absolute; animation: floating-points infinite ease-in-out; pointer-events: none; width: 2px; height: 2px; background-color: #F6F8FA; border-radius: 9999px; }
+@keyframes floating-points { 0% { transform: translateY(0); } 85% { opacity: 0; } 100% { transform: translateY(-55px); opacity: 0; } }
+.points_wrapper .point:nth-child(1) { left: 10%; opacity: 1; animation-duration: 2.35s; animation-delay: 0.2s; }
+.points_wrapper .point:nth-child(2) { left: 30%; opacity: 0.7; animation-duration: 2.5s; animation-delay: 0.5s; }
+.points_wrapper .point:nth-child(3) { left: 25%; opacity: 0.8; animation-duration: 2.2s; animation-delay: 0.1s; }
+.points_wrapper .point:nth-child(4) { left: 44%; opacity: 0.6; animation-duration: 2.05s; }
+.points_wrapper .point:nth-child(5) { left: 50%; opacity: 1; animation-duration: 1.9s; }
+.points_wrapper .point:nth-child(6) { left: 75%; opacity: 0.5; animation-duration: 1.5s; animation-delay: 1.5s; }
+.points_wrapper .point:nth-child(7) { left: 88%; opacity: 0.9; animation-duration: 2.2s; animation-delay: 0.2s; }
+.button-custom:hover { transform: translateY(-2px); box-shadow: 0 10px 30px rgba(201,210,218,0.3); }
+
+/* Glass Panel */
+.glass-panel { background: rgba(255,255,255,0.03); backdrop-filter: blur(16px) saturate(180%); -webkit-backdrop-filter: blur(16px) saturate(180%); border-top: 1px solid rgba(255,255,255,0.15); border-left: 1px solid rgba(255,255,255,0.08); border-right: 1px solid rgba(255,255,255,0.08); border-bottom: 1px solid rgba(255,255,255,0.05); box-shadow: 0 8px 32px rgba(0,0,0,0.3); position: relative; overflow: hidden; transition: all 0.5s cubic-bezier(0.4,0,0.2,1); border-radius: 16px; }
+.glass-panel::before { content: ''; position: absolute; top: 0; left: -100%; width: 100%; height: 100%; background: linear-gradient(90deg, transparent, rgba(255,255,255,0.05), transparent); transition: 0.5s; pointer-events: none; z-index: 20; }
+.glass-panel:hover { background: rgba(255,255,255,0.06); border-color: rgba(255,255,255,0.3); transform: translateY(-5px); box-shadow: 0 15px 40px rgba(201,210,218,0.1); }
+.glass-panel:hover::before { left: 100%; transition: 0.7s ease-in-out; }
+
+/* Marquee */
+.marquee { position: relative; z-index: 2; overflow: hidden; padding: 2.5rem 0; background: var(--bg); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); mask-image: linear-gradient(to right, transparent 0%, black 8%, black 92%, transparent 100%); }
+.marquee__track { display: flex; width: max-content; will-change: transform; animation: scrollMarquee 30s linear infinite; }
+.marquee__content { display: flex; align-items: center; white-space: nowrap; flex-shrink: 0; }
+.marquee__item { font-family: var(--font-heading); font-size: clamp(1.2rem,2vw,1.8rem); font-weight: 400; letter-spacing: -0.01em; color: var(--text-muted); padding: 0 2.5rem; }
+.marquee__sep { color: var(--accent); opacity: 0.5; font-size: 0.8em; }
+@keyframes scrollMarquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+
+/* Sections */
+.section { position: relative; z-index: 2; background: var(--bg); padding: clamp(6rem,12vw,10rem) 0; }
+.section-label { font-size: 0.75rem; font-weight: 600; letter-spacing: 0.2em; text-transform: uppercase; color: var(--accent); margin-bottom: clamp(2.5rem,5vw,4rem); display: flex; align-items: center; gap: 1rem; }
+.section-label::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+.section-title { font-family: var(--font-heading); font-size: clamp(2.2rem,5vw,4rem); font-weight: 600; line-height: 1.1; letter-spacing: -0.03em; margin-bottom: 2rem; max-width: 800px; }
+
+/* Flashlight Card */
+.flashlight-card { background: rgba(255,255,255,0.01); position: relative; overflow: hidden; border: 1px solid var(--border); border-radius: 16px; transition: all 0.4s; padding: clamp(2rem,4vw,3rem); height: 100%; display: flex; flex-direction: column; cursor: pointer; }
+.flashlight-card::before { content: ""; position: absolute; inset: 0; background: radial-gradient(600px circle at var(--mouse-x) var(--mouse-y), rgba(201,210,218,0.08), transparent 40%); opacity: 0; transition: opacity 0.5s; pointer-events: none; z-index: 2; }
+.flashlight-card:hover::before { opacity: 1; }
+.flashlight-card:hover { border-color: rgba(201,210,218,0.3); transform: translateY(-5px); }
+
+/* About / Stats grid */
+.about__grid { display: grid; grid-template-columns: 1.2fr 1fr; gap: clamp(3rem,6vw,6rem); align-items: center; }
+.about__desc { font-size: clamp(1rem,1.2vw,1.1rem); line-height: 1.8; color: var(--text-muted); margin-bottom: 2.5rem; }
+.stats-container { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; padding: 2rem; border-radius: 20px; border: 1px solid var(--border); background: var(--bg-elevated); }
+.stat__number { font-family: var(--font-heading); font-size: clamp(2.5rem,4vw,3.5rem); font-weight: 700; letter-spacing: -0.04em; color: var(--accent); display: block; margin-bottom: 0.5rem; }
+.stat__label { font-size: 0.85rem; line-height: 1.5; color: var(--text-muted); font-weight: 500; }
+
+/* Grid layout for features */
+.features-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
+.feature-icon { width: 48px; height: 48px; border-radius: 12px; background: linear-gradient(135deg, rgba(201,210,218,0.15), rgba(201,210,218,0.02)); border: 1px solid rgba(201,210,218,0.2); display: flex; align-items: center; justify-content: center; margin-bottom: 1.5rem; color: var(--accent); }
+.feature-title { font-family: var(--font-heading); font-size: 1.3rem; font-weight: 600; margin-bottom: 0.8rem; }
+.feature-desc { font-size: 0.9rem; color: var(--text-muted); line-height: 1.6; margin-bottom: 1.5rem; flex: 1; }
+
+/* Work Cards */
+.work-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 2rem; }
+.work__item { position: relative; border-radius: 16px; overflow: hidden; cursor: pointer; aspect-ratio: 4/3; }
+.work__image { width: 100%; height: 100%; background-size: cover; background-position: center; background-color: var(--bg-elevated); transition: transform 0.7s cubic-bezier(0.22,1,0.36,1); }
+.work__item:hover .work__image { transform: scale(1.04); }
+.work__overlay { position: absolute; inset: 0; background: linear-gradient(to top, rgba(14,15,17,0.95) 0%, rgba(14,15,17,0.2) 60%); padding: 2.5rem; display: flex; flex-direction: column; justify-content: flex-end; transition: opacity 0.4s; }
+.work__category { font-size: 0.75rem; font-weight: 600; letter-spacing: 0.15em; text-transform: uppercase; color: var(--accent); margin-bottom: 0.8rem; }
+.work__title { font-family: var(--font-heading); font-size: clamp(1.4rem,2.5vw,2rem); font-weight: 600; letter-spacing: -0.02em; }
+.work__arrow { position: absolute; top: 2rem; right: 2rem; width: 48px; height: 48px; border-radius: 50%; background: var(--bg); color: var(--text); border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; transform: translateY(-10px) rotate(-45deg); opacity: 0; transition: all 0.4s cubic-bezier(0.22,1,0.36,1); }
+.work__item:hover .work__arrow { transform: translateY(0) rotate(0deg); opacity: 1; background: var(--accent); border-color: var(--accent); color: var(--bg); }
+
+/* Services Accordion */
+.services__list { border-top: 1px solid var(--border); margin-top: 4rem; }
+.services__item { display: flex; align-items: flex-start; gap: clamp(1.5rem,3vw,3rem); padding: clamp(1.5rem,2.5vw,2.5rem) 0; border-bottom: 1px solid var(--border); cursor: pointer; transition: padding-left 0.4s cubic-bezier(0.22,1,0.36,1); }
+.services__item:hover { padding-left: 1.5rem; }
+.services__number { font-family: var(--font-heading); font-size: 1rem; font-weight: 500; color: var(--text-muted); min-width: 3rem; transition: color 0.3s; }
+.services__content { flex: 1; }
+.services__title { font-family: var(--font-heading); font-size: clamp(1.4rem,2.5vw,2.2rem); font-weight: 600; letter-spacing: -0.025em; transition: color 0.3s; }
+.services__item:hover .services__title, .services__item:hover .services__number { color: var(--accent); }
+.services__tags { display: flex; gap: 0.5rem; margin-top: 1rem; flex-wrap: wrap; }
+.services__tag { font-size: 0.75rem; font-weight: 500; padding: 0.3rem 0.9rem; border: 1px solid var(--border); border-radius: 100px; color: var(--text-muted); background: rgba(255,255,255,0.02); }
+.services__body { max-height: 0; overflow: hidden; opacity: 0; transition: max-height 0.6s cubic-bezier(0.22,1,0.36,1), opacity 0.4s, margin 0.4s; }
+.services__item.is-active .services__body { max-height: 300px; opacity: 1; margin-top: 1.5rem; }
+.services__desc { font-size: 0.95rem; color: var(--text-muted); max-width: 600px; line-height: 1.7; }
+.services__arrow { font-size: 1.6rem; color: var(--text-muted); transition: all 0.4s; flex-shrink: 0; margin-left: auto; }
+.services__item.is-active .services__arrow { transform: rotate(45deg); color: var(--accent); }
+.services__item.is-active .services__number, .services__item.is-active .services__title { color: var(--accent); }
+
+/* CTA Section */
+.cta { padding: clamp(8rem,15vw,12rem) 0; text-align: center; background: radial-gradient(circle at center, rgba(201,210,218,0.1) 0%, var(--bg) 60%); }
+.cta__title { font-family: var(--font-heading); font-size: clamp(3.2rem,8vw,7rem); font-weight: 700; line-height: 0.92; letter-spacing: -0.04em; margin-bottom: 3rem; }
+.cta__title--accent { background: linear-gradient(135deg, var(--accent) 0%, var(--accent-light) 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+
+/* Liquid bloabs */
+.liquid-blob { position: absolute; border-radius: 50%; filter: blur(80px); opacity: 0.3; z-index: -1; animation: blobFloat 10s infinite alternate cubic-bezier(0.4,0,0.2,1); }
+@keyframes blobFloat { 0% { transform: translate(0,0) scale(1); } 100% { transform: translate(30px,50px) scale(1.1); } }
+
+/* Beam animation */
+@keyframes beam-fall { 0% { transform: translateY(-100%); opacity: 0; } 5% { opacity: 0.5; } 50% { opacity: 1; } 95% { opacity: 0.5; } 100% { transform: translateY(120vh); opacity: 0; } }
+.animate-beam-1 { animation: beam-fall 6s linear infinite; }
+.animate-beam-2 { animation: beam-fall 8s linear infinite; animation-delay: 2s; }
+.animate-beam-3 { animation: beam-fall 7s linear infinite; animation-delay: 4s; }
+
+/* Footer */
+.footer { border-top: 1px solid var(--border); padding: 5rem 0 2rem; position: relative; z-index: 2; background: var(--bg); }
+.footer__grid { display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 4rem; margin-bottom: 5rem; }
+.footer__logo { font-family: var(--font-heading); font-size: 1.5rem; font-weight: 700; letter-spacing: 0.1em; margin-bottom: 1.5rem; display: block; }
+.footer__desc { color: var(--text-muted); font-size: 0.9rem; line-height: 1.7; max-width: 320px; }
+.footer__heading { font-size: 0.8rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text); margin-bottom: 1.5rem; }
+.footer__nav { display: flex; flex-direction: column; gap: 1rem; }
+.footer__nav a { color: var(--text-muted); font-size: 0.9rem; transition: color 0.3s; }
+.footer__nav a:hover { color: var(--accent); }
+.footer__bottom { padding-top: 2rem; border-top: 1px solid rgba(255,255,255,0.05); display: flex; justify-content: space-between; align-items: center; font-size: 0.8rem; color: var(--text-muted); }
+
+/* Scroll Reveal */
+.reveal-up { opacity: 0; transform: translateY(40px); filter: blur(8px); transition: all 0.9s cubic-bezier(0.16,1,0.3,1); }
+.reveal-up.is-visible { opacity: 1; transform: translateY(0); filter: blur(0); }
+
+@media (max-width: 1024px) { 
+  .about__grid { grid-template-columns: 1fr; }
+  .features-grid { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 768px) { 
+  .nav__links, .nav__cta { display: none; } 
+  .nav__toggle { display: block; } 
+  .features-grid, .work-grid { grid-template-columns: 1fr; }
+  .footer__grid { grid-template-columns: 1fr; gap: 2.5rem; }
+  .stats-container { grid-template-columns: 1fr; gap: 1.5rem; }
+}
+</style>
+</head>
+
+<body>
+<div class="loader" id="loader"><div class="loader__brand">PUZOTO</div></div>
+
+<!-- WebGL Background -->
+<canvas id="webgl"></canvas>
+
+<!-- Liquid Blobs Background -->
+<div style="position:fixed;inset:0;pointer-events:none;z-index:0;">
+  <div class="liquid-blob" style="width:500px;height:500px;top:-100px;left:-100px;background:var(--accent);opacity:0.08;animation-duration:15s;"></div>
+  <div class="liquid-blob" style="width:400px;height:400px;top:40%;right:-100px;background:#6F767D;opacity:0.06;animation-duration:20s;animation-delay:-5s;"></div>
+  <div class="liquid-blob" style="width:600px;height:600px;bottom:-150px;left:20%;background:var(--accent-dark);opacity:0.08;animation-duration:25s;animation-delay:-10s;"></div>
+</div>
+
+<!-- Vertical Beams -->
+<div style="position:fixed;inset:0;z-index:0;pointer-events:none;display:flex;max-width:1340px;margin:0 auto;opacity:0.3;">
+  <div style="flex:1;border-left:1px solid rgba(255,255,255,0.03);height:100%;position:relative;overflow:hidden;"></div>
+  <div style="flex:1;border-left:1px solid rgba(255,255,255,0.03);height:100%;position:relative;overflow:hidden;">
+    <div class="animate-beam-1" style="position:absolute;top:0;left:-0.5px;width:1px;height:256px;background:linear-gradient(to bottom,transparent,rgba(201,210,218,0.4),transparent);"></div>
+  </div>
+  <div style="flex:1;border-left:1px solid rgba(255,255,255,0.03);height:100%;position:relative;overflow:hidden;">
+    <div class="animate-beam-2" style="position:absolute;top:0;left:-0.5px;width:1px;height:384px;background:linear-gradient(to bottom,transparent,rgba(201,210,218,0.6),transparent);"></div>
+  </div>
+  <div style="flex:1;border-left:1px solid rgba(255,255,255,0.03);height:100%;position:relative;overflow:hidden;">
+    <div class="animate-beam-3" style="position:absolute;top:0;left:-0.5px;width:1px;height:192px;background:linear-gradient(to bottom,transparent,rgba(201,210,218,0.4),transparent);"></div>
+  </div>
+  <div style="flex:1;border-left:1px solid rgba(255,255,255,0.03);border-right:1px solid rgba(255,255,255,0.03);height:100%;position:relative;overflow:hidden;"></div>
+</div>
+
+<!-- Nav -->
+<nav class="nav" id="nav">
+  <div class="container nav__inner">
+    <a class="nav__logo" href="#">PUZOTO</a>
+    <div class="nav__links">
+      <a href="#about">About</a>
+      <a href="#services">Services</a>
+      <a href="#work">Work</a>
+    </div>
+    <a class="nav__cta" href="#contact">
+      Start Project
+      <span class="iconify" data-icon="solar:arrow-right-linear" data-width="14"></span>
+    </a>
+    <button aria-label="Open menu" class="nav__toggle" id="navToggle">
+      <span class="iconify" data-icon="solar:hamburger-menu-linear" data-width="24"></span>
+    </button>
+  </div>
+</nav>
+
+<!-- Mobile Menu -->
+<div class="mobile-menu" id="mobileMenu">
+  <div class="mobile-menu__header">
+    <a class="nav__logo" href="#">PUZOTO</a>
+    <button aria-label="Close menu" class="mobile-menu__close" id="mobileClose">
+      <span class="iconify" data-icon="solar:close-circle-linear" data-width="26"></span>
+    </button>
+  </div>
+  <nav class="mobile-menu__nav">
+    <a data-mobile-link href="#about">About</a>
+    <a data-mobile-link href="#services">Services</a>
+    <a data-mobile-link href="#work">Work</a>
+    <a data-mobile-link href="#contact">Contact</a>
+  </nav>
+</div>
+
+<!-- ═══════════════════════════════════════════════ -->
+<!-- HERO SECTION -->
+<!-- ═══════════════════════════════════════════════ -->
+<section class="hero" id="hero">
+  <div class="container">
+    <div class="hero__content">
+      <div class="hero__label reveal-up">Puzoto Design Studio</div>
+      <h1 class="hero__title">
+        <span class="hero__line reveal-up" style="transition-delay:0.1s"><span>Shaping</span></span>
+        <span class="hero__line reveal-up" style="transition-delay:0.2s"><span>Digital</span></span>
+        <span class="hero__line hero__line--accent reveal-up" style="transition-delay:0.3s"><span>Experiences.</span></span>
+      </h1>
+      <p class="hero__subtitle reveal-up" style="transition-delay:0.4s">A multifaceted creative agency merging strategic thinking, bold aesthetics, and immersive technology to elevate forward-thinking brands.</p>
+      
+      <div class="reveal-up" style="transition-delay:0.5s; display:flex; flex-wrap:wrap; gap:1.2rem; align-items:center; margin-top:2rem;">
+        <button class="button-custom" type="button" onclick="document.getElementById('work').scrollIntoView();">
+          <div class="points_wrapper">
+            <i class="point"></i><i class="point"></i><i class="point"></i><i class="point"></i><i class="point"></i><i class="point"></i><i class="point"></i>
+          </div>
+          <span class="inner">View Projects</span>
+        </button>
+        <a class="btn btn--outline" href="#contact">
+          Let's Talk
+          <span class="iconify" data-icon="solar:arrow-right-linear" data-width="16"></span>
+        </a>
+      </div>
+
+      <div class="reveal-up" style="transition-delay:0.6s; margin-top:5rem; display:flex; align-items:center; gap:1rem; opacity:0.6;">
+        <span style="font-size:0.8rem; font-weight:500; letter-spacing:0.1em; text-transform:uppercase;">Trusted By</span>
+        <div style="height:1px; background:var(--border); flex:1; max-width:100px;"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Infinite Marquee Scroll -->
+<div class="marquee">
+  <div class="marquee__track" style="animation-duration: 40s;">
+    <div class="marquee__content">
+      <span class="marquee__item">Brand Strategy</span><span class="marquee__sep">✦</span>
+      <span class="marquee__item">UI/UX Design</span><span class="marquee__sep">✦</span>
+      <span class="marquee__item">Web Development</span><span class="marquee__sep">✦</span>
+      <span class="marquee__item">Motion Graphics</span><span class="marquee__sep">✦</span>
+      <span class="marquee__item">3D Interaction</span><span class="marquee__sep">✦</span>
+    </div>
+    <div class="marquee__content">
+      <span class="marquee__item">Brand Strategy</span><span class="marquee__sep">✦</span>
+      <span class="marquee__item">UI/UX Design</span><span class="marquee__sep">✦</span>
+      <span class="marquee__item">Web Development</span><span class="marquee__sep">✦</span>
+      <span class="marquee__item">Motion Graphics</span><span class="marquee__sep">✦</span>
+      <span class="marquee__item">3D Interaction</span><span class="marquee__sep">✦</span>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════ -->
+<!-- ABOUT SECTION -->
+<!-- ═══════════════════════════════════════════════ -->
+<section class="section" id="about">
+  <div class="container">
+    <div class="section-label reveal-up">About Puzoto</div>
+    
+    <div class="about__grid">
+      <div class="reveal-up">
+        <h2 class="section-title">Design that commands attention.</h2>
+        <p class="about__desc">We are an independent creative studio focused on crafting exceptional digital realities. By pushing boundaries and mixing disciplines, we build interfaces that not only look stunning but deliver measurable impact.</p>
+        <div class="glass-panel" style="padding:1.5rem 2rem; display:inline-flex; align-items:center; gap:1rem;">
+          <div style="width:48px; height:48px; border-radius:50%; background:var(--bg-elevated); border:1px solid rgba(201,210,218,0.3); display:flex; align-items:center; justify-content:center; color:var(--accent);">
+            <span class="iconify" data-icon="solar:cup-star-bold" data-width="24"></span>
+          </div>
+          <div>
+            <div style="font-weight:600; font-size:1rem; margin-bottom:0.2rem;">Award Winning</div>
+            <div style="font-size:0.8rem; color:var(--text-muted);">Recognized for digital excellence</div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="stats-container reveal-up" style="transition-delay:0.2s">
+        <div>
+          <span class="stat__number">50+</span>
+          <span class="stat__label">Global<br/>Clients</span>
+        </div>
+        <div>
+          <span class="stat__number">120</span>
+          <span class="stat__label">Successful<br/>Projects</span>
+        </div>
+        <div>
+          <span class="stat__number">15</span>
+          <span class="stat__label">Industry<br/>Awards</span>
+        </div>
+        <div>
+          <span class="stat__number">99%</span>
+          <span class="stat__label">Client<br/>Satisfaction</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════ -->
+<!-- SERVICES SECTION -->
+<!-- ═══════════════════════════════════════════════ -->
+<section class="section" id="services" style="background:var(--bg-elevated); border-top:1px solid var(--border); border-bottom:1px solid var(--border);">
+  <div class="container">
+    <div class="section-label reveal-up">Our Capabilities</div>
+    <h2 class="section-title reveal-up">Comprehensive digital solutions.</h2>
+    
+    <div class="features-grid" style="margin-top:4rem;">
+      <div class="flashlight-card reveal-up" onmousemove="updateFlashlight(event, this)">
+        <div class="feature-icon"><span class="iconify" data-icon="solar:palette-bold" data-width="24"></span></div>
+        <h3 class="feature-title">Brand Identity</h3>
+        <p class="feature-desc">We build memorable visual identities that capture your essence. From logos to comprehensive brand guidelines, we ensure consistency across all touchpoints.</p>
+        <a href="#" style="font-size:0.85rem; font-weight:600; color:var(--accent); display:flex; align-items:center; gap:0.5rem;">Learn more <span class="iconify" data-icon="solar:arrow-right-linear" data-width="14"></span></a>
+      </div>
+      
+      <div class="flashlight-card reveal-up" style="transition-delay:0.1s" onmousemove="updateFlashlight(event, this)">
+        <div class="feature-icon"><span class="iconify" data-icon="solar:widget-bold" data-width="24"></span></div>
+        <h3 class="feature-title">UI/UX Design</h3>
+        <p class="feature-desc">Interfaces should be intuitive and beautiful. We design user journeys and systems that enhance usability, engagement, and conversion rates.</p>
+        <a href="#" style="font-size:0.85rem; font-weight:600; color:var(--accent); display:flex; align-items:center; gap:0.5rem;">Learn more <span class="iconify" data-icon="solar:arrow-right-linear" data-width="14"></span></a>
+      </div>
+      
+      <div class="flashlight-card reveal-up" style="transition-delay:0.2s" onmousemove="updateFlashlight(event, this)">
+        <div class="feature-icon"><span class="iconify" data-icon="solar:cpu-bolt-bold" data-width="24"></span></div>
+        <h3 class="feature-title">Development</h3>
+        <p class="feature-desc">Bringing designs to life with robust, scalable code. We specialize in modern tech stacks, ensuring high-performance websites and WebGL experiences.</p>
+        <a href="#" style="font-size:0.85rem; font-weight:600; color:var(--accent); display:flex; align-items:center; gap:0.5rem;">Learn more <span class="iconify" data-icon="solar:arrow-right-linear" data-width="14"></span></a>
+      </div>
+    </div>
+    
+    <div class="services__list reveal-up" style="margin-top:5rem;">
+      <div class="services__item">
+        <span class="services__number">01</span>
+        <div class="services__content">
+          <h3 class="services__title">Discovery & Strategy</h3>
+          <div class="services__tags"><span class="services__tag">Research</span><span class="services__tag">Planning</span><span class="services__tag">Workshops</span></div>
+          <div class="services__body">
+            <p class="services__desc">We dive deep into your business, understanding your goals, audience, and market landscape to build a solid foundation before any design work begins.</p>
+          </div>
+        </div>
+        <span class="iconify services__arrow" data-icon="solar:add-circle-linear" data-width="24"></span>
+      </div>
+      
+      <div class="services__item is-active">
+        <span class="services__number">02</span>
+        <div class="services__content">
+          <h3 class="services__title">Design & Prototyping</h3>
+          <div class="services__tags"><span class="services__tag">Wireframing</span><span class="services__tag">UI/UX</span><span class="services__tag">Interaction</span></div>
+          <div class="services__body">
+            <p class="services__desc">Our design phase is iterative and collaborative. We craft low-fidelity wireframes into high-fidelity interactive prototypes, applying our premium design system to ensure unparalleled quality.</p>
+          </div>
+        </div>
+        <span class="iconify services__arrow" data-icon="solar:add-circle-linear" data-width="24"></span>
+      </div>
+      
+      <div class="services__item">
+        <span class="services__number">03</span>
+        <div class="services__content">
+          <h3 class="services__title">Implementation</h3>
+          <div class="services__tags"><span class="services__tag">Frontend</span><span class="services__tag">Backend</span><span class="services__tag">WebGL</span></div>
+          <div class="services__body">
+            <p class="services__desc">Clean, optimized, and scalable code. We bring the designs to life using modern frameworks and cutting-edge animation libraries to maximize the digital experience.</p>
+          </div>
+        </div>
+        <span class="iconify services__arrow" data-icon="solar:add-circle-linear" data-width="24"></span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════ -->
+<!-- WORK SECTION -->
+<!-- ═══════════════════════════════════════════════ -->
+<section class="section" id="work">
+  <div class="container">
+    <div style="display:flex; justify-content:space-between; align-items:flex-end; margin-bottom:4rem;">
+      <div>
+        <div class="section-label reveal-up">Selected Works</div>
+        <h2 class="section-title reveal-up" style="margin-bottom:0;">Featured Projects.</h2>
+      </div>
+      <a class="btn btn--outline reveal-up" href="#" style="display:none;">View All Work</a>
+    </div>
+    
+    <div class="work-grid">
+      <div class="work__item reveal-up">
+        <div class="work__image" style="background-image: linear-gradient(135deg, #1C1F23, #0E0F11);">
+          <div style="position:absolute; inset:0; background:radial-gradient(circle at center, rgba(201,210,218,0.1) 0%, transparent 70%);"></div>
+        </div>
+        <div class="work__overlay">
+          <div class="work__category">E-Commerce</div>
+          <h3 class="work__title">Lumina Store</h3>
+        </div>
+        <div class="work__arrow">
+          <span class="iconify" data-icon="solar:arrow-right-up-linear" data-width="24"></span>
+        </div>
+      </div>
+      
+      <div class="work__item reveal-up" style="transition-delay:0.2s">
+        <div class="work__image" style="background-image: linear-gradient(135deg, #1C1F23, #0E0F11);">
+           <div style="position:absolute; inset:0; background:linear-gradient(45deg, rgba(201,210,218,0.2) 0%, transparent 100%);"></div>
+        </div>
+        <div class="work__overlay">
+          <div class="work__category">Web App</div>
+          <h3 class="work__title">Dashboard UI</h3>
+        </div>
+        <div class="work__arrow">
+          <span class="iconify" data-icon="solar:arrow-right-up-linear" data-width="24"></span>
+        </div>
+      </div>
+      
+      <div class="work__item reveal-up">
+        <div class="work__image" style="background-image: linear-gradient(135deg, #1C1F23, #0E0F11);">
+          <div style="position:absolute; inset:0; border:10px solid rgba(255,255,255,0.02);"></div>
+        </div>
+        <div class="work__overlay">
+          <div class="work__category">Corporate</div>
+          <h3 class="work__title">Nexus FinTech</h3>
+        </div>
+        <div class="work__arrow">
+          <span class="iconify" data-icon="solar:arrow-right-up-linear" data-width="24"></span>
+        </div>
+      </div>
+      
+      <div class="work__item reveal-up" style="transition-delay:0.2s">
+        <div class="work__image" style="background-image: linear-gradient(135deg, #1C1F23, #0E0F11);">
+           <div style="position:absolute; inset:0; background:radial-gradient(circle at top right, rgba(227,231,235,0.15) 0%, transparent 50%);"></div>
+        </div>
+        <div class="work__overlay">
+          <div class="work__category">Portfolio</div>
+          <h3 class="work__title">Studio Forma</h3>
+        </div>
+        <div class="work__arrow">
+          <span class="iconify" data-icon="solar:arrow-right-up-linear" data-width="24"></span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════ -->
+<!-- CTA SECTION -->
+<!-- ═══════════════════════════════════════════════ -->
+<section class="cta" id="contact">
+  <div class="container">
+    <div class="reveal-up">
+      <h2 class="cta__title">
+        Ready to<br/>
+        <span class="cta__title--accent">start building?</span>
+      </h2>
+      <p style="color:var(--text-muted); font-size:1.1rem; max-width:500px; margin:0 auto 3rem;">Let's discuss how we can help elevate your brand and create digital experiences that leave a lasting impression.</p>
+      
+      <button class="button-custom" style="padding:14px 32px; font-size:1.1rem;" type="button">
+        <div class="points_wrapper">
+          <i class="point"></i><i class="point"></i><i class="point"></i><i class="point"></i><i class="point"></i><i class="point"></i><i class="point"></i>
+        </div>
+        <span class="inner">Get in Touch</span>
+      </button>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════ -->
+<!-- FOOTER -->
+<!-- ═══════════════════════════════════════════════ -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer__grid">
+      <div>
+        <a class="footer__logo" href="#">PUZOTO</a>
+        <p class="footer__desc">We turn bold ideas into immersive digital realities. A multidisciplinary design and development agency focusing on the future.</p>
+      </div>
+      
+      <div>
+        <h4 class="footer__heading">Explore</h4>
+        <nav class="footer__nav">
+          <a href="#about">About</a>
+          <a href="#services">Services</a>
+          <a href="#work">Work</a>
+          <a href="#contact">Contact</a>
+        </nav>
+      </div>
+      
+      <div>
+        <h4 class="footer__heading">Socials</h4>
+        <nav class="footer__nav">
+          <a href="#">Instagram</a>
+          <a href="#">Twitter/X</a>
+          <a href="#">LinkedIn</a>
+          <a href="#">Dribbble</a>
+        </nav>
+      </div>
+    </div>
+    
+    <div class="footer__bottom">
+      <span>&copy; <span id="year">2026</span> Puzoto Studio. All rights reserved.</span>
+      <div style="display:flex; gap:1.5rem;">
+        <a href="#" style="transition:color 0.3s;">Privacy Policy</a>
+        <a href="#" style="transition:color 0.3s;">Terms of Service</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+// Loader
+window.addEventListener('load', () => { setTimeout(() => { document.getElementById('loader').classList.add('is-loaded'); }, 500); });
+
+// Update year
+document.getElementById('year').textContent = new Date().getFullYear();
+
+// Navigation Scrolled State
+const nav = document.getElementById('nav');
+window.addEventListener('scroll', () => { if (window.scrollY > 50) { nav.classList.add('is-scrolled'); } else { nav.classList.remove('is-scrolled'); } });
+
+// Mobile Menu
+const navToggle = document.getElementById('navToggle');
+const mobileClose = document.getElementById('mobileClose');
+const mobileMenu = document.getElementById('mobileMenu');
+const mobileLinks = document.querySelectorAll('[data-mobile-link]');
+function toggleMenu() { mobileMenu.classList.toggle('is-open'); document.body.style.overflow = mobileMenu.classList.contains('is-open') ? 'hidden' : ''; }
+navToggle.addEventListener('click', toggleMenu);
+mobileClose.addEventListener('click', toggleMenu);
+mobileLinks.forEach(link => { link.addEventListener('click', toggleMenu); });
+
+// Accordion (Services)
+const serviceItems = document.querySelectorAll('.services__item');
+serviceItems.forEach(item => {
+  item.addEventListener('click', () => {
+    const isActive = item.classList.contains('is-active');
+    serviceItems.forEach(el => el.classList.remove('is-active'));
+    if (!isActive) item.classList.add('is-active');
+  });
+});
+
+// Flashlight Mouse Tracker
+function updateFlashlight(e, el) {
+  const rect = el.getBoundingClientRect();
+  const x = e.clientX - rect.left;
+  const y = e.clientY - rect.top;
+  el.style.setProperty('--mouse-x', `${x}px`);
+  el.style.setProperty('--mouse-y', `${y}px`);
+}
+
+// Scroll Reveal Observer
+const observerOptions = { root: null, rootMargin: '0px', threshold: 0.15 };
+const observer = new IntersectionObserver((entries, observer) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('is-visible');
+      observer.unobserve(entry.target);
+    }
+  });
+}, observerOptions);
+document.querySelectorAll('.reveal-up').forEach(el => observer.observe(el));
+
+// Minimal WebGL Background
+try {
+  const canvas = document.querySelector('#webgl');
+  const scene = new THREE.Scene();
+  scene.background = null;
+
+  const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000);
+  camera.position.z = 120;
+
+  const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true });
+  renderer.setSize(window.innerWidth, window.innerHeight);
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+
+  // Particles
+  const particlesGeometry = new THREE.BufferGeometry();
+  const particlesCount = window.innerWidth < 768 ? 400 : 900;
+  const posArray = new Float32Array(particlesCount * 3);
+
+  for(let i = 0; i < particlesCount * 3; i++) {
+    posArray[i] = (Math.random() - 0.5) * 300;
+  }
+  particlesGeometry.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
+
+  const particlesMaterial = new THREE.PointsMaterial({
+    size: 0.8,
+    color: '#E3E7EB',
+    transparent: true,
+    opacity: 0.4,
+    sizeAttenuation: true
+  });
+  
+  const particlesMesh = new THREE.Points(particlesGeometry, particlesMaterial);
+  scene.add(particlesMesh);
+
+  // Animation Loop
+  let mouseX = 0;
+  let mouseY = 0;
+  
+  document.addEventListener('mousemove', (event) => {
+    mouseX = event.clientX / window.innerWidth - 0.5;
+    mouseY = event.clientY / window.innerHeight - 0.5;
+  });
+
+  const clock = new THREE.Clock();
+
+  function animate() {
+    requestAnimationFrame(animate);
+    const elapsedTime = clock.getElapsedTime();
+
+    particlesMesh.rotation.y = elapsedTime * -0.02 + (mouseX * 0.2);
+    particlesMesh.rotation.x = elapsedTime * 0.01 + (mouseY * 0.2);
+    
+    renderer.render(scene, camera);
+  }
+  animate();
+
+  window.addEventListener('resize', () => {
+    camera.aspect = window.innerWidth / window.innerHeight;
+    camera.updateProjectionMatrix();
+    renderer.setSize(window.innerWidth, window.innerHeight);
+  });
+} catch(e) {
+  console.log("WebGL not initialized");
+}
+</script>
+</body>
+</html>
