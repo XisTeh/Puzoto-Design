@@ -1287,6 +1287,535 @@
             }
         }
 
+        /* ═══════════════════════════════════════════
+   PROJECTS CAROUSEL
+   ═══════════════════════════════════════════ */
+        .projects {
+            position: relative;
+            z-index: 2;
+            background: linear-gradient(180deg, rgba(10, 10, 12, 1) 0%, rgba(14, 15, 17, 0.95) 100%);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            padding: clamp(6rem, 12vw, 10rem) 0;
+            border-top: 1px solid rgba(255, 255, 255, 0.04);
+            overflow: hidden;
+        }
+
+        .projects__bg-glow {
+            position: absolute;
+            top: 10%;
+            left: 50%;
+            width: 150%;
+            height: 150%;
+            background: radial-gradient(ellipse at 50% 30%, rgba(180, 155, 100, 0.05), rgba(201, 210, 218, 0.03), transparent 60%);
+            transform: translateX(-50%);
+            pointer-events: none;
+            z-index: 0;
+            filter: blur(120px);
+        }
+
+        .projects__bg-grid {
+            position: absolute;
+            inset: -200px 0;
+            background-size: 60px 60px;
+            background-image:
+                linear-gradient(to right, rgba(255, 255, 255, 0.015) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(255, 255, 255, 0.015) 1px, transparent 1px);
+            mask-image: radial-gradient(ellipse at center, black 20%, transparent 70%);
+            -webkit-mask-image: radial-gradient(ellipse at center, black 20%, transparent 70%);
+            pointer-events: none;
+            z-index: 0;
+            will-change: transform;
+        }
+
+        .projects__header {
+            position: relative;
+            z-index: 2;
+            max-width: var(--container);
+            margin: 0 auto;
+            padding: 0 clamp(1.25rem, 4vw, 3rem);
+            margin-bottom: clamp(3rem, 6vw, 5rem);
+        }
+
+        .projects__header-inner {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            gap: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .projects__badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.6rem;
+            padding: 0.4rem 1rem;
+            border-radius: 100px;
+            border: 1px solid rgba(201, 210, 218, 0.12);
+            background: rgba(201, 210, 218, 0.04);
+            font-size: 0.7rem;
+            font-weight: 600;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: var(--accent);
+            margin-bottom: 1.5rem;
+            backdrop-filter: blur(8px);
+        }
+
+        .projects__badge-dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: #4ade80;
+            box-shadow: 0 0 8px rgba(74, 222, 128, 0.5);
+            animation: dotPulse 2.5s ease-in-out infinite;
+        }
+
+        .projects__title {
+            font-family: var(--font-heading);
+            font-size: clamp(2rem, 5vw, 3.8rem);
+            font-weight: 700;
+            line-height: 1.05;
+            letter-spacing: -0.04em;
+            max-width: 600px;
+        }
+
+        .projects__title-accent {
+            background: linear-gradient(135deg, var(--accent) 0%, var(--accent-light) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .projects__desc {
+            font-size: clamp(0.88rem, 1.1vw, 1rem);
+            line-height: 1.8;
+            color: var(--text-muted);
+            max-width: 380px;
+        }
+
+        /* ── Carousel Rows ── */
+        .projects__carousel-wrap {
+            position: relative;
+            z-index: 2;
+            mask-image: linear-gradient(to right, transparent 0%, black 5%, black 95%, transparent 100%);
+            -webkit-mask-image: linear-gradient(to right, transparent 0%, black 5%, black 95%, transparent 100%);
+        }
+
+        .projects__row {
+            display: flex;
+            width: max-content;
+            gap: 1.5rem;
+            will-change: transform;
+            margin-bottom: 1.5rem;
+        }
+
+        .projects__row--top {
+            animation: projectsScrollLeft 45s linear infinite;
+        }
+
+        .projects__row--bottom {
+            animation: projectsScrollRight 50s linear infinite;
+        }
+
+        @keyframes projectsScrollLeft {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+
+        @keyframes projectsScrollRight {
+            0% { transform: translateX(-50%); }
+            100% { transform: translateX(0); }
+        }
+
+        /* Pause on hover */
+        .projects__carousel-wrap:hover .projects__row {
+            animation-play-state: paused;
+        }
+
+        /* ── Project Card ── */
+        .project-card {
+            position: relative;
+            width: clamp(320px, 25vw, 420px);
+            aspect-ratio: 4 / 3;
+            border-radius: 18px;
+            overflow: hidden;
+            cursor: pointer;
+            flex-shrink: 0;
+            border: 1px solid rgba(255, 255, 255, 0.04);
+            background: rgba(255, 255, 255, 0.01);
+            transition: border-color 0.6s ease, box-shadow 0.6s ease, transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .project-card:hover {
+            border-color: rgba(180, 155, 100, 0.25);
+            box-shadow: 0 40px 100px rgba(0, 0, 0, 0.8), 0 0 60px rgba(180, 155, 100, 0.08);
+            transform: scale(1.05);
+            z-index: 10;
+        }
+
+        /* ── Image Container with Scroll Effect ── */
+        .project-card__img-wrap {
+            position: absolute;
+            inset: 0;
+            overflow: hidden;
+        }
+
+        .project-card__img {
+            width: 100%;
+            height: 200%;
+            object-fit: cover;
+            object-position: top center;
+            transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+            will-change: transform;
+        }
+
+        /* On hover: scroll down the "site preview" */
+        .project-card:hover .project-card__img {
+            animation: siteScroll 4s ease-in-out forwards;
+        }
+
+        @keyframes siteScroll {
+            0% { transform: translateY(0); }
+            100% { transform: translateY(-40%); }
+        }
+
+        /* ── Gradient placeholder for cards without images ── */
+        .project-card__gradient {
+            position: absolute;
+            inset: 0;
+            transition: transform 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+
+        .project-card:hover .project-card__gradient {
+            transform: scale(1.1);
+        }
+
+        /* ── Overlay ── */
+        .project-card__overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to top, rgba(10, 10, 12, 0.98) 0%, rgba(10, 10, 12, 0.6) 35%, rgba(10, 10, 12, 0.1) 65%, transparent 100%);
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            padding: 1.8rem;
+            z-index: 2;
+            opacity: 0;
+            transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .project-card:hover .project-card__overlay {
+            opacity: 1;
+        }
+
+        .project-card__category {
+            font-size: 0.65rem;
+            font-weight: 600;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+            color: var(--accent);
+            margin-bottom: 0.5rem;
+            transform: translateY(10px);
+            opacity: 0;
+            transition: all 0.5s cubic-bezier(0.22, 1, 0.36, 1) 0.1s;
+        }
+
+        .project-card:hover .project-card__category {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        .project-card__name {
+            font-family: var(--font-heading);
+            font-size: clamp(1.1rem, 1.5vw, 1.4rem);
+            font-weight: 600;
+            letter-spacing: -0.02em;
+            color: var(--text);
+            transform: translateY(10px);
+            opacity: 0;
+            transition: all 0.5s cubic-bezier(0.22, 1, 0.36, 1) 0.15s;
+        }
+
+        .project-card:hover .project-card__name {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        .project-card__tags {
+            display: flex;
+            gap: 0.4rem;
+            margin-top: 0.6rem;
+            flex-wrap: wrap;
+            transform: translateY(10px);
+            opacity: 0;
+            transition: all 0.5s cubic-bezier(0.22, 1, 0.36, 1) 0.2s;
+        }
+
+        .project-card:hover .project-card__tags {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        .project-card__tag {
+            font-size: 0.6rem;
+            font-weight: 500;
+            padding: 0.2rem 0.6rem;
+            border: 1px solid rgba(201, 210, 218, 0.15);
+            border-radius: 100px;
+            color: var(--text-muted);
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(6px);
+        }
+
+        /* ── Video Card Variant ── */
+        .project-card--video {
+            border-color: rgba(180, 155, 100, 0.2);
+        }
+
+        .project-card--video:hover {
+            border-color: rgba(180, 155, 100, 0.45);
+            box-shadow: 0 30px 80px rgba(0, 0, 0, 0.7), 0 0 50px rgba(180, 155, 100, 0.1);
+        }
+
+        .project-card__cover {
+            position: absolute;
+            inset: 0;
+            z-index: 1;
+            transition: opacity 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+
+        .project-card__cover img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: top center;
+        }
+
+        .project-card--video:hover .project-card__cover {
+            opacity: 0;
+        }
+
+        .project-card__video-wrap {
+            position: absolute;
+            inset: 0;
+            z-index: 0;
+            overflow: hidden;
+        }
+
+        .project-card__video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: top center;
+            opacity: 0;
+            transition: opacity 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+
+        .project-card--video:hover .project-card__video {
+            opacity: 1;
+        }
+
+        /* Featured badge */
+        .project-card__featured {
+            position: absolute;
+            bottom: 1rem;
+            right: 1rem;
+            z-index: 5;
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+            padding: 0.3rem 0.8rem;
+            border-radius: 100px;
+            background: rgba(180, 155, 100, 0.15);
+            border: 1px solid rgba(180, 155, 100, 0.3);
+            font-size: 0.55rem;
+            font-weight: 700;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: #c4a96a;
+            backdrop-filter: blur(8px);
+            opacity: 0;
+            transform: translateY(5px);
+            transition: all 0.5s cubic-bezier(0.22, 1, 0.36, 1) 0.3s;
+        }
+
+        .project-card--video:hover .project-card__featured {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* ── Arrow CTA ── */
+        .project-card__arrow {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            z-index: 3;
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            background: rgba(14, 15, 17, 0.7);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text);
+            transform: translateY(-8px) rotate(-45deg);
+            opacity: 0;
+            transition: all 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+            backdrop-filter: blur(8px);
+        }
+
+        .project-card:hover .project-card__arrow {
+            transform: translateY(0) rotate(0deg);
+            opacity: 1;
+            background: var(--accent);
+            border-color: var(--accent);
+            color: var(--bg);
+        }
+
+        /* ── Shimmer sweep on hover ── */
+        .project-card__shimmer {
+            position: absolute;
+            inset: 0;
+            z-index: 4;
+            background: linear-gradient(120deg, transparent 30%, rgba(255, 255, 255, 0.06) 50%, transparent 70%);
+            transform: translateX(-100%);
+            pointer-events: none;
+        }
+
+        .project-card:hover .project-card__shimmer {
+            animation: shimmerSweep 1.2s ease-out forwards;
+        }
+
+        @keyframes shimmerSweep {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+
+        /* ── Live indicator ── */
+        .project-card__live {
+            position: absolute;
+            top: 1rem;
+            left: 1rem;
+            z-index: 3;
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+            padding: 0.25rem 0.7rem;
+            border-radius: 100px;
+            background: rgba(14, 15, 17, 0.6);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            font-size: 0.6rem;
+            font-weight: 600;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            backdrop-filter: blur(8px);
+            opacity: 0;
+            transform: translateY(-5px);
+            transition: all 0.5s cubic-bezier(0.22, 1, 0.36, 1) 0.25s;
+        }
+
+        .project-card:hover .project-card__live {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .project-card__live-dot {
+            width: 5px;
+            height: 5px;
+            border-radius: 50%;
+            background: #4ade80;
+            animation: dotPulse 2s ease-in-out infinite;
+        }
+
+        /* ── Counter ── */
+        .projects__counter {
+            position: relative;
+            z-index: 2;
+            max-width: var(--container);
+            margin: 0 auto;
+            padding: 2rem clamp(1.25rem, 4vw, 3rem) 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .projects__count {
+            font-family: var(--font-heading);
+            font-size: 0.8rem;
+            font-weight: 500;
+            letter-spacing: 0.1em;
+            color: var(--text-muted);
+        }
+
+        .projects__count strong {
+            color: var(--accent);
+            font-size: 1.8rem;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            margin-right: 0.3rem;
+        }
+
+        .projects__cta-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.6rem;
+            font-family: var(--font-heading);
+            font-size: 0.85rem;
+            font-weight: 600;
+            letter-spacing: 0.05em;
+            color: var(--text-muted);
+            padding: 0.7rem 1.6rem;
+            border: 1px solid rgba(201, 210, 218, 0.12);
+            border-radius: 100px;
+            transition: all 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+            backdrop-filter: blur(8px);
+            background: rgba(255, 255, 255, 0.02);
+        }
+
+        .projects__cta-link:hover {
+            border-color: var(--accent);
+            color: var(--accent);
+            background: rgba(201, 210, 218, 0.05);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(201, 210, 218, 0.1);
+        }
+
+        .projects__cta-link .iconify {
+            transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+
+        .projects__cta-link:hover .iconify {
+            transform: translateX(4px);
+        }
+
+        @media (max-width: 768px) {
+            .project-card {
+                width: clamp(260px, 70vw, 340px);
+            }
+
+            .projects__header-inner {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .projects__counter {
+                flex-direction: column;
+                gap: 1rem;
+                align-items: flex-start;
+            }
+
+            .projects__row--top {
+                animation-duration: 30s;
+            }
+
+            .projects__row--bottom {
+                animation-duration: 35s;
+            }
+        }
+
         html.lenis,
         html.lenis body {
             height: auto
@@ -1520,6 +2049,644 @@
                 </div>
 
             </div>
+        </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════
+     PROJECTS CAROUSEL
+     ═══════════════════════════════════════ -->
+    <section class="projects" id="projetos">
+        <div class="projects__bg-glow"></div>
+        <div class="projects__bg-grid" id="projGrid"></div>
+
+        <!-- Header -->
+        <div class="projects__header">
+            <div class="projects__header-inner" data-st>
+                <div>
+                    <div class="projects__badge">
+                        <span class="projects__badge-dot"></span>
+                        Experiências Premium
+                    </div>
+                    <h2 class="projects__title">
+                        Plataformas de alta conversão<br>
+                        <span class="projects__title-accent">que dominam o mercado.</span>
+                    </h2>
+                </div>
+                <p class="projects__desc">
+                    Desenhamos plataformas digitais de altíssimo valor percebido. Soluções que unem estética impecável, usabilidade intuitiva e gatilhos de conversão para transformar curiosos em clientes fiéis.
+                </p>
+            </div>
+        </div>
+
+        <!-- Carousel -->
+        <div class="projects__carousel-wrap" id="projectsCarousel">
+
+            <!-- Row 1 — scrolls LEFT -->
+            <div class="projects__row projects__row--top" id="projectsRowTop">
+                <!-- Set 1 -->
+                <div class="project-card project-card--video">
+                    <div class="project-card__video-wrap">
+                        <video class="project-card__video" src="assets/images/projects/dimagem vide.mp4" muted loop playsinline preload="metadata"></video>
+                    </div>
+                    <div class="project-card__cover">
+                        <img src="assets/images/projects/dimagemm.png" alt="Dimagem — Diagnóstico por Imagem" loading="lazy">
+                    </div>
+                    <div class="project-card__shimmer"></div>
+                    <div class="project-card__live"><span class="project-card__live-dot"></span>Video Preview</div>
+                    <div class="project-card__arrow">
+                        <span class="iconify" data-icon="solar:arrow-right-up-linear" data-width="18"></span>
+                    </div>
+                    <div class="project-card__featured">
+                        <span class="iconify" data-icon="solar:star-bold" data-width="10"></span>
+                        Projeto Real
+                    </div>
+                    <div class="project-card__overlay">
+                        <span class="project-card__category">Site Institucional</span>
+                        <h3 class="project-card__name">Dimagem — Clínica de Diagnósticos</h3>
+                        <div class="project-card__tags">
+                            <span class="project-card__tag">HealthTech</span>
+                            <span class="project-card__tag">Design Premium</span>
+                            <span class="project-card__tag">Conversão</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="project-card">
+                    <div class="project-card__img-wrap">
+                        <img class="project-card__img" src="assets/images/projects/project_ecommerce.png" alt="Lumina Store" loading="lazy">
+                    </div>
+                    <div class="project-card__shimmer"></div>
+                    <div class="project-card__live"><span class="project-card__live-dot"></span>Preview</div>
+                    <div class="project-card__arrow">
+                        <span class="iconify" data-icon="solar:arrow-right-up-linear" data-width="18"></span>
+                    </div>
+                    <div class="project-card__overlay">
+                        <span class="project-card__category">E-Commerce</span>
+                        <h3 class="project-card__name">Lumina Store</h3>
+                        <div class="project-card__tags">
+                            <span class="project-card__tag">Shopify</span>
+                            <span class="project-card__tag">UX</span>
+                            <span class="project-card__tag">Conversão</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="project-card">
+                    <div class="project-card__img-wrap">
+                        <img class="project-card__img" src="assets/images/projects/project_dashboard.png" alt="FinanceHub" loading="lazy">
+                    </div>
+                    <div class="project-card__shimmer"></div>
+                    <div class="project-card__live"><span class="project-card__live-dot"></span>Preview</div>
+                    <div class="project-card__arrow">
+                        <span class="iconify" data-icon="solar:arrow-right-up-linear" data-width="18"></span>
+                    </div>
+                    <div class="project-card__overlay">
+                        <span class="project-card__category">Dashboard</span>
+                        <h3 class="project-card__name">FinanceHub Pro</h3>
+                        <div class="project-card__tags">
+                            <span class="project-card__tag">React</span>
+                            <span class="project-card__tag">Analytics</span>
+                            <span class="project-card__tag">Dark UI</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="project-card">
+                    <div class="project-card__img-wrap">
+                        <img class="project-card__img" src="assets/images/projects/project_portfolio.png" alt="Studio Forma" loading="lazy">
+                    </div>
+                    <div class="project-card__shimmer"></div>
+                    <div class="project-card__live"><span class="project-card__live-dot"></span>Preview</div>
+                    <div class="project-card__arrow">
+                        <span class="iconify" data-icon="solar:arrow-right-up-linear" data-width="18"></span>
+                    </div>
+                    <div class="project-card__overlay">
+                        <span class="project-card__category">Portfólio</span>
+                        <h3 class="project-card__name">Studio Forma</h3>
+                        <div class="project-card__tags">
+                            <span class="project-card__tag">Design</span>
+                            <span class="project-card__tag">Editorial</span>
+                            <span class="project-card__tag">WebGL</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="project-card">
+                    <div class="project-card__img-wrap">
+                        <img class="project-card__img" src="assets/images/projects/project_branding.png" alt="Nexus" loading="lazy">
+                    </div>
+                    <div class="project-card__shimmer"></div>
+                    <div class="project-card__live"><span class="project-card__live-dot"></span>Preview</div>
+                    <div class="project-card__arrow">
+                        <span class="iconify" data-icon="solar:arrow-right-up-linear" data-width="18"></span>
+                    </div>
+                    <div class="project-card__overlay">
+                        <span class="project-card__category">Branding</span>
+                        <h3 class="project-card__name">Nexus FinTech</h3>
+                        <div class="project-card__tags">
+                            <span class="project-card__tag">Identidade</span>
+                            <span class="project-card__tag">Guidelines</span>
+                            <span class="project-card__tag">3D</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="project-card">
+                    <div class="project-card__img-wrap">
+                        <img class="project-card__img" src="assets/images/projects/project_saas.png" alt="CloudVault" loading="lazy">
+                    </div>
+                    <div class="project-card__shimmer"></div>
+                    <div class="project-card__live"><span class="project-card__live-dot"></span>Preview</div>
+                    <div class="project-card__arrow">
+                        <span class="iconify" data-icon="solar:arrow-right-up-linear" data-width="18"></span>
+                    </div>
+                    <div class="project-card__overlay">
+                        <span class="project-card__category">SaaS Platform</span>
+                        <h3 class="project-card__name">CloudVault AI</h3>
+                        <div class="project-card__tags">
+                            <span class="project-card__tag">Next.js</span>
+                            <span class="project-card__tag">AI</span>
+                            <span class="project-card__tag">B2B</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="project-card">
+                    <div class="project-card__img-wrap">
+                        <img class="project-card__img" src="assets/images/projects/project_landing.png" alt="Velocity" loading="lazy">
+                    </div>
+                    <div class="project-card__shimmer"></div>
+                    <div class="project-card__live"><span class="project-card__live-dot"></span>Preview</div>
+                    <div class="project-card__arrow">
+                        <span class="iconify" data-icon="solar:arrow-right-up-linear" data-width="18"></span>
+                    </div>
+                    <div class="project-card__overlay">
+                        <span class="project-card__category">Landing Page</span>
+                        <h3 class="project-card__name">Velocity Labs</h3>
+                        <div class="project-card__tags">
+                            <span class="project-card__tag">Conversão</span>
+                            <span class="project-card__tag">Growth</span>
+                            <span class="project-card__tag">Motion</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Duplicate set for infinite loop -->
+                <div class="project-card project-card--video">
+                    <div class="project-card__video-wrap">
+                        <video class="project-card__video" src="assets/images/projects/dimagem vide.mp4" muted loop playsinline preload="metadata"></video>
+                    </div>
+                    <div class="project-card__cover">
+                        <img src="assets/images/projects/dimagemm.png" alt="Dimagem — Diagnóstico por Imagem" loading="lazy">
+                    </div>
+                    <div class="project-card__shimmer"></div>
+                    <div class="project-card__live"><span class="project-card__live-dot"></span>Video Preview</div>
+                    <div class="project-card__arrow">
+                        <span class="iconify" data-icon="solar:arrow-right-up-linear" data-width="18"></span>
+                    </div>
+                    <div class="project-card__featured">
+                        <span class="iconify" data-icon="solar:star-bold" data-width="10"></span>
+                        Projeto Real
+                    </div>
+                    <div class="project-card__overlay">
+                        <span class="project-card__category">Site Institucional</span>
+                        <h3 class="project-card__name">Dimagem — Clínica de Diagnósticos</h3>
+                        <div class="project-card__tags">
+                            <span class="project-card__tag">HealthTech</span>
+                            <span class="project-card__tag">Design Premium</span>
+                            <span class="project-card__tag">Conversão</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="project-card">
+                    <div class="project-card__img-wrap">
+                        <img class="project-card__img" src="assets/images/projects/project_ecommerce.png" alt="Lumina Store" loading="lazy">
+                    </div>
+                    <div class="project-card__shimmer"></div>
+                    <div class="project-card__live"><span class="project-card__live-dot"></span>Preview</div>
+                    <div class="project-card__arrow">
+                        <span class="iconify" data-icon="solar:arrow-right-up-linear" data-width="18"></span>
+                    </div>
+                    <div class="project-card__overlay">
+                        <span class="project-card__category">E-Commerce</span>
+                        <h3 class="project-card__name">Lumina Store</h3>
+                        <div class="project-card__tags">
+                            <span class="project-card__tag">Shopify</span>
+                            <span class="project-card__tag">UX</span>
+                            <span class="project-card__tag">Conversão</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="project-card">
+                    <div class="project-card__img-wrap">
+                        <img class="project-card__img" src="assets/images/projects/project_dashboard.png" alt="FinanceHub" loading="lazy">
+                    </div>
+                    <div class="project-card__shimmer"></div>
+                    <div class="project-card__live"><span class="project-card__live-dot"></span>Preview</div>
+                    <div class="project-card__arrow">
+                        <span class="iconify" data-icon="solar:arrow-right-up-linear" data-width="18"></span>
+                    </div>
+                    <div class="project-card__overlay">
+                        <span class="project-card__category">Dashboard</span>
+                        <h3 class="project-card__name">FinanceHub Pro</h3>
+                        <div class="project-card__tags">
+                            <span class="project-card__tag">React</span>
+                            <span class="project-card__tag">Analytics</span>
+                            <span class="project-card__tag">Dark UI</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="project-card">
+                    <div class="project-card__img-wrap">
+                        <img class="project-card__img" src="assets/images/projects/project_portfolio.png" alt="Studio Forma" loading="lazy">
+                    </div>
+                    <div class="project-card__shimmer"></div>
+                    <div class="project-card__live"><span class="project-card__live-dot"></span>Preview</div>
+                    <div class="project-card__arrow">
+                        <span class="iconify" data-icon="solar:arrow-right-up-linear" data-width="18"></span>
+                    </div>
+                    <div class="project-card__overlay">
+                        <span class="project-card__category">Portfólio</span>
+                        <h3 class="project-card__name">Studio Forma</h3>
+                        <div class="project-card__tags">
+                            <span class="project-card__tag">Design</span>
+                            <span class="project-card__tag">Editorial</span>
+                            <span class="project-card__tag">WebGL</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="project-card">
+                    <div class="project-card__img-wrap">
+                        <img class="project-card__img" src="assets/images/projects/project_branding.png" alt="Nexus" loading="lazy">
+                    </div>
+                    <div class="project-card__shimmer"></div>
+                    <div class="project-card__live"><span class="project-card__live-dot"></span>Preview</div>
+                    <div class="project-card__arrow">
+                        <span class="iconify" data-icon="solar:arrow-right-up-linear" data-width="18"></span>
+                    </div>
+                    <div class="project-card__overlay">
+                        <span class="project-card__category">Branding</span>
+                        <h3 class="project-card__name">Nexus FinTech</h3>
+                        <div class="project-card__tags">
+                            <span class="project-card__tag">Identidade</span>
+                            <span class="project-card__tag">Guidelines</span>
+                            <span class="project-card__tag">3D</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="project-card">
+                    <div class="project-card__img-wrap">
+                        <img class="project-card__img" src="assets/images/projects/project_saas.png" alt="CloudVault" loading="lazy">
+                    </div>
+                    <div class="project-card__shimmer"></div>
+                    <div class="project-card__live"><span class="project-card__live-dot"></span>Preview</div>
+                    <div class="project-card__arrow">
+                        <span class="iconify" data-icon="solar:arrow-right-up-linear" data-width="18"></span>
+                    </div>
+                    <div class="project-card__overlay">
+                        <span class="project-card__category">SaaS Platform</span>
+                        <h3 class="project-card__name">CloudVault AI</h3>
+                        <div class="project-card__tags">
+                            <span class="project-card__tag">Next.js</span>
+                            <span class="project-card__tag">AI</span>
+                            <span class="project-card__tag">B2B</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="project-card">
+                    <div class="project-card__img-wrap">
+                        <img class="project-card__img" src="assets/images/projects/project_landing.png" alt="Velocity" loading="lazy">
+                    </div>
+                    <div class="project-card__shimmer"></div>
+                    <div class="project-card__live"><span class="project-card__live-dot"></span>Preview</div>
+                    <div class="project-card__arrow">
+                        <span class="iconify" data-icon="solar:arrow-right-up-linear" data-width="18"></span>
+                    </div>
+                    <div class="project-card__overlay">
+                        <span class="project-card__category">Landing Page</span>
+                        <h3 class="project-card__name">Velocity Labs</h3>
+                        <div class="project-card__tags">
+                            <span class="project-card__tag">Conversão</span>
+                            <span class="project-card__tag">Growth</span>
+                            <span class="project-card__tag">Motion</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Row 2 — scrolls RIGHT -->
+            <div class="projects__row projects__row--bottom" id="projectsRowBottom">
+                <!-- Set 1 -->
+                <div class="project-card">
+                    <div class="project-card__img-wrap">
+                        <img class="project-card__img" src="assets/images/projects/project_landing.png" alt="Vertex" loading="lazy">
+                    </div>
+                    <div class="project-card__shimmer"></div>
+                    <div class="project-card__live"><span class="project-card__live-dot"></span>Preview</div>
+                    <div class="project-card__arrow">
+                        <span class="iconify" data-icon="solar:arrow-right-up-linear" data-width="18"></span>
+                    </div>
+                    <div class="project-card__overlay">
+                        <span class="project-card__category">Site Institucional</span>
+                        <h3 class="project-card__name">Vertex Consulting</h3>
+                        <div class="project-card__tags">
+                            <span class="project-card__tag">WordPress</span>
+                            <span class="project-card__tag">SEO</span>
+                            <span class="project-card__tag">Corporate</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="project-card">
+                    <div class="project-card__img-wrap">
+                        <img class="project-card__img" src="assets/images/projects/project_saas.png" alt="Pulse" loading="lazy">
+                    </div>
+                    <div class="project-card__shimmer"></div>
+                    <div class="project-card__live"><span class="project-card__live-dot"></span>Preview</div>
+                    <div class="project-card__arrow">
+                        <span class="iconify" data-icon="solar:arrow-right-up-linear" data-width="18"></span>
+                    </div>
+                    <div class="project-card__overlay">
+                        <span class="project-card__category">App Mobile</span>
+                        <h3 class="project-card__name">Pulse Health</h3>
+                        <div class="project-card__tags">
+                            <span class="project-card__tag">Flutter</span>
+                            <span class="project-card__tag">HealthTech</span>
+                            <span class="project-card__tag">Dark Mode</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="project-card">
+                    <div class="project-card__img-wrap">
+                        <img class="project-card__img" src="assets/images/projects/project_branding.png" alt="Aether" loading="lazy">
+                    </div>
+                    <div class="project-card__shimmer"></div>
+                    <div class="project-card__live"><span class="project-card__live-dot"></span>Preview</div>
+                    <div class="project-card__arrow">
+                        <span class="iconify" data-icon="solar:arrow-right-up-linear" data-width="18"></span>
+                    </div>
+                    <div class="project-card__overlay">
+                        <span class="project-card__category">Experiência Imersiva</span>
+                        <h3 class="project-card__name">Aether Labs</h3>
+                        <div class="project-card__tags">
+                            <span class="project-card__tag">Three.js</span>
+                            <span class="project-card__tag">WebGL</span>
+                            <span class="project-card__tag">Particles</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="project-card project-card--video">
+                    <div class="project-card__video-wrap">
+                        <video class="project-card__video" src="assets/images/projects/dimagem vide.mp4" muted loop playsinline preload="metadata"></video>
+                    </div>
+                    <div class="project-card__cover">
+                        <img src="assets/images/projects/dimagemm.png" alt="Dimagem — Diagnóstico por Imagem" loading="lazy">
+                    </div>
+                    <div class="project-card__shimmer"></div>
+                    <div class="project-card__live"><span class="project-card__live-dot"></span>Video Preview</div>
+                    <div class="project-card__arrow">
+                        <span class="iconify" data-icon="solar:arrow-right-up-linear" data-width="18"></span>
+                    </div>
+                    <div class="project-card__featured">
+                        <span class="iconify" data-icon="solar:star-bold" data-width="10"></span>
+                        Projeto Real
+                    </div>
+                    <div class="project-card__overlay">
+                        <span class="project-card__category">Site Institucional</span>
+                        <h3 class="project-card__name">Dimagem — Clínica de Diagnósticos</h3>
+                        <div class="project-card__tags">
+                            <span class="project-card__tag">HealthTech</span>
+                            <span class="project-card__tag">Design Premium</span>
+                            <span class="project-card__tag">Conversão</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="project-card">
+                    <div class="project-card__img-wrap">
+                        <img class="project-card__img" src="assets/images/projects/project_ecommerce.png" alt="Prism" loading="lazy">
+                    </div>
+                    <div class="project-card__shimmer"></div>
+                    <div class="project-card__live"><span class="project-card__live-dot"></span>Preview</div>
+                    <div class="project-card__arrow">
+                        <span class="iconify" data-icon="solar:arrow-right-up-linear" data-width="18"></span>
+                    </div>
+                    <div class="project-card__overlay">
+                        <span class="project-card__category">Design System</span>
+                        <h3 class="project-card__name">Prism UI Kit</h3>
+                        <div class="project-card__tags">
+                            <span class="project-card__tag">Figma</span>
+                            <span class="project-card__tag">Components</span>
+                            <span class="project-card__tag">Tokens</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="project-card">
+                    <div class="project-card__img-wrap">
+                        <img class="project-card__img" src="assets/images/projects/project_portfolio.png" alt="Architecta" loading="lazy">
+                    </div>
+                    <div class="project-card__shimmer"></div>
+                    <div class="project-card__live"><span class="project-card__live-dot"></span>Preview</div>
+                    <div class="project-card__arrow">
+                        <span class="iconify" data-icon="solar:arrow-right-up-linear" data-width="18"></span>
+                    </div>
+                    <div class="project-card__overlay">
+                        <span class="project-card__category">Arquitetura</span>
+                        <h3 class="project-card__name">Architecta Studio</h3>
+                        <div class="project-card__tags">
+                            <span class="project-card__tag">Scroll</span>
+                            <span class="project-card__tag">GSAP</span>
+                            <span class="project-card__tag">Parallax</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="project-card">
+                    <div class="project-card__img-wrap">
+                        <img class="project-card__img" src="assets/images/projects/project_dashboard.png" alt="Orbital" loading="lazy">
+                    </div>
+                    <div class="project-card__shimmer"></div>
+                    <div class="project-card__live"><span class="project-card__live-dot"></span>Preview</div>
+                    <div class="project-card__arrow">
+                        <span class="iconify" data-icon="solar:arrow-right-up-linear" data-width="18"></span>
+                    </div>
+                    <div class="project-card__overlay">
+                        <span class="project-card__category">Crypto</span>
+                        <h3 class="project-card__name">Orbital Exchange</h3>
+                        <div class="project-card__tags">
+                            <span class="project-card__tag">DeFi</span>
+                            <span class="project-card__tag">Charts</span>
+                            <span class="project-card__tag">Realtime</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Duplicate set for infinite loop -->
+                <div class="project-card">
+                    <div class="project-card__img-wrap">
+                        <img class="project-card__img" src="assets/images/projects/project_landing.png" alt="Vertex" loading="lazy">
+                    </div>
+                    <div class="project-card__shimmer"></div>
+                    <div class="project-card__live"><span class="project-card__live-dot"></span>Preview</div>
+                    <div class="project-card__arrow">
+                        <span class="iconify" data-icon="solar:arrow-right-up-linear" data-width="18"></span>
+                    </div>
+                    <div class="project-card__overlay">
+                        <span class="project-card__category">Site Institucional</span>
+                        <h3 class="project-card__name">Vertex Consulting</h3>
+                        <div class="project-card__tags">
+                            <span class="project-card__tag">WordPress</span>
+                            <span class="project-card__tag">SEO</span>
+                            <span class="project-card__tag">Corporate</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="project-card">
+                    <div class="project-card__img-wrap">
+                        <img class="project-card__img" src="assets/images/projects/project_saas.png" alt="Pulse" loading="lazy">
+                    </div>
+                    <div class="project-card__shimmer"></div>
+                    <div class="project-card__live"><span class="project-card__live-dot"></span>Preview</div>
+                    <div class="project-card__arrow">
+                        <span class="iconify" data-icon="solar:arrow-right-up-linear" data-width="18"></span>
+                    </div>
+                    <div class="project-card__overlay">
+                        <span class="project-card__category">App Mobile</span>
+                        <h3 class="project-card__name">Pulse Health</h3>
+                        <div class="project-card__tags">
+                            <span class="project-card__tag">Flutter</span>
+                            <span class="project-card__tag">HealthTech</span>
+                            <span class="project-card__tag">Dark Mode</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="project-card">
+                    <div class="project-card__img-wrap">
+                        <img class="project-card__img" src="assets/images/projects/project_branding.png" alt="Aether" loading="lazy">
+                    </div>
+                    <div class="project-card__shimmer"></div>
+                    <div class="project-card__live"><span class="project-card__live-dot"></span>Preview</div>
+                    <div class="project-card__arrow">
+                        <span class="iconify" data-icon="solar:arrow-right-up-linear" data-width="18"></span>
+                    </div>
+                    <div class="project-card__overlay">
+                        <span class="project-card__category">Experiência Imersiva</span>
+                        <h3 class="project-card__name">Aether Labs</h3>
+                        <div class="project-card__tags">
+                            <span class="project-card__tag">Three.js</span>
+                            <span class="project-card__tag">WebGL</span>
+                            <span class="project-card__tag">Particles</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="project-card project-card--video">
+                    <div class="project-card__video-wrap">
+                        <video class="project-card__video" src="assets/images/projects/dimagem vide.mp4" muted loop playsinline preload="metadata"></video>
+                    </div>
+                    <div class="project-card__cover">
+                        <img src="assets/images/projects/dimagemm.png" alt="Dimagem — Diagnóstico por Imagem" loading="lazy">
+                    </div>
+                    <div class="project-card__shimmer"></div>
+                    <div class="project-card__live"><span class="project-card__live-dot"></span>Video Preview</div>
+                    <div class="project-card__arrow">
+                        <span class="iconify" data-icon="solar:arrow-right-up-linear" data-width="18"></span>
+                    </div>
+                    <div class="project-card__featured">
+                        <span class="iconify" data-icon="solar:star-bold" data-width="10"></span>
+                        Projeto Real
+                    </div>
+                    <div class="project-card__overlay">
+                        <span class="project-card__category">Site Institucional</span>
+                        <h3 class="project-card__name">Dimagem — Clínica de Diagnósticos</h3>
+                        <div class="project-card__tags">
+                            <span class="project-card__tag">HealthTech</span>
+                            <span class="project-card__tag">Design Premium</span>
+                            <span class="project-card__tag">Conversão</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="project-card">
+                    <div class="project-card__img-wrap">
+                        <img class="project-card__img" src="assets/images/projects/project_ecommerce.png" alt="Prism" loading="lazy">
+                    </div>
+                    <div class="project-card__shimmer"></div>
+                    <div class="project-card__live"><span class="project-card__live-dot"></span>Preview</div>
+                    <div class="project-card__arrow">
+                        <span class="iconify" data-icon="solar:arrow-right-up-linear" data-width="18"></span>
+                    </div>
+                    <div class="project-card__overlay">
+                        <span class="project-card__category">Design System</span>
+                        <h3 class="project-card__name">Prism UI Kit</h3>
+                        <div class="project-card__tags">
+                            <span class="project-card__tag">Figma</span>
+                            <span class="project-card__tag">Components</span>
+                            <span class="project-card__tag">Tokens</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="project-card">
+                    <div class="project-card__img-wrap">
+                        <img class="project-card__img" src="assets/images/projects/project_portfolio.png" alt="Architecta" loading="lazy">
+                    </div>
+                    <div class="project-card__shimmer"></div>
+                    <div class="project-card__live"><span class="project-card__live-dot"></span>Preview</div>
+                    <div class="project-card__arrow">
+                        <span class="iconify" data-icon="solar:arrow-right-up-linear" data-width="18"></span>
+                    </div>
+                    <div class="project-card__overlay">
+                        <span class="project-card__category">Arquitetura</span>
+                        <h3 class="project-card__name">Architecta Studio</h3>
+                        <div class="project-card__tags">
+                            <span class="project-card__tag">Scroll</span>
+                            <span class="project-card__tag">GSAP</span>
+                            <span class="project-card__tag">Parallax</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="project-card">
+                    <div class="project-card__img-wrap">
+                        <img class="project-card__img" src="assets/images/projects/project_dashboard.png" alt="Orbital" loading="lazy">
+                    </div>
+                    <div class="project-card__shimmer"></div>
+                    <div class="project-card__live"><span class="project-card__live-dot"></span>Preview</div>
+                    <div class="project-card__arrow">
+                        <span class="iconify" data-icon="solar:arrow-right-up-linear" data-width="18"></span>
+                    </div>
+                    <div class="project-card__overlay">
+                        <span class="project-card__category">Crypto</span>
+                        <h3 class="project-card__name">Orbital Exchange</h3>
+                        <div class="project-card__tags">
+                            <span class="project-card__tag">DeFi</span>
+                            <span class="project-card__tag">Charts</span>
+                            <span class="project-card__tag">Realtime</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Counter -->
+        <div class="projects__counter" data-st>
+            <div class="projects__count">
+                <strong>120+</strong> experiências entregues com excelência
+            </div>
+            <a class="projects__cta-link" href="#contato">
+                Iniciar meu Projeto
+                <span class="iconify" data-icon="solar:arrow-right-linear" data-width="16"></span>
+            </a>
         </div>
     </section>
 
@@ -1845,7 +3012,40 @@
                 }
             });
 
+            /* ─── PROJECTS CAROUSEL PARALLAX ── */
+            gsap.to('#projGrid', {
+                y: 120,
+                ease: 'none',
+                scrollTrigger: {
+                    trigger: '#projetos',
+                    start: 'top bottom',
+                    end: 'bottom top',
+                    scrub: true
+                }
+            });
+
         })();
+    </script>
+
+    <script>
+        /* ─── VIDEO CARDS HOVER PLAY/PAUSE ── */
+        document.addEventListener('DOMContentLoaded', function() {
+            var cards = document.querySelectorAll('.project-card--video');
+            cards.forEach(function(card) {
+                var video = card.querySelector('.project-card__video');
+                if (!video) return;
+                
+                card.addEventListener('mouseenter', function() {
+                    video.currentTime = 0;
+                    video.play().catch(function(e) { console.log('Video auto-play prevented:', e); });
+                });
+                
+                card.addEventListener('mouseleave', function() {
+                    video.pause();
+                    video.currentTime = 0;
+                });
+            });
+        });
     </script>
 </body>
 
