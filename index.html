@@ -2209,6 +2209,225 @@
             opacity: 1;
         }
 
+        /* ═══════════════════════════════════════════
+   CTA (FINAL SECTION)
+   ═══════════════════════════════════════════ */
+        .cta {
+            position: relative;
+            z-index: 2;
+            padding: clamp(10rem, 20vw, 15rem) 0;
+            background: var(--bg);
+            overflow: hidden;
+            border-top: 1px solid rgba(255, 255, 255, 0.03);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
+
+        .cta::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: clamp(300px, 40vw, 600px);
+            background: linear-gradient(180deg, var(--bg) 10%, transparent 100%);
+            z-index: 10;
+            pointer-events: none;
+        }
+
+        .cta__bg-grid {
+            position: absolute;
+            inset: -20vw 0;
+            background-size: 80px 80px;
+            background-image:
+                linear-gradient(to right, rgba(255, 255, 255, 0.015) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(255, 255, 255, 0.015) 1px, transparent 1px);
+            mask-image: radial-gradient(ellipse at center, black 10%, transparent 80%);
+            -webkit-mask-image: radial-gradient(ellipse at center, black 10%, transparent 80%);
+            pointer-events: none;
+            z-index: 0;
+            will-change: transform;
+        }
+
+        .cta__glow {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 90vw;
+            height: 90vh;
+            background: radial-gradient(ellipse at center, rgba(14, 25, 34, 0.8) 0%, rgba(201, 210, 218, 0.08) 30%, transparent 60%);
+            transform: translate(-50%, -50%);
+            filter: blur(100px);
+            pointer-events: none;
+            z-index: 0;
+            animation: ctaGlowPulse 8s ease-in-out infinite alternate;
+        }
+
+        @keyframes ctaGlowPulse {
+            0% { opacity: 0.6; transform: translate(-50%, -50%) scale(0.9); }
+            100% { opacity: 1; transform: translate(-50%, -50%) scale(1.1); }
+        }
+
+        .cta__container {
+            position: relative;
+            z-index: 2;
+            max-width: 800px;
+            padding: 0 clamp(1.5rem, 4vw, 3rem);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .cta__label {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.8rem;
+            font-size: 0.75rem;
+            font-weight: 600;
+            letter-spacing: 0.25em;
+            text-transform: uppercase;
+            color: var(--accent);
+            margin-bottom: 2.5rem;
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            padding: 0.7rem 1.6rem;
+            border-radius: 100px;
+            background: rgba(255, 255, 255, 0.01);
+            backdrop-filter: blur(16px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+
+        .cta__label-dot {
+            width: 6px;
+            height: 6px;
+            background: var(--accent);
+            border-radius: 50%;
+            box-shadow: 0 0 12px var(--accent);
+            animation: labelDotPulse 2s infinite;
+        }
+
+        .cta__title {
+            font-family: var(--font-heading);
+            font-size: clamp(2.5rem, 5.5vw, 4.5rem);
+            font-weight: 700;
+            line-height: 1.05;
+            letter-spacing: -0.03em;
+            margin-bottom: 2rem;
+            color: var(--text);
+            text-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+
+        .cta__desc {
+            font-size: clamp(1.05rem, 1.3vw, 1.25rem);
+            line-height: 1.8;
+            color: var(--text-muted);
+            max-width: 650px;
+            margin: 0 auto 3.5rem;
+        }
+
+        .cta__actions {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1.5rem;
+            margin-bottom: 4rem;
+        }
+
+        .cta__btn--primary {
+            position: relative;
+            display: inline-flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1.2rem 2.8rem;
+            background: var(--accent);
+            color: var(--bg);
+            font-family: var(--font-heading);
+            font-weight: 600;
+            font-size: 1.1rem;
+            border-radius: 100px;
+            text-decoration: none;
+            overflow: hidden;
+            transition: all 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+            box-shadow: 0 0 0 0 rgba(201, 210, 218, 0.4), 0 15px 30px rgba(0,0,0,0.3);
+            border: none;
+        }
+
+        .cta__btn--primary::before {
+            content: '';
+            position: absolute;
+            top: 0; left: -100%;
+            width: 50%; height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+            transform: skewX(-20deg);
+            transition: 0.6s;
+        }
+
+        .cta__btn--primary:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.1), 0 20px 40px rgba(0,0,0,0.4), 0 0 30px rgba(201, 210, 218, 0.3);
+            background: #fff;
+        }
+
+        .cta__btn--primary:hover::before {
+            left: 150%;
+        }
+
+        .cta__btn--secondary {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1.1rem 2.5rem;
+            color: var(--text);
+            font-family: var(--font-heading);
+            font-weight: 500;
+            font-size: 1.05rem;
+            text-decoration: none;
+            border-radius: 100px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            background: rgba(255, 255, 255, 0.02);
+            backdrop-filter: blur(12px);
+            transition: all 0.3s ease;
+        }
+
+        .cta__btn--secondary:hover {
+            background: rgba(255, 255, 255, 0.05);
+            border-color: rgba(255, 255, 255, 0.2);
+            color: #fff;
+            transform: translateY(-2px);
+        }
+
+        .cta__footer-note {
+            font-size: 0.85rem;
+            color: rgba(255, 255, 255, 0.3);
+            letter-spacing: 0.02em;
+        }
+
+        .cta__glass-panel {
+            position: absolute;
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            width: 120vw; height: 120vh;
+            background: radial-gradient(ellipse at center, rgba(255, 255, 255, 0.01) 0%, transparent 60%);
+            border: 1px solid rgba(255, 255, 255, 0.02);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 0;
+            filter: blur(4px);
+        }
+
+        @media (max-width: 768px) {
+            .cta__actions {
+                flex-direction: column;
+                gap: 1rem;
+                width: 100%;
+            }
+            .cta__btn--primary, .cta__btn--secondary {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+
         html.lenis,
         html.lenis body {
             height: auto
@@ -3797,6 +4016,43 @@
         </div>
     </section>
 
+    <!-- ═══════════════════════════════════════
+     CTA (FINAL SECTION)
+     ═══════════════════════════════════════ -->
+    <section class="cta" id="contato">
+        <div class="cta__bg-grid" id="ctaGrid"></div>
+        <div class="cta__glow"></div>
+        <div class="cta__glass-panel"></div>
+
+        <div class="cta__container" data-st>
+            <div class="cta__label">
+                <span class="cta__label-dot"></span> Vamos conversar
+            </div>
+            
+            <h2 class="cta__title">
+                Vamos criar a próxima <br> presença digital da sua marca.
+            </h2>
+            
+            <p class="cta__desc">
+                Se a sua marca exige mais do que um site comum, nós desenvolvemos experiências digitais com direção, precisão e acabamento à altura do que ela representa.
+            </p>
+
+            <div class="cta__actions">
+                <a href="#contato" class="cta__btn--primary">
+                    Iniciar meu Projeto
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+                </a>
+                <a href="#projetos" class="cta__btn--secondary">
+                    Ver Projetos
+                </a>
+            </div>
+
+            <div class="cta__footer-note">
+                Projetos selecionados para marcas que valorizam percepção, posicionamento e excelência visual.
+            </div>
+        </div>
+    </section>
+
     <script>
         (function () {
             'use strict';
@@ -4153,6 +4409,19 @@
                     scrub: true
                 }
             });
+
+            /* ─── CTA GRID PARALLAX ── */
+            gsap.to('#ctaGrid', {
+                y: 100,
+                ease: 'none',
+                scrollTrigger: {
+                    trigger: '#contato',
+                    start: 'top bottom',
+                    end: 'bottom top',
+                    scrub: true
+                }
+            });
+
 
         })();
     </script>
