@@ -83,19 +83,8 @@
                     rgba(201, 210, 218, .01) 50%,
                     transparent 70%);
             will-change: transform, opacity;
-            animation: haloPulse 7s ease-in-out infinite alternate;
-        }
-
-        @keyframes haloPulse {
-            0% {
-                opacity: .5;
-                transform: translateX(-50%) scale(1);
-            }
-
-            100% {
-                opacity: .85;
-                transform: translateX(-50%) scale(1.05);
-            }
+            opacity: 0.8;
+            /* GSAP handles pulsing now */
         }
 
         

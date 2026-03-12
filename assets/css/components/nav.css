@@ -14,9 +14,7 @@
         }
 
         .nav.is-scrolled {
-            background: rgba(14, 15, 17, .88);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
+            background: rgba(14, 15, 17, 1);
             padding: 1rem 0;
             border-bottom: 1px solid var(--border)
         }

@@ -140,13 +140,13 @@
                         scene.fog = new THREE.FogExp2(0x0E0F11, .003);
                         const camera = new THREE.PerspectiveCamera(55, window.innerWidth / window.innerHeight, .1, 1000);
                         camera.position.z = 100;
-                        const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true });
+                        const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: false, powerPreference: "high-performance" });
                         renderer.setSize(window.innerWidth, window.innerHeight);
-                        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+                        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.5));
 
                 /* Deep particles — far background */
                 const deepGeo = new THREE.BufferGeometry();
-                const deepN = isMobile ? 200 : 550;
+                const deepN = isMobile ? 100 : 300;
                 const deepPos = new Float32Array(deepN * 3);
                 for (let i = 0; i < deepN * 3; i++)deepPos[i] = (Math.random() - .5) * 400;
                 deepGeo.setAttribute('position', new THREE.BufferAttribute(deepPos, 3));
@@ -156,7 +156,7 @@
 
                 /* Mid particles */
                 const midGeo = new THREE.BufferGeometry();
-                const midN = isMobile ? 130 : 400;
+                const midN = isMobile ? 65 : 180;
                 const midPos = new Float32Array(midN * 3);
                 for (let i = 0; i < midN * 3; i++)midPos[i] = (Math.random() - .5) * 250;
                 midGeo.setAttribute('position', new THREE.BufferAttribute(midPos, 3));
@@ -166,7 +166,7 @@
 
                 /* Close bright particles */
                 const closeGeo = new THREE.BufferGeometry();
-                const closeN = isMobile ? 50 : 150;
+                const closeN = isMobile ? 30 : 80;
                 const closePos = new Float32Array(closeN * 3);
                 for (let i = 0; i < closeN * 3; i++)closePos[i] = (Math.random() - .5) * 150;
                 closeGeo.setAttribute('position', new THREE.BufferAttribute(closePos, 3));
@@ -289,11 +289,11 @@
                         tl.to(el, { y: 0, duration: 1.3, ease: 'power4.out' }, .25 + i * .12);
                     });
 
-                    gsap.set('#heroLabel', { y: 15, filter: 'blur(6px)' });
-                    tl.to('#heroLabel', { opacity: 1, y: 0, filter: 'blur(0px)', duration: .8 }, .35);
+                    gsap.set('#heroLabel', { y: 15 });
+                    tl.to('#heroLabel', { opacity: 1, y: 0, duration: .8 }, .35);
 
-                    gsap.set('#heroSub', { y: 25, filter: 'blur(6px)' });
-                    tl.to('#heroSub', { opacity: 1, y: 0, filter: 'blur(0px)', duration: .9 }, .6);
+                    gsap.set('#heroSub', { y: 25 });
+                    tl.to('#heroSub', { opacity: 1, y: 0, duration: .9 }, .6);
 
                     gsap.set('#heroCtas', { y: 20 });
                     tl.to('#heroCtas', { opacity: 1, y: 0, duration: .8 }, .8);
@@ -311,9 +311,11 @@
             if(!isMobile) gsap.to(heroImg, { scale: 1.02, duration: 20, ease: 'none', repeat: -1, yoyo: true });
 
             /* ─── HALO BREATHING ────────────── */
+            // Replaced expensive boxShadow animation with opacity/scale composition
             if(!isMobile) {
                 gsap.to(halo, {
-                    boxShadow: '0 0 80px 30px rgba(201,210,218,.06)',
+                    opacity: 0.7,
+                    scale: 1.05,
                     duration: 4, ease: 'sine.inOut', repeat: -1, yoyo: true
                 });
             }
@@ -328,9 +330,10 @@
                 // Desktop: full premium blur effect
                 el.style.willChange = "opacity, transform";
 
+                // Disabled premium blur effect on desktop for high framerate reliability
                 const fromProps = isMobile
                     ? { opacity: 0, y: 30 }
-                    : { opacity: 0, y: 50, scale: 0.96, filter: 'blur(12px)' };
+                    : { opacity: 0, y: 50, scale: 0.96 };
 
                 const toProps = isMobile
                     ? {
@@ -341,11 +344,11 @@
                         onComplete: () => { el.style.willChange = "auto"; }
                     }
                     : {
-                        opacity: 1, y: 0, scale: 1, filter: 'blur(0px)',
+                        opacity: 1, y: 0, scale: 1,
                         duration: 1.6,
                         ease: 'expo.out',
                         scrollTrigger: { trigger: el, start: 'top 85%', toggleActions: 'play none none reverse' },
-                        onComplete: () => { el.style.willChange = "auto"; el.style.filter = "none"; }
+                        onComplete: () => { el.style.willChange = "auto"; }
                     };
 
                 gsap.fromTo(el, fromProps, toProps);

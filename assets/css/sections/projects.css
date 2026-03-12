@@ -107,7 +107,7 @@
             text-transform: uppercase;
             color: var(--accent);
             margin-bottom: 1.5rem;
-            backdrop-filter: blur(8px);
+            background: rgba(201, 210, 218, 0.08);
         }
 
         .projects__badge-dot {

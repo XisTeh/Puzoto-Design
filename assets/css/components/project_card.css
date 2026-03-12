@@ -285,8 +285,7 @@
             border: 1px solid rgba(201, 210, 218, .15);
             color: var(--text);
             transition: all .4s cubic-bezier(.22, 1, .36, 1);
-            backdrop-filter: blur(10px);
-            background: rgba(255, 255, 255, .03)
+            background: rgba(255, 255, 255, .08)
         }
 
         .btn-ghost:hover {
@@ -440,8 +439,7 @@
             border: 1px solid rgba(201, 210, 218, 0.15);
             border-radius: 100px;
             color: var(--text-muted);
-            background: rgba(255, 255, 255, 0.03);
-            backdrop-filter: blur(6px);
+            background: rgba(255, 255, 255, 0.05);
         }
 
         /* ═══════════════════════════════════════════
@@ -513,7 +511,7 @@
             letter-spacing: 0.12em;
             text-transform: uppercase;
             color: #c4a96a;
-            backdrop-filter: blur(8px);
+            background: rgba(18, 15, 10, 0.85);
             opacity: 0;
             transform: translateY(5px);
             transition: all 0.5s cubic-bezier(0.22, 1, 0.36, 1) 0.3s;
@@ -545,7 +543,6 @@
             transform: translateY(-8px) rotate(-45deg);
             opacity: 0;
             transition: all 0.5s cubic-bezier(0.22, 1, 0.36, 1);
-            backdrop-filter: blur(8px);
         }
 
         .project-card:hover .project-card__arrow {
@@ -599,7 +596,7 @@
             letter-spacing: 0.1em;
             text-transform: uppercase;
             color: var(--text-muted);
-            backdrop-filter: blur(8px);
+            background: rgba(14, 15, 17, 0.85);
             opacity: 0;
             transform: translateY(-5px);
             transition: all 0.5s cubic-bezier(0.22, 1, 0.36, 1) 0.25s;
@@ -662,8 +659,7 @@
             border: 1px solid rgba(201, 210, 218, 0.12);
             border-radius: 100px;
             transition: all 0.4s cubic-bezier(0.22, 1, 0.36, 1);
-            backdrop-filter: blur(8px);
-            background: rgba(255, 255, 255, 0.02);
+            background: rgba(255, 255, 255, 0.05);
         }
 
         .projects__cta-link:hover {
