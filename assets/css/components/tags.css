@@ -1,0 +1,29 @@
+/* ═══════════════════════════════════════════
+   Tags
+   ═══════════════════════════════════════════ */
+
+        .hero__tag {
+            position: absolute;
+            z-index: 12;
+            font-size: .55rem;
+            font-weight: 500;
+            letter-spacing: .22em;
+            text-transform: uppercase;
+            color: var(--accent-dark);
+            writing-mode: vertical-lr;
+            opacity: 0
+        }
+
+        .hero__tag--l {
+            left: clamp(1rem, 3vw, 2.5rem);
+            top: 50%;
+            transform: translateY(-50%) rotate(180deg)
+        }
+
+        .hero__tag--r {
+            right: clamp(1rem, 3vw, 2.5rem);
+            top: 50%;
+            transform: translateY(-50%)
+        }
+
+        

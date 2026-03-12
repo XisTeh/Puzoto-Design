@@ -1,0 +1,43 @@
+/* ═══════════════════════════════════════════
+   Carousel Rows
+   ═══════════════════════════════════════════ */
+
+        .projects__carousel-wrap {
+            position: relative;
+            z-index: 2;
+            mask-image: linear-gradient(to right, transparent 0%, black 5%, black 95%, transparent 100%);
+            -webkit-mask-image: linear-gradient(to right, transparent 0%, black 5%, black 95%, transparent 100%);
+        }
+
+        .projects__row {
+            display: flex;
+            width: max-content;
+            gap: 1.5rem;
+            will-change: transform;
+            margin-bottom: 1.5rem;
+        }
+
+        .projects__row--top {
+            animation: projectsScrollLeft 45s linear infinite;
+        }
+
+        .projects__row--bottom {
+            animation: projectsScrollRight 50s linear infinite;
+        }
+
+        @keyframes projectsScrollLeft {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+
+        @keyframes projectsScrollRight {
+            0% { transform: translateX(-50%); }
+            100% { transform: translateX(0); }
+        }
+
+        /* Pause on hover */
+        .projects__carousel-wrap:hover .projects__row {
+            animation-play-state: paused;
+        }
+
+        

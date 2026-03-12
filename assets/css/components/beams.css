@@ -1,0 +1,80 @@
+/* ═══════════════════════════════════════════
+   Beams
+   ═══════════════════════════════════════════ */
+
+        @keyframes beamFall {
+            0% {
+                transform: translateY(-100%);
+                opacity: 0
+            }
+
+            5% {
+                opacity: .5
+            }
+
+            50% {
+                opacity: 1
+            }
+
+            95% {
+                opacity: .5
+            }
+
+            100% {
+                transform: translateY(120vh);
+                opacity: 0
+            }
+        }
+
+        .beams {
+            position: fixed;
+            inset: 0;
+            z-index: 0;
+            pointer-events: none;
+            display: flex;
+            max-width: 1340px;
+            margin: 0 auto;
+            opacity: .15
+        }
+
+        .beams__col {
+            flex: 1;
+            border-left: 1px solid rgba(255, 255, 255, .02);
+            height: 100%;
+            position: relative;
+            overflow: hidden
+        }
+
+        .beams__col:last-child {
+            border-right: 1px solid rgba(255, 255, 255, .02)
+        }
+
+        .beam {
+            position: absolute;
+            top: 0;
+            left: -.5px;
+            width: 1px;
+            background: linear-gradient(to bottom, transparent, rgba(201, 210, 218, .35), transparent)
+        }
+
+        .beam--a {
+            height: 240px;
+            animation: beamFall 6s linear infinite
+        }
+
+        .beam--b {
+            height: 360px;
+            animation: beamFall 8s linear infinite 2s
+        }
+
+        .beam--c {
+            height: 180px;
+            animation: beamFall 7s linear infinite 4s
+        }
+
+        .beam--d {
+            height: 280px;
+            animation: beamFall 9s linear infinite 1s
+        }
+
+        

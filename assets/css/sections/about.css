@@ -1,0 +1,270 @@
+/* ═══════════════════════════════════════════
+   Portrait Column
+   ═══════════════════════════════════════════ */
+
+        .team__portrait-col {
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+        }
+
+        /* Architectural frame around portrait */
+        .team__portrait-frame {
+            position: relative;
+            width: 100%;
+            max-width: 420px;
+            aspect-ratio: 3/4;
+        }
+
+        /* Glass outer frame */
+        .team__portrait-frame::before {
+            content: '';
+            position: absolute;
+            inset: -12px;
+            border: 1px solid rgba(255, 255, 255, 0.04);
+            border-radius: 22px;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        /* Accent corner marks */
+        .team__frame-corner {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            z-index: 10;
+            opacity: 0.3;
+        }
+        .team__frame-corner::before,
+        .team__frame-corner::after {
+            content: '';
+            position: absolute;
+            background: var(--accent);
+        }
+        .team__frame-corner--tl { top: -16px; left: -16px; }
+        .team__frame-corner--tl::before { top: 0; left: 0; width: 12px; height: 1px; }
+        .team__frame-corner--tl::after { top: 0; left: 0; width: 1px; height: 12px; }
+        .team__frame-corner--tr { top: -16px; right: -16px; }
+        .team__frame-corner--tr::before { top: 0; right: 0; width: 12px; height: 1px; }
+        .team__frame-corner--tr::after { top: 0; right: 0; width: 1px; height: 12px; }
+        .team__frame-corner--bl { bottom: -16px; left: -16px; }
+        .team__frame-corner--bl::before { bottom: 0; left: 0; width: 12px; height: 1px; }
+        .team__frame-corner--bl::after { bottom: 0; left: 0; width: 1px; height: 12px; }
+        .team__frame-corner--br { bottom: -16px; right: -16px; }
+        .team__frame-corner--br::before { bottom: 0; right: 0; width: 12px; height: 1px; }
+        .team__frame-corner--br::after { bottom: 0; right: 0; width: 1px; height: 12px; }
+
+        .team__image-wrap {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow:
+                0 40px 80px rgba(0, 0, 0, 0.6),
+                0 0 0 1px rgba(255, 255, 255, 0.06),
+                0 0 60px rgba(201, 210, 218, 0.04);
+            will-change: transform;
+        }
+
+        /* Halo behind portrait */
+        .team__portrait-halo {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 110%;
+            height: 110%;
+            transform: translate(-50%, -50%);
+            background: radial-gradient(ellipse at center, rgba(201, 210, 218, 0.04) 0%, transparent 60%);
+            pointer-events: none;
+            z-index: -1;
+            animation: portraitHaloPulse 8s ease-in-out infinite alternate;
+        }
+
+        @keyframes portraitHaloPulse {
+            0% { opacity: 0.4; transform: translate(-50%, -50%) scale(0.95); }
+            100% { opacity: 0.8; transform: translate(-50%, -50%) scale(1.05); }
+        }
+
+        /* Glare overlay */
+        .team__image-glare {
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(circle at 50% 50%, rgba(255,255,255,0.08), transparent 55%);
+            opacity: 0;
+            z-index: 6;
+            pointer-events: none;
+            transition: opacity 0.5s ease;
+            mix-blend-mode: overlay;
+        }
+
+        .team__image-wrap:hover .team__image-glare { opacity: 1; }
+
+        /* Glass shimmer layer */
+        .team__image-wrap::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(160deg, rgba(255,255,255,0.08) 0%, transparent 35%, transparent 65%, rgba(201,210,218,0.03) 100%);
+            pointer-events: none;
+            z-index: 5;
+        }
+
+        .team__member-img {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center 20%;
+            opacity: 0;
+            transform: scale(1.08);
+            transition: all 0.9s cubic-bezier(0.22, 1, 0.36, 1);
+            filter: grayscale(30%) brightness(0.9);
+        }
+
+        .team__member-img.is-active {
+            opacity: 1;
+            transform: scale(1);
+            z-index: 2;
+            filter: grayscale(0%) brightness(1);
+        }
+
+        /* Technical marker on portrait */
+        .team__portrait-marker {
+            position: absolute;
+            bottom: 1.2rem;
+            left: 1.2rem;
+            z-index: 8;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.55rem;
+            font-weight: 600;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: rgba(255,255,255,0.85); /* Clareado um pouco para contrastar com o fundo */
+            padding: 0.4rem 0.8rem;
+            background: rgba(14,15,17,0.9); /* Fundo quase sólido para remover o borrado */
+            border: 1px solid rgba(255,255,255,0.06);
+            border-radius: 6px;
+        }
+
+        .team__portrait-marker-dot {
+            width: 4px;
+            height: 4px;
+            border-radius: 50%;
+            background: var(--accent);
+            animation: dotPulse 2s infinite;
+        }
+
+        /* ═══════════════════════════════════════════
+   Content Column
+   ═══════════════════════════════════════════ */
+
+        .team__content-col {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: clamp(2rem, 4vw, 4rem);
+            padding-left: clamp(2rem, 5vw, 5rem);
+            border-left: 1px solid rgba(255, 255, 255, 0.03);
+        }
+
+        /* Vertical accent line */
+        .team__content-col::before {
+            content: '';
+            position: absolute;
+            top: 15%;
+            left: -1px;
+            width: 1px;
+            height: 80px;
+            background: linear-gradient(180deg, var(--accent), transparent);
+            opacity: 0.4;
+        }
+
+        .team__content-area {
+            position: relative;
+            min-height: 280px;
+            display: flex;
+            align-items: center;
+        }
+
+        .team__member-info {
+            position: absolute;
+            width: 100%;
+            opacity: 0;
+            pointer-events: none;
+            transform: translateY(25px);
+            transition: all 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+
+        .team__member-info.is-active {
+            opacity: 1;
+            pointer-events: auto;
+            transform: translateY(0);
+        }
+
+        /* Number indicator */
+        .team__member-number {
+            font-family: var(--font-heading);
+            font-size: 5rem;
+            font-weight: 800;
+            line-height: 1;
+            letter-spacing: -0.04em;
+            color: rgba(255, 255, 255, 0.03);
+            margin-bottom: -1rem;
+            position: relative;
+        }
+
+        .team__quote {
+            font-family: var(--font-heading);
+            font-size: clamp(1.3rem, 2.2vw, 1.9rem);
+            font-weight: 400;
+            line-height: 1.4;
+            letter-spacing: -0.01em;
+            margin-bottom: 2.5rem;
+            color: rgba(255,255,255,0.9);
+            position: relative;
+            padding-left: 1.5rem;
+            border-left: 2px solid rgba(201, 210, 218, 0.08);
+        }
+
+        .team__quote span {
+            color: var(--accent);
+            font-weight: 500;
+        }
+
+        /* Name & role block */
+        .team__meta {
+            display: flex;
+            align-items: center;
+            gap: 1.2rem;
+        }
+
+        .team__meta-line {
+            width: 30px;
+            height: 1px;
+            background: linear-gradient(90deg, var(--accent), transparent);
+        }
+
+        .team__name {
+            font-family: var(--font-heading);
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--text);
+            margin-bottom: 0.15rem;
+        }
+
+        .team__role {
+            font-size: 0.72rem;
+            color: var(--accent-dark);
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+            font-weight: 500;
+        }
+
+        

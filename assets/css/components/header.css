@@ -1,0 +1,198 @@
+/* ═══════════════════════════════════════════
+   Header
+   ═══════════════════════════════════════════ */
+
+        .process__header {
+            text-align: center;
+            margin-bottom: clamp(6rem, 12vw, 10rem);
+            position: relative;
+            z-index: 4;
+        }
+
+        .process__label {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.8rem;
+            font-size: 0.75rem;
+            font-weight: 600;
+            letter-spacing: 0.25em;
+            text-transform: uppercase;
+            color: var(--accent);
+            margin-bottom: 2.5rem;
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            padding: 0.7rem 1.6rem;
+            border-radius: 100px;
+            background: rgba(255, 255, 255, 0.01);
+            backdrop-filter: blur(16px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+
+        .process__label-dot {
+            width: 6px;
+            height: 6px;
+            background: var(--accent);
+            border-radius: 50%;
+            box-shadow: 0 0 12px var(--accent);
+            animation: labelDotPulse 2s infinite;
+        }
+
+        @keyframes labelDotPulse {
+            0% { box-shadow: 0 0 0 0 rgba(201, 210, 218, 0.5); }
+            70% { box-shadow: 0 0 0 8px rgba(201, 210, 218, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(201, 210, 218, 0); }
+        }
+
+        .process__title {
+            font-family: var(--font-heading);
+            font-size: clamp(2.8rem, 5.5vw, 5.5rem);
+            font-weight: 700;
+            line-height: 1.05;
+            letter-spacing: -0.035em;
+            margin-bottom: 2rem;
+            color: var(--text);
+        }
+
+        .process__title-accent {
+            background: linear-gradient(135deg, #fff 0%, var(--accent-dark) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .process__desc {
+            font-size: clamp(1rem, 1.2vw, 1.15rem);
+            line-height: 1.8;
+            color: var(--text-muted);
+            max-width: 580px;
+            margin: 0 auto;
+        }
+
+        /* ── SCULPTURAL CORE (Sticky Element) ── */
+        .process__core-wrapper {
+            position: absolute;
+            top: 5%; bottom: 5%;
+            left: 0; right: 0;
+            pointer-events: none;
+            z-index: 0; 
+        }
+
+        .process__core-sticky {
+            position: sticky;
+            top: 50vh;
+            margin: 0 auto;
+            width: 1px; height: 1px;
+            display: flex; align-items: center; justify-content: center;
+        }
+
+        .process__core-glow {
+            position: absolute;
+            width: 80vw; height: 80vh;
+            background: radial-gradient(ellipse at center, rgba(14, 25, 34, 0.5) 0%, rgba(201, 210, 218, 0.03) 30%, transparent 60%);
+            animation: coreGlowPulse 8s ease-in-out infinite alternate;
+        }
+
+        @keyframes coreGlowPulse {
+            0% { opacity: 0.5; transform: scale(0.9); }
+            100% { opacity: 1; transform: scale(1.1); }
+        }
+
+        .process__core-ring {
+            position: absolute;
+            border-radius: 50%;
+            border: 1px solid transparent;
+            transform-style: preserve-3d;
+        }
+
+        .process__core-ring--1 {
+            width: 350px; height: 350px;
+            border-top: 1px solid rgba(255, 255, 255, 0.15);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+            animation: ringSpinX 25s linear infinite;
+        }
+
+        .process__core-ring--2 {
+            width: 500px; height: 500px;
+            border-right: 1px dashed rgba(255, 255, 255, 0.1);
+            animation: ringSpinY 35s linear infinite reverse;
+        }
+
+        @keyframes ringSpinX { 100% { transform: rotate(360deg); } }
+        @keyframes ringSpinY { 100% { transform: rotate3d(0, 0, 1, 360deg); } }
+
+        .process__core-orb {
+            position: absolute;
+            width: 64px; height: 64px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, rgba(201, 210, 218, 0.1) 0%, transparent 100%);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            box-shadow: inset 0 0 20px rgba(255, 255, 255, 0.1), 0 0 40px rgba(255,255,255,0.05);
+            backdrop-filter: blur(10px);
+            display: flex; align-items: center; justify-content: center;
+            z-index: 2;
+        }
+
+        .process__core-orb-inner {
+            width: 16px; height: 16px;
+            border-radius: 50%;
+            background: var(--accent);
+            box-shadow: 0 0 20px var(--accent), 0 0 40px var(--accent-light);
+            animation: orbPulse 3s ease-in-out infinite alternate;
+        }
+
+        @keyframes orbPulse {
+            0% { transform: scale(0.9); filter: hue-rotate(-10deg); opacity: 0.8; }
+            100% { transform: scale(1.1); filter: hue-rotate(10deg); opacity: 1; }
+        }
+
+
+        /* ── Central Axis & Timeline ── */
+        .process__timeline {
+            position: relative;
+            max-width: 1100px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            gap: clamp(3rem, 6vw, 5rem);
+            padding: 6rem 0 10rem;
+        }
+
+        .process__axis {
+            position: absolute;
+            top: 2rem; bottom: 2rem;
+            left: 50%;
+            width: 40px;
+            transform: translateX(-50%);
+            z-index: 1;
+        }
+
+        .process__axis-line {
+            position: absolute;
+            top: 0; bottom: 0;
+            width: 1px;
+            background: linear-gradient(to bottom, transparent, rgba(255, 255, 255, 0.12) 15%, rgba(255, 255, 255, 0.12) 85%, transparent);
+        }
+
+        .process__axis-line--left { left: 0; }
+        .process__axis-line--right { right: 0; }
+
+        .process__axis-beam {
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%) translateY(-10vh);
+            width: 2px;
+            height: 25vh;
+            background: linear-gradient(to bottom, transparent, var(--accent) 50%, rgba(255,255,255,1) 100%);
+            filter: drop-shadow(0 0 12px var(--accent));
+            animation: beamTravel 6s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+            will-change: transform;
+        }
+
+        @keyframes beamTravel {
+            0% { transform: translateX(-50%) translateY(-20vh); opacity: 0; }
+            10% { opacity: 1; }
+            80% { opacity: 1; }
+            100% { transform: translateX(-50%) translateY(120vh); opacity: 0; }
+        }
+
+        

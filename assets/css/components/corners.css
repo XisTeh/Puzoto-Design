@@ -1,0 +1,96 @@
+/* ═══════════════════════════════════════════
+   Corners
+   ═══════════════════════════════════════════ */
+
+        .hero__corner {
+            position: absolute;
+            z-index: 12;
+            width: 20px;
+            height: 20px;
+            opacity: 0
+        }
+
+        .hero__corner::before,
+        .hero__corner::after {
+            content: '';
+            position: absolute;
+            background: rgba(201, 210, 218, .1)
+        }
+
+        .hero__corner--tl {
+            top: clamp(1.5rem, 4vw, 3rem);
+            left: clamp(1.5rem, 4vw, 3rem)
+        }
+
+        .hero__corner--tl::before {
+            top: 0;
+            left: 0;
+            width: 1px;
+            height: 100%
+        }
+
+        .hero__corner--tl::after {
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 1px
+        }
+
+        .hero__corner--tr {
+            top: clamp(1.5rem, 4vw, 3rem);
+            right: clamp(1.5rem, 4vw, 3rem)
+        }
+
+        .hero__corner--tr::before {
+            top: 0;
+            right: 0;
+            width: 1px;
+            height: 100%
+        }
+
+        .hero__corner--tr::after {
+            top: 0;
+            right: 0;
+            width: 100%;
+            height: 1px
+        }
+
+        .hero__corner--bl {
+            bottom: clamp(1.5rem, 4vw, 3rem);
+            left: clamp(1.5rem, 4vw, 3rem)
+        }
+
+        .hero__corner--bl::before {
+            bottom: 0;
+            left: 0;
+            width: 1px;
+            height: 100%
+        }
+
+        .hero__corner--bl::after {
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 1px
+        }
+
+        .hero__corner--br {
+            bottom: clamp(1.5rem, 4vw, 3rem);
+            right: clamp(1.5rem, 4vw, 3rem)
+        }
+
+        .hero__corner--br::before {
+            bottom: 0;
+            right: 0;
+            width: 1px;
+            height: 100%
+        }
+
+        .hero__corner--br::after {
+            bottom: 0;
+            right: 0;
+            width: 100%;
+            height: 1px
+        }
+
+        

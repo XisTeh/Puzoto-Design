@@ -1,0 +1,101 @@
+/* ═══════════════════════════════════════════
+   HERO
+   ═══════════════════════════════════════════ */
+
+        .hero {
+            position: relative;
+            z-index: 2;
+            width: 100%;
+            min-height: 100vh;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* ── Character: CENTERED, STATIC, DOMINANT ── */
+        .hero__figure {
+            position: absolute;
+            z-index: 5;
+            bottom: -4%;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100vw;
+            max-width: none;
+            display: flex;
+            justify-content: center;
+            pointer-events: none;
+        }
+
+        .hero__figure img {
+            height: 105vh;
+            width: auto;
+            max-width: none;
+            object-fit: contain;
+            display: block;
+            filter: contrast(1.05) brightness(1.02);
+            mask-image: linear-gradient(to top, transparent 0%, black 10%, black 100%);
+            -webkit-mask-image: linear-gradient(to top, transparent 0%, black 10%, black 100%);
+        }
+
+        /* ── Face Interaction (Premium Shimmer) ── */
+        .hero__face-hitbox {
+            position: absolute;
+            z-index: 15;
+            top: 15%;
+            left: 50%;
+            transform: translateX(-50%);
+            width: clamp(200px, 20vw, 300px);
+            height: clamp(250px, 25vw, 350px);
+            border-radius: 50%;
+        }
+
+        .hero__shimmer {
+            position: absolute;
+            z-index: 6;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100vw;
+            height: 105vh;
+            background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(227, 231, 235, .12) 3px, transparent 4px);
+            mask-image: radial-gradient(ellipse 20% 25% at 50% 25%, black 0%, transparent 100%);
+            -webkit-mask-image: radial-gradient(ellipse 20% 25% at 50% 25%, black 0%, transparent 100%);
+            pointer-events: none;
+            opacity: 0;
+            mix-blend-mode: overlay;
+            will-change: transform, opacity;
+        }
+
+        /* ── Halo — refined, elegant ── */
+        .hero__halo {
+            position: absolute;
+            z-index: 4;
+            top: 0%;
+            left: 50%;
+            transform: translateX(-50%);
+            width: clamp(450px, 48vw, 850px);
+            height: clamp(450px, 48vw, 850px);
+            border-radius: 50%;
+            background: radial-gradient(circle,
+                    rgba(201, 210, 218, .08) 0%,
+                    rgba(201, 210, 218, .04) 30%,
+                    rgba(201, 210, 218, .01) 50%,
+                    transparent 70%);
+            will-change: transform, opacity;
+            animation: haloPulse 7s ease-in-out infinite alternate;
+        }
+
+        @keyframes haloPulse {
+            0% {
+                opacity: .5;
+                transform: translateX(-50%) scale(1);
+            }
+
+            100% {
+                opacity: .85;
+                transform: translateX(-50%) scale(1.05);
+            }
+        }
+
+        
