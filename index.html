@@ -100,7 +100,7 @@
             align-items: center;
             justify-content: center;
             flex-direction: column;
-            gap: 1.5rem;
+            gap: 1.8rem;
             transition: opacity .8s cubic-bezier(.22, 1, .36, 1), visibility .8s
         }
 
@@ -118,12 +118,20 @@
             color: var(--accent)
         }
 
+        .loader__bars {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            width: 120px;
+        }
+
         .loader__track {
-            width: 100px;
-            height: 1px;
-            background: var(--border);
+            width: 100%;
+            height: 2px;
+            background: rgba(255, 255, 255, 0.06);
             position: relative;
-            overflow: hidden
+            overflow: hidden;
+            border-radius: 2px;
         }
 
         .loader__fill {
@@ -133,7 +141,12 @@
             height: 100%;
             background: var(--accent);
             width: 0%;
-            transition: width .25s ease-out
+            transition: width .25s ease-out;
+            border-radius: 2px;
+        }
+
+        .loader__track--2 .loader__fill {
+            background: var(--accent-dark);
         }
 
         /* ═══════════════════════════════════════════
@@ -2157,6 +2170,7 @@
             .team__member-info.is-active {
                 transform: translateY(0);
             }
+        }
         .team__image-wrap {
             flex: 0 0 clamp(280px, 35%, 400px);
             aspect-ratio: 3/4;
@@ -2207,6 +2221,249 @@
         .lenis.lenis-stopped {
             overflow: hidden
         }
+
+        /* ═══════════════════════════════════════════
+   PROCESSO
+   ═══════════════════════════════════════════ */
+        .process {
+            position: relative;
+            z-index: 2;
+            padding: clamp(7rem, 14vw, 12rem) 0;
+            background: linear-gradient(180deg, rgba(10, 10, 12, 1) 0%, rgba(14, 15, 17, 0.97) 50%, rgba(10, 10, 12, 1) 100%);
+            border-top: 1px solid rgba(255, 255, 255, 0.04);
+            overflow: hidden;
+        }
+
+        .process__bg-grid {
+            position: absolute;
+            inset: -200px 0;
+            background-size: 80px 80px;
+            background-image:
+                linear-gradient(to right, rgba(255, 255, 255, 0.015) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(255, 255, 255, 0.015) 1px, transparent 1px);
+            mask-image: radial-gradient(ellipse at 65% center, black 10%, transparent 65%);
+            -webkit-mask-image: radial-gradient(ellipse at 65% center, black 10%, transparent 65%);
+            pointer-events: none;
+            z-index: 0;
+            will-change: transform;
+        }
+
+        .process__bg-glow {
+            position: absolute;
+            top: 50%;
+            left: 60%;
+            width: 120%;
+            height: 120%;
+            background: radial-gradient(ellipse at center, rgba(201, 210, 218, 0.04), transparent 55%);
+            transform: translate(-50%, -50%);
+            pointer-events: none;
+            z-index: 0;
+            filter: blur(120px);
+            animation: processGlowPulse 10s ease-in-out infinite alternate;
+        }
+
+        @keyframes processGlowPulse {
+            0% { opacity: 0.5; transform: translate(-50%, -50%) scale(0.95); }
+            100% { opacity: 0.9; transform: translate(-50%, -50%) scale(1.06); }
+        }
+
+        .process__container {
+            max-width: var(--container);
+            margin: 0 auto;
+            padding: 0 clamp(1.25rem, 4vw, 3rem);
+            position: relative;
+            z-index: 2;
+        }
+
+        .process__layout {
+            display: grid;
+            grid-template-columns: 1fr 1.4fr;
+            gap: clamp(4rem, 8vw, 8rem);
+            align-items: start;
+        }
+
+        .process__header {
+            position: sticky;
+            top: 30vh;
+        }
+
+        .process__label {
+            font-size: 0.7rem;
+            font-weight: 600;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: var(--accent);
+            margin-bottom: 1.8rem;
+            display: flex;
+            align-items: center;
+            gap: 0.7rem;
+        }
+
+        .process__label::before {
+            content: '';
+            width: 6px;
+            height: 6px;
+            background: var(--accent);
+            border-radius: 50%;
+            box-shadow: 0 0 10px var(--accent);
+        }
+
+        .process__title {
+            font-family: var(--font-heading);
+            font-size: clamp(2.2rem, 4.5vw, 3.5rem);
+            font-weight: 700;
+            line-height: 1.08;
+            letter-spacing: -0.03em;
+            margin-bottom: 1.8rem;
+        }
+
+        .process__title-accent {
+            background: linear-gradient(135deg, var(--accent) 0%, var(--accent-light) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .process__desc {
+            font-size: clamp(0.9rem, 1.1vw, 1rem);
+            line-height: 1.8;
+            color: var(--text-muted);
+            max-width: 400px;
+        }
+
+        .process__desc-line {
+            width: 40px;
+            height: 1px;
+            background: linear-gradient(to right, var(--accent), transparent);
+            margin-top: 2.5rem;
+        }
+
+        .process__steps {
+            display: flex;
+            flex-direction: column;
+            position: relative;
+        }
+
+        .process__steps::before {
+            content: '';
+            position: absolute;
+            left: 34px;
+            top: 0;
+            bottom: 0;
+            width: 1px;
+            background: linear-gradient(to bottom, transparent, rgba(201, 210, 218, 0.08) 10%, rgba(201, 210, 218, 0.08) 90%, transparent);
+            z-index: 0;
+        }
+
+        .process__step {
+            position: relative;
+            display: grid;
+            grid-template-columns: 68px 1fr;
+            gap: 0;
+            padding: clamp(2rem, 3.5vw, 3rem) 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+            transition: border-color 0.5s;
+        }
+
+        .process__step:first-child { padding-top: 0; }
+        .process__step:last-child { border-bottom: none; }
+        .process__step:hover { border-color: rgba(201, 210, 218, 0.12); }
+
+        .process__step-number-wrap {
+            position: relative;
+            z-index: 2;
+            display: flex;
+            justify-content: center;
+            padding-top: 0.3rem;
+        }
+
+        .process__step-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: var(--bg);
+            border: 1.5px solid rgba(201, 210, 218, 0.2);
+            position: relative;
+            transition: all 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+            box-shadow: 0 0 0 4px var(--bg);
+        }
+
+        .process__step-dot::after {
+            content: '';
+            position: absolute;
+            inset: 2px;
+            border-radius: 50%;
+            background: transparent;
+            transition: background 0.5s;
+        }
+
+        .process__step:hover .process__step-dot {
+            border-color: var(--accent);
+            box-shadow: 0 0 0 4px var(--bg), 0 0 20px rgba(201, 210, 218, 0.15);
+        }
+
+        .process__step:hover .process__step-dot::after { background: var(--accent); }
+
+        .process__step-body { position: relative; }
+
+        .process__step-number {
+            font-family: var(--font-heading);
+            font-size: 0.7rem;
+            font-weight: 600;
+            letter-spacing: 0.15em;
+            color: var(--accent-dark);
+            margin-bottom: 0.7rem;
+            transition: color 0.4s;
+        }
+
+        .process__step:hover .process__step-number { color: var(--accent); }
+
+        .process__step-title {
+            font-family: var(--font-heading);
+            font-size: clamp(1.4rem, 2.2vw, 1.9rem);
+            font-weight: 600;
+            letter-spacing: -0.02em;
+            margin-bottom: 0.9rem;
+            transition: color 0.4s;
+        }
+
+        .process__step:hover .process__step-title { color: var(--accent-light); }
+
+        .process__step-desc {
+            font-size: clamp(0.88rem, 1vw, 0.95rem);
+            line-height: 1.75;
+            color: var(--text-muted);
+            max-width: 440px;
+            transition: color 0.4s;
+        }
+
+        .process__step:hover .process__step-desc { color: var(--text); }
+
+        .process__step-glow {
+            position: absolute;
+            top: 50%;
+            left: -20px;
+            width: 300px;
+            height: 200px;
+            background: radial-gradient(ellipse at left center, rgba(201, 210, 218, 0.03), transparent 70%);
+            transform: translateY(-50%);
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.6s;
+            z-index: -1;
+        }
+
+        .process__step:hover .process__step-glow { opacity: 1; }
+
+        @media (max-width: 992px) {
+            .process__layout { grid-template-columns: 1fr; gap: clamp(3rem, 6vw, 5rem); }
+            .process__header { position: relative; top: auto; }
+        }
+
+        @media (max-width: 480px) {
+            .process__step { grid-template-columns: 40px 1fr; }
+            .process__steps::before { left: 19px; }
+        }
     </style>
 </head>
 
@@ -2216,8 +2473,13 @@
     <!-- Loader -->
     <div class="loader" id="loader">
         <div class="loader__brand">PUZOTO</div>
-        <div class="loader__track">
-            <div class="loader__fill" id="loaderFill"></div>
+        <div class="loader__bars">
+            <div class="loader__track">
+                <div class="loader__fill" id="loaderFill"></div>
+            </div>
+            <div class="loader__track loader__track--2">
+                <div class="loader__fill" id="loaderFill2"></div>
+            </div>
         </div>
     </div>
 
@@ -3071,6 +3333,90 @@
     </section>
 
     <!-- ═══════════════════════════════════════
+     PROCESSO
+     ═══════════════════════════════════════ -->
+    <section class="process" id="processo">
+        <div class="process__bg-grid" id="processGrid"></div>
+        <div class="process__bg-glow"></div>
+
+        <div class="process__container">
+            <div class="process__layout">
+
+                <!-- Left Column — Header (sticky) -->
+                <div class="process__header" data-st>
+                    <div class="process__label">Nosso Processo</div>
+                    <h2 class="process__title">
+                        Clareza em cada<br>
+                        <span class="process__title-accent">etapa do projeto.</span>
+                    </h2>
+                    <p class="process__desc">
+                        Da estratégia ao acabamento final, cada decisão é conduzida com intenção, precisão visual e foco absoluto na qualidade da entrega.
+                    </p>
+                    <div class="process__desc-line"></div>
+                </div>
+
+                <!-- Right Column — Steps Timeline -->
+                <div class="process__steps">
+
+                    <!-- Step 01 -->
+                    <div class="process__step" data-st>
+                        <div class="process__step-number-wrap">
+                            <div class="process__step-dot"></div>
+                        </div>
+                        <div class="process__step-body">
+                            <div class="process__step-glow"></div>
+                            <div class="process__step-number">01</div>
+                            <h3 class="process__step-title">Imersão</h3>
+                            <p class="process__step-desc">Antes de criar, entendemos a essência da marca, seus objetivos e o contexto do projeto. Mapeamos cada detalhe que orienta a direção certa.</p>
+                        </div>
+                    </div>
+
+                    <!-- Step 02 -->
+                    <div class="process__step" data-st>
+                        <div class="process__step-number-wrap">
+                            <div class="process__step-dot"></div>
+                        </div>
+                        <div class="process__step-body">
+                            <div class="process__step-glow"></div>
+                            <div class="process__step-number">02</div>
+                            <h3 class="process__step-title">Direção</h3>
+                            <p class="process__step-desc">Definimos a linguagem visual, a estrutura da experiência e a direção criativa que vai orientar cada decisão do projeto.</p>
+                        </div>
+                    </div>
+
+                    <!-- Step 03 -->
+                    <div class="process__step" data-st>
+                        <div class="process__step-number-wrap">
+                            <div class="process__step-dot"></div>
+                        </div>
+                        <div class="process__step-body">
+                            <div class="process__step-glow"></div>
+                            <div class="process__step-number">03</div>
+                            <h3 class="process__step-title">Construção</h3>
+                            <p class="process__step-desc">Transformamos conceito em interface com execução refinada, responsiva e tecnicamente sólida. Cada pixel é posicionado com intenção.</p>
+                        </div>
+                    </div>
+
+                    <!-- Step 04 -->
+                    <div class="process__step" data-st>
+                        <div class="process__step-number-wrap">
+                            <div class="process__step-dot"></div>
+                        </div>
+                        <div class="process__step-body">
+                            <div class="process__step-glow"></div>
+                            <div class="process__step-number">04</div>
+                            <h3 class="process__step-title">Refinamento</h3>
+                            <p class="process__step-desc">Lapidamos cada detalhe até que o resultado transmita clareza, consistência e valor percebido. O acabamento faz a diferença.</p>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════
      TEAM
      ═══════════════════════════════════════ -->
     <section class="team" id="equipe">
@@ -3157,11 +3503,22 @@
             const isMobile = window.matchMedia('(max-width:768px)').matches;
 
             /* ─── LOADER ────────────────────── */
-            const loader = $('#loader'), fill = $('#loaderFill');
-            let prog = 0;
-            const tick = setInterval(() => { if (prog < 85) { prog += Math.random() * 10; fill.style.width = prog + '%' } }, 180);
+            const loader = $('#loader'), fill = $('#loaderFill'), fill2 = $('#loaderFill2');
+            let prog = 0, prog2 = 0, tickCount = 0;
+            const tick = setInterval(() => {
+                tickCount++;
+                // Barra 1: avança rápido desde o início
+                if (prog < 85) { prog += Math.random() * 14 + 2; fill.style.width = Math.min(prog, 100) + '%'; }
+                // Barra 2: começa atrasada (~400ms delay) e avança mais devagar
+                if (tickCount > 3 && prog2 < prog * 0.6) { prog2 += Math.random() * 6 + 1; fill2.style.width = Math.min(prog2, 100) + '%'; }
+            }, 140);
             const heroImg = $('#heroImg');
-            function dismiss() { clearInterval(tick); fill.style.width = '100%'; setTimeout(() => { loader.classList.add('is-loaded'); runEntrance() }, 350) }
+            function dismiss() {
+                clearInterval(tick);
+                fill.style.width = '100%';
+                setTimeout(() => { fill2.style.width = '100%'; }, 200);
+                setTimeout(() => { loader.classList.add('is-loaded'); runEntrance() }, 650);
+            }
             if (heroImg.complete) setTimeout(dismiss, 500);
             else { heroImg.addEventListener('load', () => setTimeout(dismiss, 200), { once: true }); setTimeout(dismiss, 4000) }
 
@@ -3478,6 +3835,18 @@
                 ease: 'none',
                 scrollTrigger: {
                     trigger: '#projetos',
+                    start: 'top bottom',
+                    end: 'bottom top',
+                    scrub: true
+                }
+            });
+
+            /* ─── PROCESS GRID PARALLAX ── */
+            gsap.to('#processGrid', {
+                y: 130,
+                ease: 'none',
+                scrollTrigger: {
+                    trigger: '#processo',
                     start: 'top bottom',
                     end: 'bottom top',
                     scrub: true
