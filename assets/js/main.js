@@ -10,7 +10,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const teamGlare = document.querySelector('#teamImageGlare');
     const teamCounter = document.querySelector('#teamCurrentNum');
     const teamMarker = document.querySelector('#teamMarkerText');
-    const markerLabels = ['Fundador', 'Gestão', 'Engenharia', 'UI/UX', 'Motion'];
+    const markerLabels = ['Fundador', 'Gestão', 'Engenharia', 'UI/UX', 'Motion', 'Especialista'];
 
     if (teamThumbs.length) {
         teamThumbs.forEach((thumb, idx) => {
