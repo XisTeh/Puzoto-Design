@@ -1856,6 +1856,290 @@
             }
         }
 
+        
+        /* ═══════════════════════════════════════════
+   TEAM / ESPECIALISTAS
+   ═══════════════════════════════════════════ */
+        .team {
+            position: relative;
+            z-index: 2;
+            padding: clamp(6rem, 12vw, 10rem) 0;
+            background: linear-gradient(180deg, rgba(14, 15, 17, 0.95) 0%, rgba(10, 10, 12, 1) 100%);
+            border-top: 1px solid rgba(255, 255, 255, 0.04);
+            overflow: hidden;
+        }
+
+        .team__bg-grid {
+            position: absolute;
+            inset: -200px 0;
+            background-size: 80px 80px;
+            background-image:
+                linear-gradient(to right, rgba(255, 255, 255, 0.015) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(255, 255, 255, 0.015) 1px, transparent 1px);
+            mask-image: radial-gradient(ellipse at top center, black 15%, transparent 70%);
+            -webkit-mask-image: radial-gradient(ellipse at top center, black 15%, transparent 70%);
+            pointer-events: none;
+            z-index: 0;
+            will-change: transform;
+        }
+
+        .team__bg-glow {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(ellipse at center, rgba(180, 155, 100, 0.06), transparent 60%);
+            transform: translate(-50%, -50%);
+            pointer-events: none;
+            z-index: 0;
+            filter: blur(100px);
+            animation: teamGlowPulse 10s ease-in-out infinite alternate;
+        }
+        
+        @keyframes teamGlowPulse {
+            0% { opacity: 0.6; transform: translate(-50%, -50%) scale(0.95); }
+            100% { opacity: 1; transform: translate(-50%, -50%) scale(1.05); }
+        }
+
+        .team__container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 clamp(1.25rem, 4vw, 3rem);
+            position: relative;
+            z-index: 2;
+        }
+
+        .team__header {
+            margin-bottom: clamp(3rem, 5vw, 4rem);
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            padding-bottom: 2rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+        }
+
+        .team__label {
+            font-size: 0.7rem;
+            font-weight: 600;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: var(--accent);
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .team__label::before {
+            content: '';
+            width: 6px;
+            height: 6px;
+            background: var(--accent);
+            border-radius: 50%;
+            box-shadow: 0 0 10px var(--accent);
+        }
+
+        .team__title {
+            font-family: var(--font-heading);
+            font-size: clamp(2rem, 4vw, 3rem);
+            font-weight: 700;
+            line-height: 1.1;
+            letter-spacing: -0.02em;
+        }
+
+        .team__desc {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            max-width: 380px;
+            text-align: left;
+            line-height: 1.6;
+            margin-bottom: 0.5rem;
+        }
+
+        .team__card {
+            position: relative;
+            background: rgba(255, 255, 255, 0.015);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 24px;
+            padding: clamp(2rem, 5vw, 4rem);
+            display: flex;
+            flex-direction: column;
+            gap: 4rem;
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.4);
+            backdrop-filter: blur(12px);
+        }
+
+        .team__main {
+            display: flex;
+            align-items: center;
+            gap: clamp(2rem, 6vw, 5rem);
+            min-height: 380px;
+        }
+
+        .team__content {
+            flex: 1;
+            position: relative;
+            height: 100%;
+            display: flex;
+            align-items: center;
+        }
+
+        .team__member-info {
+            position: absolute;
+            width: 100%;
+            opacity: 0;
+            pointer-events: none;
+            transform: translateX(-30px);
+            transition: all 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+
+        .team__member-info.is-active {
+            opacity: 1;
+            pointer-events: auto;
+            transform: translateX(0);
+        }
+
+        .team__quote {
+            font-family: var(--font-heading);
+            font-size: clamp(1.4rem, 2.8vw, 2.2rem);
+            font-weight: 500;
+            line-height: 1.3;
+            letter-spacing: -0.02em;
+            margin-bottom: 2rem;
+            color: #fff;
+        }
+
+        .team__quote span {
+            color: var(--accent);
+        }
+
+        .team__name {
+            font-family: var(--font-heading);
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--text);
+            margin-bottom: 0.2rem;
+        }
+
+        .team__role {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+        }
+
+        .team__image-wrap {
+            flex: 0 0 clamp(280px, 35%, 400px);
+            aspect-ratio: 3/4;
+            border-radius: 16px;
+            overflow: hidden;
+            position: relative;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        
+        /* Subtle shimmer effect over image */
+        .team__image-wrap::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, rgba(255,255,255,0.1) 0%, transparent 40%, transparent 60%, rgba(180,155,100,0.05) 100%);
+            pointer-events: none;
+            z-index: 5;
+        }
+
+        .team__member-img {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center 20%;
+            opacity: 0;
+            transform: scale(0.95) translateY(40px);
+            transition: all 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+            filter: grayscale(20%);
+        }
+
+        .team__member-img.is-active {
+            opacity: 1;
+            transform: scale(1) translateY(0);
+            z-index: 2;
+            filter: grayscale(0%);
+        }
+
+        .team__thumbs {
+            display: flex;
+            justify-content: center;
+            gap: 1.2rem;
+            z-index: 10;
+        }
+
+        .team__thumb {
+            width: 65px;
+            height: 65px;
+            border-radius: 14px;
+            border: 2px solid transparent;
+            overflow: hidden;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+            filter: grayscale(100%) opacity(0.4);
+        }
+
+        .team__thumb:hover {
+            filter: grayscale(50%) opacity(0.8);
+            transform: translateY(-4px);
+        }
+
+        .team__thumb.is-active {
+            filter: grayscale(0%) opacity(1);
+            border-color: var(--accent);
+            transform: translateY(-8px) scale(1.1);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.5), 0 0 20px rgba(180, 155, 100, 0.2);
+        }
+
+        .team__thumb img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: top center;
+        }
+
+        @media (max-width: 992px) {
+            .team__header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 1.5rem;
+            }
+            .team__desc {
+                text-align: left;
+            }
+            .team__main {
+                flex-direction: column-reverse;
+                min-height: auto;
+                text-align: center;
+            }
+            .team__content {
+                min-height: 250px;
+            }
+            .team__member-info {
+                transform: translateY(20px);
+                position: absolute;
+            }
+            .team__member-info.is-active {
+                transform: translateY(0);
+            }
+            .team__image-wrap {
+                width: 100%;
+                max-width: 320px;
+                margin: 0 auto;
+            }
+            .team__thumbs {
+                flex-wrap: wrap;
+            }
+        }
+
         html.lenis,
         html.lenis body {
             height: auto
@@ -2732,6 +3016,85 @@
         </div>
     </section>
 
+    <!-- ═══════════════════════════════════════
+     TEAM
+     ═══════════════════════════════════════ -->
+    <section class="team" id="equipe">
+        <div class="team__bg-grid" id="teamGrid"></div>
+        <div class="team__bg-glow"></div>
+        <div class="team__container">
+            <div class="team__header" data-st>
+                <div>
+                    <div class="team__label">Puzoto Design</div>
+                    <h2 class="team__title">Nossos especialistas</h2>
+                </div>
+                <p class="team__desc">
+                    Mentes criativas unidas por um único propósito: construir projetos que projetam autoridade e tenham identidade visual.
+                </p>
+            </div>
+
+            <div class="team__card" data-st>
+                <div class="team__main">
+                    
+                    <div class="team__content">
+                        <!-- Member 1 -->
+                        <div class="team__member-info is-active">
+                            <p class="team__quote">"Nossa visão é clara: unir o absoluto <span>apuro estético</span> à mais pura perfomance. Cada pixel é desenhado com uma intenção."</p>
+                            <div class="team__name">Matheus Puzoto</div>
+                            <div class="team__role">Fundador & Diretor Criativo</div>
+                        </div>
+                        
+                        <!-- Member 2 -->
+                        <div class="team__member-info">
+                            <p class="team__quote">"Acreditamos que o design não deve apenas parecer incrível, mas deve <span>guiar, emocionar e converter</span> com fluidez."</p>
+                            <div class="team__name">Parcerias e Sinergia</div>
+                            <div class="team__role">Gestão & Estratégia</div>
+                        </div>
+                        
+                        <!-- Member 3 -->
+                        <div class="team__member-info">
+                            <p class="team__quote">"A tecnologia invisível é a mais poderosa. Desenvolvemos ecossistemas front-end que parecem <span>mágica</span> para quem navega."</p>
+                            <div class="team__name">Jani</div>
+                            <div class="team__role">Head de Engenharia Web</div>
+                        </div>
+                        
+                        <!-- Member 4 -->
+                        <div class="team__member-info">
+                            <p class="team__quote">"Interfaces memoráveis nascem da obsessão pelos detalhes. Transformamos interações complexas em <span>experiências naturais</span>."</p>
+                            <div class="team__name">Especialista UI/UX</div>
+                            <div class="team__role">Design de Interação</div>
+                        </div>
+                        
+                        <!-- Member 5 -->
+                        <div class="team__member-info">
+                            <p class="team__quote">"O movimento traz vida à web. Adicionamos a camada de <span>animação cinematográfica</span> que prende a atenção do início ao fim."</p>
+                            <div class="team__name">Direção de Arte</div>
+                            <div class="team__role">Motion Designer</div>
+                        </div>
+                    </div>
+
+                    <div class="team__image-wrap">
+                        <!-- Images matching the member infos -->
+                        <img class="team__member-img is-active" src="assets/images/projects/eu - Copia.jpg" alt="Matheus Puzoto">
+                        <img class="team__member-img" src="assets/images/projects/eu e amor.png" alt="Sinergia">
+                        <img class="team__member-img" src="assets/images/projects/jani 6.jpg" alt="Jani Dev">
+                        <img class="team__member-img" src="assets/images/projects/jani 5.jpg" alt="UI Designer">
+                        <img class="team__member-img" src="assets/images/projects/jani 4.jpg" alt="Motion Designer">
+                    </div>
+
+                </div>
+
+                <div class="team__thumbs" data-st>
+                    <div class="team__thumb is-active"><img src="assets/images/projects/eu - Copia.jpg" alt="Thumb 1"></div>
+                    <div class="team__thumb"><img src="assets/images/projects/eu e amor.png" alt="Thumb 2"></div>
+                    <div class="team__thumb"><img src="assets/images/projects/jani 6.jpg" alt="Thumb 3"></div>
+                    <div class="team__thumb"><img src="assets/images/projects/jani 5.jpg" alt="Thumb 4"></div>
+                    <div class="team__thumb"><img src="assets/images/projects/jani 4.jpg" alt="Thumb 5"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <script>
         (function () {
             'use strict';
@@ -3070,7 +3433,39 @@
     </script>
 
     <script>
-        /* ─── VIDEO CARDS HOVER PLAY/PAUSE ── */
+        
+            /* ─── TEAM TABS LOGIC ─── */
+            const teamThumbs = document.querySelectorAll('.team__thumb');
+            const teamInfos = document.querySelectorAll('.team__member-info');
+            const teamImgs = document.querySelectorAll('.team__member-img');
+
+            if (teamThumbs.length) {
+                teamThumbs.forEach((thumb, idx) => {
+                    thumb.addEventListener('click', () => {
+                        teamThumbs.forEach(t => t.classList.remove('is-active'));
+                        teamInfos.forEach(i => i.classList.remove('is-active'));
+                        teamImgs.forEach(m => m.classList.remove('is-active'));
+
+                        thumb.classList.add('is-active');
+                        if (teamInfos[idx]) teamInfos[idx].classList.add('is-active');
+                        if (teamImgs[idx]) teamImgs[idx].classList.add('is-active');
+                    });
+                });
+            }
+
+            /* ─── TEAM GRID PARALLAX ── */
+            gsap.to('#teamGrid', {
+                y: 120,
+                ease: 'none',
+                scrollTrigger: {
+                    trigger: '#equipe',
+                    start: 'top bottom',
+                    end: 'bottom top',
+                    scrub: true
+                }
+            });
+
+            /* ─── VIDEO CARDS HOVER PLAY/PAUSE ── */
         document.addEventListener('DOMContentLoaded', function() {
             var cards = document.querySelectorAll('.project-card--video');
             cards.forEach(function(card) {
