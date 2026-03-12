@@ -1871,26 +1871,26 @@
 
         
         /* ═══════════════════════════════════════════
-   TEAM / ESPECIALISTAS
+   TEAM / ESPECIALISTAS — EDITORIAL LUXURY
    ═══════════════════════════════════════════ */
         .team {
             position: relative;
             z-index: 2;
-            padding: clamp(6rem, 12vw, 10rem) 0;
-            background: linear-gradient(180deg, rgba(14, 15, 17, 0.95) 0%, rgba(10, 10, 12, 1) 100%);
-            border-top: 1px solid rgba(255, 255, 255, 0.04);
+            padding: clamp(8rem, 14vw, 13rem) 0;
+            background: linear-gradient(180deg, rgba(14, 15, 17, 0.97) 0%, rgba(8, 8, 10, 1) 50%, rgba(14, 15, 17, 0.97) 100%);
+            border-top: 1px solid rgba(255, 255, 255, 0.03);
             overflow: hidden;
         }
 
         .team__bg-grid {
             position: absolute;
-            inset: -200px 0;
-            background-size: 80px 80px;
+            inset: -300px 0;
+            background-size: 60px 60px;
             background-image:
-                linear-gradient(to right, rgba(255, 255, 255, 0.015) 1px, transparent 1px),
-                linear-gradient(to bottom, rgba(255, 255, 255, 0.015) 1px, transparent 1px);
-            mask-image: radial-gradient(ellipse at top center, black 15%, transparent 70%);
-            -webkit-mask-image: radial-gradient(ellipse at top center, black 15%, transparent 70%);
+                linear-gradient(to right, rgba(255, 255, 255, 0.012) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(255, 255, 255, 0.012) 1px, transparent 1px);
+            mask-image: radial-gradient(ellipse 70% 50% at 65% 40%, black 10%, transparent 70%);
+            -webkit-mask-image: radial-gradient(ellipse 70% 50% at 65% 40%, black 10%, transparent 70%);
             pointer-events: none;
             z-index: 0;
             will-change: transform;
@@ -1898,193 +1898,224 @@
 
         .team__bg-glow {
             position: absolute;
-            top: 50%;
-            left: 50%;
-            width: 100%;
-            height: 100%;
-            background: radial-gradient(ellipse at center, rgba(180, 155, 100, 0.06), transparent 60%);
+            top: 35%;
+            left: 60%;
+            width: 80vw;
+            height: 80vh;
+            background: radial-gradient(ellipse at center, rgba(201, 210, 218, 0.04) 0%, transparent 60%);
+            transform: translate(-50%, -50%);
+            pointer-events: none;
+            z-index: 0;
+            filter: blur(120px);
+            animation: teamGlowPulse 12s ease-in-out infinite alternate;
+        }
+
+        .team__bg-glow-secondary {
+            position: absolute;
+            top: 60%;
+            left: 25%;
+            width: 50vw;
+            height: 50vh;
+            background: radial-gradient(ellipse at center, rgba(201, 210, 218, 0.025) 0%, transparent 55%);
             transform: translate(-50%, -50%);
             pointer-events: none;
             z-index: 0;
             filter: blur(100px);
-            animation: teamGlowPulse 10s ease-in-out infinite alternate;
+            animation: teamGlowPulse 15s ease-in-out infinite alternate-reverse;
         }
-        
+
         @keyframes teamGlowPulse {
-            0% { opacity: 0.6; transform: translate(-50%, -50%) scale(0.95); }
-            100% { opacity: 1; transform: translate(-50%, -50%) scale(1.05); }
+            0% { opacity: 0.5; transform: translate(-50%, -50%) scale(0.9); }
+            100% { opacity: 1; transform: translate(-50%, -50%) scale(1.08); }
         }
 
         .team__container {
-            max-width: 1100px;
+            max-width: var(--container);
             margin: 0 auto;
             padding: 0 clamp(1.25rem, 4vw, 3rem);
             position: relative;
             z-index: 2;
         }
 
+        /* ── Header: editorial asymmetry ── */
         .team__header {
-            margin-bottom: clamp(3rem, 5vw, 4rem);
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-end;
-            padding-bottom: 2rem;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+            margin-bottom: clamp(4rem, 7vw, 6rem);
+            display: grid;
+            grid-template-columns: 1fr auto;
+            align-items: end;
+            gap: 3rem;
+            padding-bottom: 2.5rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+            position: relative;
+        }
+
+        .team__header::after {
+            content: '';
+            position: absolute;
+            bottom: -1px;
+            left: 0;
+            width: 120px;
+            height: 1px;
+            background: linear-gradient(90deg, var(--accent), transparent);
         }
 
         .team__label {
-            font-size: 0.7rem;
+            font-size: 0.65rem;
             font-weight: 600;
-            letter-spacing: 0.15em;
+            letter-spacing: 0.2em;
             text-transform: uppercase;
             color: var(--accent);
-            margin-bottom: 0.5rem;
+            margin-bottom: 1rem;
             display: flex;
             align-items: center;
-            gap: 0.5rem;
+            gap: 0.6rem;
         }
 
         .team__label::before {
             content: '';
-            width: 6px;
-            height: 6px;
+            width: 5px;
+            height: 5px;
             background: var(--accent);
             border-radius: 50%;
-            box-shadow: 0 0 10px var(--accent);
+            box-shadow: 0 0 12px rgba(201, 210, 218, 0.5);
+            animation: dotPulse 2.5s ease-in-out infinite;
         }
 
         .team__title {
             font-family: var(--font-heading);
-            font-size: clamp(2rem, 4vw, 3rem);
+            font-size: clamp(2.2rem, 4.5vw, 3.5rem);
             font-weight: 700;
-            line-height: 1.1;
-            letter-spacing: -0.02em;
+            line-height: 1.05;
+            letter-spacing: -0.03em;
         }
 
         .team__desc {
             color: var(--text-muted);
-            font-size: 0.95rem;
-            max-width: 380px;
-            text-align: left;
-            line-height: 1.6;
-            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
+            max-width: 340px;
+            text-align: right;
+            line-height: 1.7;
         }
 
-        .team__card {
+        /* ── Editorial Stage: the main composition ── */
+        .team__stage {
             position: relative;
-            background: rgba(255, 255, 255, 0.015);
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            border-radius: 24px;
-            padding: clamp(2rem, 5vw, 4rem);
-            display: flex;
-            flex-direction: column;
-            gap: 4rem;
-            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.4);
-            backdrop-filter: blur(12px);
+            display: grid;
+            grid-template-columns: 1fr 1.1fr;
+            gap: 0;
+            min-height: 560px;
         }
 
-        .team__main {
+        /* ── Portrait Column ── */
+        .team__portrait-col {
+            position: relative;
             display: flex;
             align-items: center;
-            gap: clamp(2rem, 6vw, 5rem);
-            min-height: 380px;
+            justify-content: center;
+            padding: 2rem;
         }
 
-        .team__content {
-            flex: 1;
+        /* Architectural frame around portrait */
+        .team__portrait-frame {
             position: relative;
-            height: 100%;
-            display: flex;
-            align-items: center;
-        }
-
-        .team__member-info {
-            position: absolute;
             width: 100%;
-            opacity: 0;
-            pointer-events: none;
-            transform: translateX(-30px);
-            transition: all 0.7s cubic-bezier(0.22, 1, 0.36, 1);
-        }
-
-        .team__member-info.is-active {
-            opacity: 1;
-            pointer-events: auto;
-            transform: translateX(0);
-        }
-
-        .team__quote {
-            font-family: var(--font-heading);
-            font-size: clamp(1.4rem, 2.8vw, 2.2rem);
-            font-weight: 500;
-            line-height: 1.3;
-            letter-spacing: -0.02em;
-            margin-bottom: 2rem;
-            color: #fff;
-        }
-
-        .team__quote span {
-            color: var(--accent);
-        }
-
-        .team__name {
-            font-family: var(--font-heading);
-            font-size: 1.2rem;
-            font-weight: 700;
-            color: var(--text);
-            margin-bottom: 0.2rem;
-        }
-
-        .team__role {
-            font-size: 0.85rem;
-            color: var(--text-muted);
-            text-transform: uppercase;
-            letter-spacing: 0.08em;
-        }
-        .team__image-wrap {
-            flex: 0 0 clamp(280px, 35%, 400px);
+            max-width: 420px;
             aspect-ratio: 3/4;
+        }
+
+        /* Glass outer frame */
+        .team__portrait-frame::before {
+            content: '';
+            position: absolute;
+            inset: -12px;
+            border: 1px solid rgba(255, 255, 255, 0.04);
+            border-radius: 22px;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        /* Accent corner marks */
+        .team__frame-corner {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            z-index: 10;
+            opacity: 0.3;
+        }
+        .team__frame-corner::before,
+        .team__frame-corner::after {
+            content: '';
+            position: absolute;
+            background: var(--accent);
+        }
+        .team__frame-corner--tl { top: -16px; left: -16px; }
+        .team__frame-corner--tl::before { top: 0; left: 0; width: 12px; height: 1px; }
+        .team__frame-corner--tl::after { top: 0; left: 0; width: 1px; height: 12px; }
+        .team__frame-corner--tr { top: -16px; right: -16px; }
+        .team__frame-corner--tr::before { top: 0; right: 0; width: 12px; height: 1px; }
+        .team__frame-corner--tr::after { top: 0; right: 0; width: 1px; height: 12px; }
+        .team__frame-corner--bl { bottom: -16px; left: -16px; }
+        .team__frame-corner--bl::before { bottom: 0; left: 0; width: 12px; height: 1px; }
+        .team__frame-corner--bl::after { bottom: 0; left: 0; width: 1px; height: 12px; }
+        .team__frame-corner--br { bottom: -16px; right: -16px; }
+        .team__frame-corner--br::before { bottom: 0; right: 0; width: 12px; height: 1px; }
+        .team__frame-corner--br::after { bottom: 0; right: 0; width: 1px; height: 12px; }
+
+        .team__image-wrap {
+            position: relative;
+            width: 100%;
+            height: 100%;
             border-radius: 16px;
             overflow: hidden;
-            position: relative;
-            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.5), 0 0 40px rgba(180, 155, 100, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.08);
+            box-shadow:
+                0 40px 80px rgba(0, 0, 0, 0.6),
+                0 0 0 1px rgba(255, 255, 255, 0.06),
+                0 0 60px rgba(201, 210, 218, 0.04);
             transform-style: preserve-3d;
             perspective: 1000px;
-            animation: teamFloat 8s ease-in-out infinite alternate;
             will-change: transform;
         }
 
-        @keyframes teamFloat {
-            0% { transform: translateY(0px) rotate2d(0deg); }
-            100% { transform: translateY(-15px) rotate2d(0.5deg); }
+        /* Halo behind portrait */
+        .team__portrait-halo {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 110%;
+            height: 110%;
+            transform: translate(-50%, -50%);
+            background: radial-gradient(ellipse at center, rgba(201, 210, 218, 0.06) 0%, transparent 60%);
+            filter: blur(60px);
+            pointer-events: none;
+            z-index: -1;
+            animation: portraitHaloPulse 8s ease-in-out infinite alternate;
         }
 
-        /* Glare effect on hover */
+        @keyframes portraitHaloPulse {
+            0% { opacity: 0.4; transform: translate(-50%, -50%) scale(0.95); }
+            100% { opacity: 0.8; transform: translate(-50%, -50%) scale(1.05); }
+        }
+
+        /* Glare overlay */
         .team__image-glare {
             position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: radial-gradient(circle at 50% 50%, rgba(255,255,255,0.1), transparent 60%);
+            inset: 0;
+            background: radial-gradient(circle at 50% 50%, rgba(255,255,255,0.08), transparent 55%);
             opacity: 0;
             z-index: 6;
             pointer-events: none;
-            transition: opacity 0.4s ease;
+            transition: opacity 0.5s ease;
             mix-blend-mode: overlay;
         }
 
-        .team__image-wrap:hover .team__image-glare {
-            opacity: 1;
-        }
-        
-        /* Subtle shimmer effect over image */
+        .team__image-wrap:hover .team__image-glare { opacity: 1; }
+
+        /* Glass shimmer layer */
         .team__image-wrap::after {
             content: '';
             position: absolute;
             inset: 0;
-            background: linear-gradient(135deg, rgba(255,255,255,0.1) 0%, transparent 40%, transparent 60%, rgba(180,155,100,0.05) 100%);
+            background: linear-gradient(160deg, rgba(255,255,255,0.08) 0%, transparent 35%, transparent 65%, rgba(201,210,218,0.03) 100%);
             pointer-events: none;
             z-index: 5;
         }
@@ -2097,46 +2128,216 @@
             object-fit: cover;
             object-position: center 20%;
             opacity: 0;
-            transform: scale(0.95) translateY(40px);
-            transition: all 0.8s cubic-bezier(0.22, 1, 0.36, 1);
-            filter: grayscale(20%);
+            transform: scale(1.08);
+            transition: all 0.9s cubic-bezier(0.22, 1, 0.36, 1);
+            filter: grayscale(30%) brightness(0.9);
         }
 
         .team__member-img.is-active {
             opacity: 1;
-            transform: scale(1) translateY(0);
+            transform: scale(1);
             z-index: 2;
-            filter: grayscale(0%);
+            filter: grayscale(0%) brightness(1);
+        }
+
+        /* Technical marker on portrait */
+        .team__portrait-marker {
+            position: absolute;
+            bottom: 1.2rem;
+            left: 1.2rem;
+            z-index: 8;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.55rem;
+            font-weight: 600;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: rgba(255,255,255,0.5);
+            padding: 0.4rem 0.8rem;
+            background: rgba(14,15,17,0.6);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255,255,255,0.06);
+            border-radius: 6px;
+        }
+
+        .team__portrait-marker-dot {
+            width: 4px;
+            height: 4px;
+            border-radius: 50%;
+            background: var(--accent);
+            animation: dotPulse 2s infinite;
+        }
+
+        /* ── Content Column ── */
+        .team__content-col {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: clamp(2rem, 4vw, 4rem);
+            padding-left: clamp(2rem, 5vw, 5rem);
+            border-left: 1px solid rgba(255, 255, 255, 0.03);
+        }
+
+        /* Vertical accent line */
+        .team__content-col::before {
+            content: '';
+            position: absolute;
+            top: 15%;
+            left: -1px;
+            width: 1px;
+            height: 80px;
+            background: linear-gradient(180deg, var(--accent), transparent);
+            opacity: 0.4;
+        }
+
+        .team__content-area {
+            position: relative;
+            min-height: 280px;
+            display: flex;
+            align-items: center;
+        }
+
+        .team__member-info {
+            position: absolute;
+            width: 100%;
+            opacity: 0;
+            pointer-events: none;
+            transform: translateY(25px);
+            transition: all 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+
+        .team__member-info.is-active {
+            opacity: 1;
+            pointer-events: auto;
+            transform: translateY(0);
+        }
+
+        /* Number indicator */
+        .team__member-number {
+            font-family: var(--font-heading);
+            font-size: 5rem;
+            font-weight: 800;
+            line-height: 1;
+            letter-spacing: -0.04em;
+            color: rgba(255, 255, 255, 0.03);
+            margin-bottom: -1rem;
+            position: relative;
+        }
+
+        .team__quote {
+            font-family: var(--font-heading);
+            font-size: clamp(1.3rem, 2.2vw, 1.9rem);
+            font-weight: 400;
+            line-height: 1.4;
+            letter-spacing: -0.01em;
+            margin-bottom: 2.5rem;
+            color: rgba(255,255,255,0.9);
+            position: relative;
+            padding-left: 1.5rem;
+            border-left: 2px solid rgba(201, 210, 218, 0.08);
+        }
+
+        .team__quote span {
+            color: var(--accent);
+            font-weight: 500;
+        }
+
+        /* Name & role block */
+        .team__meta {
+            display: flex;
+            align-items: center;
+            gap: 1.2rem;
+        }
+
+        .team__meta-line {
+            width: 30px;
+            height: 1px;
+            background: linear-gradient(90deg, var(--accent), transparent);
+        }
+
+        .team__name {
+            font-family: var(--font-heading);
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--text);
+            margin-bottom: 0.15rem;
+        }
+
+        .team__role {
+            font-size: 0.72rem;
+            color: var(--accent-dark);
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+            font-weight: 500;
+        }
+
+        /* ── Navigation Thumbs ── */
+        .team__nav {
+            margin-top: 3rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .team__nav-counter {
+            font-family: var(--font-heading);
+            font-size: 0.7rem;
+            font-weight: 500;
+            letter-spacing: 0.1em;
+            color: var(--accent-dark);
+            min-width: 40px;
+        }
+
+        .team__nav-counter strong {
+            color: var(--accent);
+            font-size: 0.85rem;
+        }
+
+        .team__nav-divider {
+            width: 1px;
+            height: 24px;
+            background: rgba(255, 255, 255, 0.06);
         }
 
         .team__thumbs {
             display: flex;
-            justify-content: center;
-            gap: 1.2rem;
-            z-index: 10;
+            gap: 0.8rem;
         }
 
         .team__thumb {
-            width: 65px;
-            height: 65px;
-            border-radius: 14px;
-            border: 2px solid transparent;
+            width: 52px;
+            height: 52px;
+            border-radius: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.04);
             overflow: hidden;
             cursor: pointer;
-            transition: all 0.4s cubic-bezier(0.22, 1, 0.36, 1);
-            filter: grayscale(100%) opacity(0.4);
+            transition: all 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+            filter: grayscale(100%) brightness(0.5);
+            position: relative;
+        }
+
+        .team__thumb::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: 10px;
+            border: 1px solid transparent;
+            transition: border-color 0.4s;
         }
 
         .team__thumb:hover {
-            filter: grayscale(50%) opacity(0.8);
-            transform: translateY(-4px);
+            filter: grayscale(40%) brightness(0.8);
+            transform: translateY(-3px);
+            border-color: rgba(255, 255, 255, 0.08);
         }
 
         .team__thumb.is-active {
-            filter: grayscale(0%) opacity(1);
+            filter: grayscale(0%) brightness(1);
             border-color: var(--accent);
-            transform: translateY(-8px) scale(1.1);
-            box-shadow: 0 15px 30px rgba(0,0,0,0.5), 0 0 20px rgba(180, 155, 100, 0.2);
+            transform: translateY(-5px) scale(1.08);
+            box-shadow: 0 12px 30px rgba(0,0,0,0.5), 0 0 15px rgba(201, 210, 218, 0.1);
         }
 
         .team__thumb img {
@@ -2146,183 +2347,339 @@
             object-position: top center;
         }
 
+        /* ── Decorative elements ── */
+        .team__deco-line {
+            position: absolute;
+            right: -5%;
+            top: 20%;
+            width: 1px;
+            height: 200px;
+            background: linear-gradient(180deg, transparent, rgba(201,210,218,0.06), transparent);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .team__deco-circle {
+            position: absolute;
+            left: -3%;
+            bottom: 15%;
+            width: 180px;
+            height: 180px;
+            border: 1px solid rgba(255,255,255,0.02);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 0;
+        }
+
         @media (max-width: 992px) {
             .team__header {
-                flex-direction: column;
-                align-items: flex-start;
+                grid-template-columns: 1fr;
                 gap: 1.5rem;
             }
-            .team__desc {
-                text-align: left;
-            }
-            .team__main {
-                flex-direction: column-reverse;
+            .team__desc { text-align: left; max-width: 100%; }
+            .team__stage {
+                grid-template-columns: 1fr;
                 min-height: auto;
-                text-align: center;
             }
-            .team__content {
-                min-height: 250px;
+            .team__portrait-col { order: 1; }
+            .team__content-col {
+                order: 2;
+                border-left: none;
+                border-top: 1px solid rgba(255,255,255,0.03);
+                padding-left: 0;
+                padding-top: 2rem;
             }
-            .team__member-info {
-                transform: translateY(20px);
-                position: absolute;
-            }
-            .team__member-info.is-active {
-                transform: translateY(0);
-            }
-        }
-        .team__image-wrap {
-            flex: 0 0 clamp(280px, 35%, 400px);
-            aspect-ratio: 3/4;
-            border-radius: 16px;
-            overflow: hidden;
-            position: relative;
-            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.5), 0 0 40px rgba(180, 155, 100, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            transform-style: preserve-3d;
-            perspective: 1000px;
-            animation: teamFloat 8s ease-in-out infinite alternate;
-            will-change: transform;
-        }
-
-        @keyframes teamFloat {
-            0% { transform: translateY(0px) rotate2d(0deg); }
-            100% { transform: translateY(-15px) rotate2d(0.5deg); }
-        }
-
-        /* Glare effect on hover */
-        .team__image-glare {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: radial-gradient(circle at 50% 50%, rgba(255,255,255,0.1), transparent 60%);
-            opacity: 0;
-            z-index: 6;
-            pointer-events: none;
-            transition: opacity 0.4s ease;
-            mix-blend-mode: overlay;
-        }
-
-        .team__image-wrap:hover .team__image-glare {
-            opacity: 1;
+            .team__content-col::before { display: none; }
+            .team__content-area { min-height: 220px; }
+            .team__member-info { text-align: center; }
+            .team__quote { border-left: none; padding-left: 0; text-align: center; }
+            .team__meta { justify-content: center; }
+            .team__nav { justify-content: center; }
+            .team__portrait-frame { max-width: 320px; margin: 0 auto; }
+            .team__deco-line, .team__deco-circle { display: none; }
         }
 
         /* ═══════════════════════════════════════════
-   CTA (FINAL SECTION)
+   CTA (FINAL MANIFESTO — SCULPTURAL)
    ═══════════════════════════════════════════ */
         .cta {
             position: relative;
             z-index: 2;
-            padding: clamp(10rem, 20vw, 15rem) 0;
-            background: var(--bg);
+            padding: clamp(12rem, 22vw, 18rem) 0 clamp(6rem, 10vw, 8rem);
+            background: linear-gradient(180deg, var(--bg) 0%, rgba(6, 6, 8, 1) 40%, rgba(10, 10, 12, 1) 70%, var(--bg) 100%);
             overflow: hidden;
-            border-top: 1px solid rgba(255, 255, 255, 0.03);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
+            border-top: 1px solid rgba(255, 255, 255, 0.02);
         }
 
+        /* Fade-in from previous section */
         .cta::before {
             content: '';
             position: absolute;
             top: 0;
             left: 0;
             right: 0;
-            height: clamp(300px, 40vw, 600px);
-            background: linear-gradient(180deg, var(--bg) 10%, transparent 100%);
-            z-index: 10;
+            height: clamp(200px, 30vw, 400px);
+            background: linear-gradient(180deg, var(--bg) 30%, transparent 100%);
+            z-index: 3;
             pointer-events: none;
         }
 
         .cta__bg-grid {
             position: absolute;
-            inset: -20vw 0;
-            background-size: 80px 80px;
+            inset: -30vw 0;
+            background-size: 60px 60px;
             background-image:
-                linear-gradient(to right, rgba(255, 255, 255, 0.015) 1px, transparent 1px),
-                linear-gradient(to bottom, rgba(255, 255, 255, 0.015) 1px, transparent 1px);
-            mask-image: radial-gradient(ellipse at center, black 10%, transparent 80%);
-            -webkit-mask-image: radial-gradient(ellipse at center, black 10%, transparent 80%);
+                linear-gradient(to right, rgba(255, 255, 255, 0.01) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(255, 255, 255, 0.01) 1px, transparent 1px);
+            mask-image: radial-gradient(ellipse 50% 40% at 50% 50%, black 5%, transparent 70%);
+            -webkit-mask-image: radial-gradient(ellipse 50% 40% at 50% 50%, black 5%, transparent 70%);
             pointer-events: none;
             z-index: 0;
             will-change: transform;
         }
 
+        /* Central glow - the "nucleus" */
         .cta__glow {
             position: absolute;
-            top: 50%;
+            top: 55%;
             left: 50%;
-            width: 90vw;
-            height: 90vh;
-            background: radial-gradient(ellipse at center, rgba(14, 25, 34, 0.8) 0%, rgba(201, 210, 218, 0.08) 30%, transparent 60%);
+            width: 70vw;
+            height: 70vh;
+            background: radial-gradient(ellipse at center,
+                rgba(201, 210, 218, 0.06) 0%,
+                rgba(201, 210, 218, 0.025) 25%,
+                transparent 55%);
             transform: translate(-50%, -50%);
-            filter: blur(100px);
+            filter: blur(80px);
             pointer-events: none;
             z-index: 0;
-            animation: ctaGlowPulse 8s ease-in-out infinite alternate;
+            animation: ctaGlowPulse 10s ease-in-out infinite alternate;
+        }
+
+        .cta__glow-secondary {
+            position: absolute;
+            top: 45%;
+            left: 50%;
+            width: 40vw;
+            height: 40vh;
+            background: radial-gradient(circle at center, rgba(201, 210, 218, 0.04) 0%, transparent 50%);
+            transform: translate(-50%, -50%);
+            filter: blur(60px);
+            pointer-events: none;
+            z-index: 0;
+            animation: ctaGlowPulse 14s ease-in-out infinite alternate-reverse;
         }
 
         @keyframes ctaGlowPulse {
-            0% { opacity: 0.6; transform: translate(-50%, -50%) scale(0.9); }
+            0% { opacity: 0.5; transform: translate(-50%, -50%) scale(0.9); }
             100% { opacity: 1; transform: translate(-50%, -50%) scale(1.1); }
         }
 
+        /* Orbital ring decorations */
+        .cta__orbital {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            border-radius: 50%;
+            border: 1px solid rgba(255, 255, 255, 0.015);
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .cta__orbital--1 {
+            width: 600px;
+            height: 600px;
+            transform: translate(-50%, -50%) rotate(-15deg);
+            animation: orbitalSpin 60s linear infinite;
+        }
+
+        .cta__orbital--2 {
+            width: 450px;
+            height: 450px;
+            transform: translate(-50%, -50%) rotate(25deg);
+            border-color: rgba(255, 255, 255, 0.01);
+            animation: orbitalSpin 45s linear infinite reverse;
+        }
+
+        .cta__orbital--3 {
+            width: 750px;
+            height: 750px;
+            transform: translate(-50%, -50%) rotate(5deg);
+            border-color: rgba(255, 255, 255, 0.008);
+            animation: orbitalSpin 80s linear infinite;
+        }
+
+        /* Small dot on orbital */
+        .cta__orbital--1::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 50%;
+            width: 3px;
+            height: 3px;
+            background: var(--accent);
+            border-radius: 50%;
+            box-shadow: 0 0 8px rgba(201, 210, 218, 0.4);
+            transform: translateX(-50%);
+        }
+
+        .cta__orbital--2::after {
+            content: '';
+            position: absolute;
+            bottom: 10%;
+            right: 0;
+            width: 2px;
+            height: 2px;
+            background: var(--accent-dark);
+            border-radius: 50%;
+            box-shadow: 0 0 6px rgba(201, 210, 218, 0.2);
+        }
+
+        @keyframes orbitalSpin {
+            0% { transform: translate(-50%, -50%) rotate(0deg); }
+            100% { transform: translate(-50%, -50%) rotate(360deg); }
+        }
+
+        /* Light beams */
+        .cta__beam {
+            position: absolute;
+            top: 30%;
+            left: 50%;
+            width: 1px;
+            height: 300px;
+            background: linear-gradient(180deg, transparent, rgba(201, 210, 218, 0.04), transparent);
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .cta__beam--1 { transform: translateX(-50%) rotate(-8deg); opacity: 0.6; }
+        .cta__beam--2 { transform: translateX(-50%) rotate(8deg); opacity: 0.4; left: 48%; }
+        .cta__beam--3 { transform: translateX(-50%) rotate(-3deg); opacity: 0.3; left: 52%; height: 200px; }
+
+        /* Central glass panel */
+        .cta__glass-panel {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: min(85vw, 900px);
+            height: min(50vh, 500px);
+            background: radial-gradient(ellipse at center, rgba(255, 255, 255, 0.008) 0%, transparent 70%);
+            border: 1px solid rgba(255, 255, 255, 0.015);
+            border-radius: 40px;
+            pointer-events: none;
+            z-index: 1;
+            backdrop-filter: blur(1px);
+        }
+
+        .cta__glass-panel::before {
+            content: '';
+            position: absolute;
+            inset: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.008);
+            border-radius: 36px;
+        }
+
+        /* Corner accents on glass panel */
+        .cta__panel-corner {
+            position: absolute;
+            width: 16px;
+            height: 16px;
+            z-index: 2;
+            opacity: 0.2;
+        }
+        .cta__panel-corner::before,
+        .cta__panel-corner::after {
+            content: '';
+            position: absolute;
+            background: var(--accent);
+        }
+        .cta__panel-corner--tl { top: -1px; left: -1px; }
+        .cta__panel-corner--tl::before { top: 0; left: 0; width: 10px; height: 1px; }
+        .cta__panel-corner--tl::after { top: 0; left: 0; width: 1px; height: 10px; }
+        .cta__panel-corner--tr { top: -1px; right: -1px; }
+        .cta__panel-corner--tr::before { top: 0; right: 0; width: 10px; height: 1px; }
+        .cta__panel-corner--tr::after { top: 0; right: 0; width: 1px; height: 10px; }
+        .cta__panel-corner--bl { bottom: -1px; left: -1px; }
+        .cta__panel-corner--bl::before { bottom: 0; left: 0; width: 10px; height: 1px; }
+        .cta__panel-corner--bl::after { bottom: 0; left: 0; width: 1px; height: 10px; }
+        .cta__panel-corner--br { bottom: -1px; right: -1px; }
+        .cta__panel-corner--br::before { bottom: 0; right: 0; width: 10px; height: 1px; }
+        .cta__panel-corner--br::after { bottom: 0; right: 0; width: 1px; height: 10px; }
+
         .cta__container {
             position: relative;
-            z-index: 2;
+            z-index: 5;
             max-width: 800px;
+            margin: 0 auto;
             padding: 0 clamp(1.5rem, 4vw, 3rem);
             display: flex;
             flex-direction: column;
             align-items: center;
+            text-align: center;
         }
 
         .cta__label {
             display: inline-flex;
             align-items: center;
             gap: 0.8rem;
-            font-size: 0.75rem;
+            font-size: 0.68rem;
             font-weight: 600;
             letter-spacing: 0.25em;
             text-transform: uppercase;
             color: var(--accent);
-            margin-bottom: 2.5rem;
-            border: 1px solid rgba(255, 255, 255, 0.06);
-            padding: 0.7rem 1.6rem;
+            margin-bottom: 3rem;
+            border: 1px solid rgba(255, 255, 255, 0.04);
+            padding: 0.6rem 1.4rem;
             border-radius: 100px;
             background: rgba(255, 255, 255, 0.01);
             backdrop-filter: blur(16px);
-            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+            transition: all 0.4s ease;
+        }
+
+        .cta__label:hover {
+            border-color: rgba(201, 210, 218, 0.1);
+            box-shadow: 0 8px 24px rgba(0,0,0,0.3), 0 0 15px rgba(201, 210, 218, 0.05);
         }
 
         .cta__label-dot {
-            width: 6px;
-            height: 6px;
+            width: 5px;
+            height: 5px;
             background: var(--accent);
             border-radius: 50%;
-            box-shadow: 0 0 12px var(--accent);
+            box-shadow: 0 0 10px rgba(201, 210, 218, 0.5);
             animation: labelDotPulse 2s infinite;
+        }
+
+        @keyframes labelDotPulse {
+            0%, 100% { opacity: 0.5; transform: scale(1); }
+            50% { opacity: 1; transform: scale(1.3); }
         }
 
         .cta__title {
             font-family: var(--font-heading);
-            font-size: clamp(2.5rem, 5.5vw, 4.5rem);
+            font-size: clamp(2.4rem, 5vw, 4.2rem);
             font-weight: 700;
-            line-height: 1.05;
+            line-height: 1.08;
             letter-spacing: -0.03em;
             margin-bottom: 2rem;
             color: var(--text);
-            text-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            text-shadow: 0 8px 30px rgba(0,0,0,0.5);
+        }
+
+        .cta__title-accent {
+            background: linear-gradient(135deg, var(--accent) 0%, var(--accent-light) 50%, rgba(255,255,255,0.9) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
 
         .cta__desc {
-            font-size: clamp(1.05rem, 1.3vw, 1.25rem);
+            font-size: clamp(0.95rem, 1.2vw, 1.1rem);
             line-height: 1.8;
             color: var(--text-muted);
-            max-width: 650px;
+            max-width: 580px;
             margin: 0 auto 3.5rem;
         }
 
@@ -2330,7 +2687,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 1.5rem;
+            gap: 1.2rem;
             margin-bottom: 4rem;
         }
 
@@ -2338,34 +2695,42 @@
             position: relative;
             display: inline-flex;
             align-items: center;
-            gap: 1rem;
-            padding: 1.2rem 2.8rem;
+            gap: 0.8rem;
+            padding: 1.1rem 2.5rem;
             background: var(--accent);
             color: var(--bg);
             font-family: var(--font-heading);
             font-weight: 600;
-            font-size: 1.1rem;
+            font-size: 1rem;
             border-radius: 100px;
             text-decoration: none;
             overflow: hidden;
-            transition: all 0.4s cubic-bezier(0.22, 1, 0.36, 1);
-            box-shadow: 0 0 0 0 rgba(201, 210, 218, 0.4), 0 15px 30px rgba(0,0,0,0.3);
+            transition: all 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+            box-shadow:
+                0 0 0 0 rgba(201, 210, 218, 0.3),
+                0 15px 40px rgba(0,0,0,0.4),
+                0 0 40px rgba(201, 210, 218, 0.08);
             border: none;
         }
 
         .cta__btn--primary::before {
             content: '';
             position: absolute;
-            top: 0; left: -100%;
-            width: 50%; height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+            top: 0;
+            left: -100%;
+            width: 50%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.35), transparent);
             transform: skewX(-20deg);
-            transition: 0.6s;
+            transition: 0.7s;
         }
 
         .cta__btn--primary:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.1), 0 20px 40px rgba(0,0,0,0.4), 0 0 30px rgba(201, 210, 218, 0.3);
+            transform: translateY(-4px) scale(1.02);
+            box-shadow:
+                0 0 0 3px rgba(255, 255, 255, 0.08),
+                0 20px 50px rgba(0,0,0,0.5),
+                0 0 50px rgba(201, 210, 218, 0.15);
             background: #fff;
         }
 
@@ -2377,55 +2742,57 @@
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            padding: 1.1rem 2.5rem;
+            gap: 0.5rem;
+            padding: 1rem 2.2rem;
             color: var(--text);
             font-family: var(--font-heading);
             font-weight: 500;
-            font-size: 1.05rem;
+            font-size: 0.95rem;
             text-decoration: none;
             border-radius: 100px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            background: rgba(255, 255, 255, 0.015);
             backdrop-filter: blur(12px);
-            transition: all 0.3s ease;
+            transition: all 0.4s cubic-bezier(0.22, 1, 0.36, 1);
         }
 
         .cta__btn--secondary:hover {
-            background: rgba(255, 255, 255, 0.05);
-            border-color: rgba(255, 255, 255, 0.2);
-            color: #fff;
-            transform: translateY(-2px);
+            background: rgba(255, 255, 255, 0.04);
+            border-color: rgba(201, 210, 218, 0.15);
+            color: var(--accent);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
         }
 
         .cta__footer-note {
-            font-size: 0.85rem;
-            color: rgba(255, 255, 255, 0.3);
-            letter-spacing: 0.02em;
+            font-size: 0.75rem;
+            color: rgba(255, 255, 255, 0.2);
+            letter-spacing: 0.04em;
+            max-width: 400px;
+            line-height: 1.6;
         }
 
-        .cta__glass-panel {
-            position: absolute;
-            top: 50%; left: 50%;
-            transform: translate(-50%, -50%);
-            width: 120vw; height: 120vh;
-            background: radial-gradient(ellipse at center, rgba(255, 255, 255, 0.01) 0%, transparent 60%);
-            border: 1px solid rgba(255, 255, 255, 0.02);
-            border-radius: 50%;
-            pointer-events: none;
-            z-index: 0;
-            filter: blur(4px);
+        /* Separator line above footer note */
+        .cta__separator {
+            width: 40px;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(201, 210, 218, 0.15), transparent);
+            margin-bottom: 2rem;
         }
 
         @media (max-width: 768px) {
             .cta__actions {
                 flex-direction: column;
-                gap: 1rem;
+                gap: 0.8rem;
                 width: 100%;
             }
             .cta__btn--primary, .cta__btn--secondary {
                 width: 100%;
                 justify-content: center;
             }
+            .cta__orbital { display: none; }
+            .cta__glass-panel { display: none; }
+            .cta__beam { display: none; }
         }
 
         html.lenis,
@@ -3937,11 +4304,17 @@
     </section>
 
     <!-- ═══════════════════════════════════════
-     TEAM
+     TEAM — EDITORIAL LUXURY
      ═══════════════════════════════════════ -->
     <section class="team" id="equipe">
         <div class="team__bg-grid" id="teamGrid"></div>
         <div class="team__bg-glow"></div>
+        <div class="team__bg-glow-secondary"></div>
+
+        <!-- Decorative elements -->
+        <div class="team__deco-line"></div>
+        <div class="team__deco-circle"></div>
+
         <div class="team__container">
             <div class="team__header" data-st>
                 <div>
@@ -3953,86 +4326,154 @@
                 </p>
             </div>
 
-            <div class="team__card" data-st>
-                <div class="team__main">
-                    
-                    <div class="team__content">
-                        <!-- Member 1 -->
-                        <div class="team__member-info is-active">
-                            <p class="team__quote">"Nossa visão é clara: unir o absoluto <span>apuro estético</span> à mais pura perfomance. Cada pixel é desenhado com uma intenção."</p>
-                            <div class="team__name">Matheus Puzoto</div>
-                            <div class="team__role">Fundador & Diretor Criativo</div>
-                        </div>
-                        
-                        <!-- Member 2 -->
-                        <div class="team__member-info">
-                            <p class="team__quote">"Acreditamos que o design não deve apenas parecer incrível, mas deve <span>guiar, emocionar e converter</span> com fluidez."</p>
-                            <div class="team__name">Parcerias e Sinergia</div>
-                            <div class="team__role">Gestão & Estratégia</div>
-                        </div>
-                        
-                        <!-- Member 3 -->
-                        <div class="team__member-info">
-                            <p class="team__quote">"A tecnologia invisível é a mais poderosa. Desenvolvemos ecossistemas front-end que parecem <span>mágica</span> para quem navega."</p>
-                            <div class="team__name">Jani</div>
-                            <div class="team__role">Head de Engenharia Web</div>
-                        </div>
-                        
-                        <!-- Member 4 -->
-                        <div class="team__member-info">
-                            <p class="team__quote">"Interfaces memoráveis nascem da obsessão pelos detalhes. Transformamos interações complexas em <span>experiências naturais</span>."</p>
-                            <div class="team__name">Especialista UI/UX</div>
-                            <div class="team__role">Design de Interação</div>
-                        </div>
-                        
-                        <!-- Member 5 -->
-                        <div class="team__member-info">
-                            <p class="team__quote">"O movimento traz vida à web. Adicionamos a camada de <span>animação cinematográfica</span> que prende a atenção do início ao fim."</p>
-                            <div class="team__name">Direção de Arte</div>
-                            <div class="team__role">Motion Designer</div>
+            <div class="team__stage" data-st>
+                <!-- Portrait Column -->
+                <div class="team__portrait-col">
+                    <div class="team__portrait-halo"></div>
+                    <div class="team__portrait-frame">
+                        <!-- Corner marks -->
+                        <div class="team__frame-corner team__frame-corner--tl"></div>
+                        <div class="team__frame-corner team__frame-corner--tr"></div>
+                        <div class="team__frame-corner team__frame-corner--bl"></div>
+                        <div class="team__frame-corner team__frame-corner--br"></div>
+
+                        <div class="team__image-wrap" id="teamImageWrap">
+                            <div class="team__image-glare" id="teamImageGlare"></div>
+                            <img class="team__member-img is-active" src="assets/images/projects/eu - Copia.jpg" alt="Matheus Puzoto">
+                            <img class="team__member-img" src="assets/images/projects/eu e amor.png" alt="Sinergia">
+                            <img class="team__member-img" src="assets/images/projects/jani 6.jpg" alt="Jani Dev">
+                            <img class="team__member-img" src="assets/images/projects/jani 5.jpg" alt="UI Designer">
+                            <img class="team__member-img" src="assets/images/projects/jani 4.jpg" alt="Motion Designer">
+                            
+                            <div class="team__portrait-marker">
+                                <span class="team__portrait-marker-dot"></span>
+                                <span id="teamMarkerText">Fundador</span>
+                            </div>
                         </div>
                     </div>
-
-                    <div class="team__image-wrap" id="teamImageWrap">
-                        <div class="team__image-glare" id="teamImageGlare"></div>
-                        <!-- Images matching the member infos -->
-                        <img class="team__member-img is-active" src="assets/images/projects/eu - Copia.jpg" alt="Matheus Puzoto">
-                        <img class="team__member-img" src="assets/images/projects/eu e amor.png" alt="Sinergia">
-                        <img class="team__member-img" src="assets/images/projects/jani 6.jpg" alt="Jani Dev">
-                        <img class="team__member-img" src="assets/images/projects/jani 5.jpg" alt="UI Designer">
-                        <img class="team__member-img" src="assets/images/projects/jani 4.jpg" alt="Motion Designer">
-                    </div>
-
                 </div>
 
-                <div class="team__thumbs" data-st>
-                    <div class="team__thumb is-active"><img src="assets/images/projects/eu - Copia.jpg" alt="Thumb 1"></div>
-                    <div class="team__thumb"><img src="assets/images/projects/eu e amor.png" alt="Thumb 2"></div>
-                    <div class="team__thumb"><img src="assets/images/projects/jani 6.jpg" alt="Thumb 3"></div>
-                    <div class="team__thumb"><img src="assets/images/projects/jani 5.jpg" alt="Thumb 4"></div>
-                    <div class="team__thumb"><img src="assets/images/projects/jani 4.jpg" alt="Thumb 5"></div>
+                <!-- Content Column -->
+                <div class="team__content-col">
+                    <div class="team__content-area">
+                        <!-- Member 1 -->
+                        <div class="team__member-info is-active">
+                            <div class="team__member-number">01</div>
+                            <p class="team__quote">"Nossa visão é clara: unir o absoluto <span>apuro estético</span> à mais pura perfomance. Cada pixel é desenhado com uma intenção."</p>
+                            <div class="team__meta">
+                                <div class="team__meta-line"></div>
+                                <div>
+                                    <div class="team__name">Matheus Puzoto</div>
+                                    <div class="team__role">Fundador & Diretor Criativo</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Member 2 -->
+                        <div class="team__member-info">
+                            <div class="team__member-number">02</div>
+                            <p class="team__quote">"Acreditamos que o design não deve apenas parecer incrível, mas deve <span>guiar, emocionar e converter</span> com fluidez."</p>
+                            <div class="team__meta">
+                                <div class="team__meta-line"></div>
+                                <div>
+                                    <div class="team__name">Parcerias e Sinergia</div>
+                                    <div class="team__role">Gestão & Estratégia</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Member 3 -->
+                        <div class="team__member-info">
+                            <div class="team__member-number">03</div>
+                            <p class="team__quote">"A tecnologia invisível é a mais poderosa. Desenvolvemos ecossistemas front-end que parecem <span>mágica</span> para quem navega."</p>
+                            <div class="team__meta">
+                                <div class="team__meta-line"></div>
+                                <div>
+                                    <div class="team__name">Jani</div>
+                                    <div class="team__role">Head de Engenharia Web</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Member 4 -->
+                        <div class="team__member-info">
+                            <div class="team__member-number">04</div>
+                            <p class="team__quote">"Interfaces memoráveis nascem da obsessão pelos detalhes. Transformamos interações complexas em <span>experiências naturais</span>."</p>
+                            <div class="team__meta">
+                                <div class="team__meta-line"></div>
+                                <div>
+                                    <div class="team__name">Especialista UI/UX</div>
+                                    <div class="team__role">Design de Interação</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Member 5 -->
+                        <div class="team__member-info">
+                            <div class="team__member-number">05</div>
+                            <p class="team__quote">"O movimento traz vida à web. Adicionamos a camada de <span>animação cinematográfica</span> que prende a atenção do início ao fim."</p>
+                            <div class="team__meta">
+                                <div class="team__meta-line"></div>
+                                <div>
+                                    <div class="team__name">Direção de Arte</div>
+                                    <div class="team__role">Motion Designer</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Navigation -->
+                    <div class="team__nav" data-st>
+                        <div class="team__nav-counter"><strong id="teamCurrentNum">01</strong> / 05</div>
+                        <div class="team__nav-divider"></div>
+                        <div class="team__thumbs">
+                            <div class="team__thumb is-active"><img src="assets/images/projects/eu - Copia.jpg" alt="Thumb 1"></div>
+                            <div class="team__thumb"><img src="assets/images/projects/eu e amor.png" alt="Thumb 2"></div>
+                            <div class="team__thumb"><img src="assets/images/projects/jani 6.jpg" alt="Thumb 3"></div>
+                            <div class="team__thumb"><img src="assets/images/projects/jani 5.jpg" alt="Thumb 4"></div>
+                            <div class="team__thumb"><img src="assets/images/projects/jani 4.jpg" alt="Thumb 5"></div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </section>
 
     <!-- ═══════════════════════════════════════
-     CTA (FINAL SECTION)
+     CTA — FINAL MANIFESTO
      ═══════════════════════════════════════ -->
     <section class="cta" id="contato">
         <div class="cta__bg-grid" id="ctaGrid"></div>
         <div class="cta__glow"></div>
-        <div class="cta__glass-panel"></div>
+        <div class="cta__glow-secondary"></div>
+
+        <!-- Orbital rings -->
+        <div class="cta__orbital cta__orbital--1"></div>
+        <div class="cta__orbital cta__orbital--2"></div>
+        <div class="cta__orbital cta__orbital--3"></div>
+
+        <!-- Light beams -->
+        <div class="cta__beam cta__beam--1"></div>
+        <div class="cta__beam cta__beam--2"></div>
+        <div class="cta__beam cta__beam--3"></div>
+
+        <!-- Glass panel -->
+        <div class="cta__glass-panel">
+            <div class="cta__panel-corner cta__panel-corner--tl"></div>
+            <div class="cta__panel-corner cta__panel-corner--tr"></div>
+            <div class="cta__panel-corner cta__panel-corner--bl"></div>
+            <div class="cta__panel-corner cta__panel-corner--br"></div>
+        </div>
 
         <div class="cta__container" data-st>
             <div class="cta__label">
                 <span class="cta__label-dot"></span> Vamos conversar
             </div>
-            
+
             <h2 class="cta__title">
-                Vamos criar a próxima <br> presença digital da sua marca.
+                Vamos criar a próxima<br><span class="cta__title-accent">presença digital</span> da sua marca.
             </h2>
-            
+
             <p class="cta__desc">
                 Se a sua marca exige mais do que um site comum, nós desenvolvemos experiências digitais com direção, precisão e acabamento à altura do que ela representa.
             </p>
@@ -4040,13 +4481,14 @@
             <div class="cta__actions">
                 <a href="#contato" class="cta__btn--primary">
                     Iniciar meu Projeto
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
                 </a>
                 <a href="#projetos" class="cta__btn--secondary">
                     Ver Projetos
                 </a>
             </div>
 
+            <div class="cta__separator"></div>
             <div class="cta__footer-note">
                 Projetos selecionados para marcas que valorizam percepção, posicionamento e excelência visual.
             </div>
@@ -4428,12 +4870,15 @@
 
     <script>
         
-            /* ─── TEAM TABS LOGIC ─── */
+            /* ─── TEAM TABS LOGIC (EDITORIAL) ─── */
             const teamThumbs = document.querySelectorAll('.team__thumb');
             const teamInfos = document.querySelectorAll('.team__member-info');
             const teamImgs = document.querySelectorAll('.team__member-img');
             const teamWrap = document.querySelector('#teamImageWrap');
             const teamGlare = document.querySelector('#teamImageGlare');
+            const teamCounter = document.querySelector('#teamCurrentNum');
+            const teamMarker = document.querySelector('#teamMarkerText');
+            const markerLabels = ['Fundador', 'Gestão', 'Engenharia', 'UI/UX', 'Motion'];
 
             if (teamThumbs.length) {
                 teamThumbs.forEach((thumb, idx) => {
@@ -4445,6 +4890,12 @@
                         thumb.classList.add('is-active');
                         if (teamInfos[idx]) teamInfos[idx].classList.add('is-active');
                         if (teamImgs[idx]) teamImgs[idx].classList.add('is-active');
+                        
+                        // Update counter
+                        if (teamCounter) teamCounter.textContent = String(idx + 1).padStart(2, '0');
+                        
+                        // Update marker label
+                        if (teamMarker && markerLabels[idx]) teamMarker.textContent = markerLabels[idx];
                     });
                 });
 
@@ -4455,15 +4906,14 @@
                         const x = e.clientX - rect.left;
                         const y = e.clientY - rect.top;
                         
-                        // Calculate rotation max 8 deg
-                        const rx = ((y / rect.height) - 0.5) * -16;
-                        const ry = ((x / rect.width) - 0.5) * 16;
+                        const rx = ((y / rect.height) - 0.5) * -12;
+                        const ry = ((x / rect.width) - 0.5) * 12;
                         
                         gsap.to(teamWrap, {
                             rotateX: rx,
                             rotateY: ry,
                             scale: 1.02,
-                            boxShadow: '0 40px 80px rgba(0,0,0,0.7), 0 0 60px rgba(180, 155, 100, 0.1)',
+                            boxShadow: '0 50px 100px rgba(0,0,0,0.7), 0 0 0 1px rgba(255,255,255,0.08), 0 0 80px rgba(201, 210, 218, 0.06)',
                             duration: 0.4,
                             ease: 'power2.out',
                             overwrite: 'auto'
@@ -4471,19 +4921,19 @@
 
                         if(teamGlare) {
                             gsap.to(teamGlare, {
-                                background: `radial-gradient(circle at ${x}px ${y}px, rgba(255,255,255,0.2), transparent 50%)`,
-                                duration: 0.1
+                                background: `radial-gradient(circle at ${x}px ${y}px, rgba(255,255,255,0.15), transparent 50%)`,
+                                opacity: 1,
+                                duration: 0.15
                             });
                         }
 
-                        // Also slightly move the active image inside for parallax
                         const activeImg = teamWrap.querySelector('.team__member-img.is-active');
                         if (activeImg) {
                             gsap.to(activeImg, {
-                                x: ry * -0.5,
-                                y: rx * 0.5,
-                                scale: 1.05,
-                                duration: 0.4
+                                x: ry * -0.4,
+                                y: rx * 0.4,
+                                scale: 1.04,
+                                duration: 0.5
                             });
                         }
                     });
@@ -4493,10 +4943,14 @@
                             rotateX: 0,
                             rotateY: 0,
                             scale: 1,
-                            boxShadow: '0 30px 60px rgba(0,0,0,0.5), 0 0 40px rgba(180, 155, 100, 0.05)',
+                            boxShadow: '0 40px 80px rgba(0,0,0,0.6), 0 0 0 1px rgba(255,255,255,0.06), 0 0 60px rgba(201, 210, 218, 0.04)',
                             duration: 0.8,
                             ease: 'power3.out'
                         });
+
+                        if(teamGlare) {
+                            gsap.to(teamGlare, { opacity: 0, duration: 0.4 });
+                        }
 
                         const activeImg = teamWrap.querySelector('.team__member-img.is-active');
                         if (activeImg) {
