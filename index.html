@@ -2223,14 +2223,16 @@
         }
 
         /* ═══════════════════════════════════════════
-   PROCESSO (EDITORIAL & HIGH-END)
+   PROCESSO (EDITORIAL, LUXURY & SCULPTURAL)
    ═══════════════════════════════════════════ */
         .process {
             position: relative;
             z-index: 2;
             padding: clamp(8rem, 16vw, 15rem) 0;
-            background: #0a0a0c;
+            background: var(--bg);
             overflow: hidden;
+            border-top: 1px solid rgba(255, 255, 255, 0.03);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.03);
         }
 
         .process::before, .process::after {
@@ -2238,17 +2240,17 @@
             position: absolute;
             left: 0;
             right: 0;
-            height: clamp(200px, 30vw, 400px);
-            z-index: 1;
+            height: clamp(250px, 35vw, 500px);
+            z-index: 10;
             pointer-events: none;
         }
-        .process::before { top: 0; background: linear-gradient(180deg, var(--bg) 0%, transparent 100%); }
-        .process::after { bottom: 0; background: linear-gradient(0deg, var(--bg) 0%, transparent 100%); }
+        .process::before { top: 0; background: linear-gradient(180deg, var(--bg) 10%, transparent 100%); }
+        .process::after { bottom: 0; background: linear-gradient(0deg, var(--bg) 10%, transparent 100%); }
 
         .process__bg-grid {
             position: absolute;
             inset: -20vw 0;
-            background-size: 100px 100px;
+            background-size: 80px 80px;
             background-image:
                 linear-gradient(to right, rgba(255, 255, 255, 0.015) 1px, transparent 1px),
                 linear-gradient(to bottom, rgba(255, 255, 255, 0.015) 1px, transparent 1px);
@@ -2257,25 +2259,6 @@
             pointer-events: none;
             z-index: 0;
             will-change: transform;
-        }
-
-        .process__core-glow {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            width: 80vw;
-            height: 100%;
-            background: radial-gradient(ellipse at center, rgba(201, 210, 218, 0.035) 0%, transparent 60%);
-            transform: translate(-50%, -50%);
-            pointer-events: none;
-            z-index: 0;
-            filter: blur(80px);
-            animation: processCorePulse 8s ease-in-out infinite alternate;
-        }
-
-        @keyframes processCorePulse {
-            0% { opacity: 0.6; transform: translate(-50%, -50%) scale(0.9); }
-            100% { opacity: 1; transform: translate(-50%, -50%) scale(1.1); }
         }
 
         .process__container {
@@ -2291,6 +2274,7 @@
             text-align: center;
             margin-bottom: clamp(6rem, 12vw, 10rem);
             position: relative;
+            z-index: 4;
         }
 
         .process__label {
@@ -2303,12 +2287,12 @@
             text-transform: uppercase;
             color: var(--accent);
             margin-bottom: 2.5rem;
-            border: 1px solid rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.06);
             padding: 0.7rem 1.6rem;
             border-radius: 100px;
-            background: rgba(255, 255, 255, 0.02);
-            backdrop-filter: blur(12px);
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            background: rgba(255, 255, 255, 0.01);
+            backdrop-filter: blur(16px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
         }
 
         .process__label-dot {
@@ -2351,51 +2335,142 @@
             margin: 0 auto;
         }
 
+        /* ── SCULPTURAL CORE (Sticky Element) ── */
+        .process__core-wrapper {
+            position: absolute;
+            top: 5%; bottom: 5%;
+            left: 0; right: 0;
+            pointer-events: none;
+            z-index: 0; 
+        }
+
+        .process__core-sticky {
+            position: sticky;
+            top: 50vh;
+            margin: 0 auto;
+            width: 1px; height: 1px;
+            display: flex; align-items: center; justify-content: center;
+        }
+
+        .process__core-glow {
+            position: absolute;
+            width: 80vw; height: 80vh;
+            background: radial-gradient(ellipse at center, rgba(14, 25, 34, 0.5) 0%, rgba(201, 210, 218, 0.05) 30%, transparent 60%);
+            filter: blur(80px);
+            animation: coreGlowPulse 8s ease-in-out infinite alternate;
+        }
+
+        @keyframes coreGlowPulse {
+            0% { opacity: 0.5; transform: scale(0.9); }
+            100% { opacity: 1; transform: scale(1.1); }
+        }
+
+        .process__core-ring {
+            position: absolute;
+            border-radius: 50%;
+            border: 1px solid transparent;
+            transform-style: preserve-3d;
+        }
+
+        .process__core-ring--1 {
+            width: 350px; height: 350px;
+            border-top: 1px solid rgba(255, 255, 255, 0.15);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+            animation: ringSpinX 25s linear infinite;
+        }
+
+        .process__core-ring--2 {
+            width: 500px; height: 500px;
+            border-right: 1px dashed rgba(255, 255, 255, 0.1);
+            animation: ringSpinY 35s linear infinite reverse;
+        }
+
+        @keyframes ringSpinX { 100% { transform: rotate(360deg); } }
+        @keyframes ringSpinY { 100% { transform: rotate3d(0, 0, 1, 360deg); } }
+
+        .process__core-orb {
+            position: absolute;
+            width: 64px; height: 64px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, rgba(201, 210, 218, 0.1) 0%, transparent 100%);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            box-shadow: inset 0 0 20px rgba(255, 255, 255, 0.1), 0 0 40px rgba(255,255,255,0.05);
+            backdrop-filter: blur(10px);
+            display: flex; align-items: center; justify-content: center;
+            z-index: 2;
+        }
+
+        .process__core-orb-inner {
+            width: 16px; height: 16px;
+            border-radius: 50%;
+            background: var(--accent);
+            box-shadow: 0 0 20px var(--accent), 0 0 40px var(--accent-light);
+            animation: orbPulse 3s ease-in-out infinite alternate;
+        }
+
+        @keyframes orbPulse {
+            0% { transform: scale(0.9); filter: hue-rotate(-10deg); opacity: 0.8; }
+            100% { transform: scale(1.1); filter: hue-rotate(10deg); opacity: 1; }
+        }
+
+
         /* ── Central Axis & Timeline ── */
         .process__timeline {
             position: relative;
-            max-width: 1000px;
+            max-width: 1100px;
             margin: 0 auto;
             display: flex;
             flex-direction: column;
-            gap: clamp(4rem, 8vw, 7rem);
+            gap: clamp(6rem, 12vw, 12rem);
+            padding: 6rem 0 10rem;
         }
 
         .process__axis {
             position: absolute;
-            top: -2rem;
-            bottom: -5rem;
+            top: 2rem; bottom: 2rem;
             left: 50%;
-            width: 1px;
-            background: linear-gradient(to bottom, transparent, rgba(255, 255, 255, 0.08) 15%, rgba(255, 255, 255, 0.08) 85%, transparent);
+            width: 40px;
             transform: translateX(-50%);
             z-index: 1;
         }
 
+        .process__axis-line {
+            position: absolute;
+            top: 0; bottom: 0;
+            width: 1px;
+            background: linear-gradient(to bottom, transparent, rgba(255, 255, 255, 0.12) 15%, rgba(255, 255, 255, 0.12) 85%, transparent);
+        }
+
+        .process__axis-line--left { left: 0; }
+        .process__axis-line--right { right: 0; }
+
         .process__axis-beam {
             position: absolute;
             top: 0;
-            left: -1px;
-            width: 3px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 2px;
             height: 25vh;
-            background: linear-gradient(to bottom, transparent, var(--accent) 80%, rgba(255,255,255,0.8) 100%);
-            filter: drop-shadow(0 0 10px var(--accent));
-            animation: beamTravel 8s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+            background: linear-gradient(to bottom, transparent, var(--accent) 50%, rgba(255,255,255,1) 100%);
+            filter: drop-shadow(0 0 12px var(--accent));
+            animation: beamTravel 6s cubic-bezier(0.4, 0, 0.2, 1) infinite;
         }
 
         @keyframes beamTravel {
             0% { top: -10%; opacity: 0; }
             10% { opacity: 1; }
-            90% { opacity: 1; }
+            80% { opacity: 1; }
             100% { top: 110%; opacity: 0; }
         }
 
         /* ── Nodes ── */
         .process__node {
             position: relative;
-            width: calc(50% - 4rem);
+            width: calc(50% - 5rem);
             z-index: 2;
-            perspective: 1000px;
+            perspective: 1200px;
+            display: flex;
+            flex-direction: column;
         }
 
         .process__node--left { align-self: flex-start; text-align: right; }
@@ -2403,15 +2478,15 @@
 
         .process__connector {
             position: absolute;
-            top: 4.5rem;
-            width: 4rem;
+            top: 5rem;
+            width: calc(5rem - 20px);
             height: 1px;
             background: rgba(255, 255, 255, 0.1);
             transition: all 0.5s ease;
         }
 
-        .process__node--left .process__connector { right: -4rem; background: linear-gradient(to right, transparent, rgba(255,255,255,0.1)); }
-        .process__node--right .process__connector { left: -4rem; background: linear-gradient(to left, transparent, rgba(255,255,255,0.1)); }
+        .process__node--left .process__connector { right: calc(-5rem + 20px); background: linear-gradient(to right, transparent, rgba(255,255,255,0.2) 80%); }
+        .process__node--right .process__connector { left: calc(-5rem + 20px); background: linear-gradient(to left, transparent, rgba(255,255,255,0.2) 80%); }
 
         .process__connector::after {
             content: '';
@@ -2420,15 +2495,15 @@
             width: 13px;
             height: 13px;
             background: var(--bg);
-            border: 2px solid rgba(255, 255, 255, 0.15);
+            border: 2px solid rgba(255, 255, 255, 0.2);
             border-radius: 50%;
             transition: all 0.5s cubic-bezier(0.22, 1, 0.36, 1);
             box-shadow: 0 0 0 6px var(--bg);
             z-index: 2;
         }
 
-        .process__node--left .process__connector::after { right: 0; transform: translate(50%, -50%); }
-        .process__node--right .process__connector::after { left: 0; transform: translate(-50%, -50%); }
+        .process__node--left .process__connector::after { right: -6px; transform: translate(0, -50%); }
+        .process__node--right .process__connector::after { left: -6px; transform: translate(0, -50%); }
 
         .process__node:hover .process__connector {
             background: rgba(201, 210, 218, 0.4);
@@ -2438,23 +2513,31 @@
             border-color: var(--accent);
             background: var(--accent);
             box-shadow: 0 0 0 6px var(--bg), 0 0 20px rgba(255, 255, 255, 0.4);
-            transform: translate(50%, -50%) scale(1.2);
+            transform: translateY(-50%) scale(1.3);
         }
-        .process__node--right:hover .process__connector::after { transform: translate(-50%, -50%) scale(1.2); }
 
         /* ── Card (Glass Panel) ── */
         .process__card {
             position: relative;
-            padding: clamp(2.5rem, 4vw, 3.5rem);
-            background: rgba(255, 255, 255, 0.015);
-            backdrop-filter: blur(24px);
-            -webkit-backdrop-filter: blur(24px);
-            border: 1px solid rgba(255, 255, 255, 0.05);
+            padding: clamp(3rem, 4vw, 4rem);
             border-radius: 20px;
-            box-shadow: inset 0 0 0 1px rgba(255,255,255,0.02), 0 30px 60px rgba(0, 0, 0, 0.4);
             overflow: hidden;
             transition: all 0.7s cubic-bezier(0.22, 1, 0.36, 1);
             transform-style: preserve-3d;
+            box-shadow: inset 0 0 0 1px rgba(255,255,255,0.02), 0 30px 60px rgba(0, 0, 0, 0.4);
+            background: rgba(255, 255, 255, 0.015);
+            backdrop-filter: blur(28px);
+            -webkit-backdrop-filter: blur(28px);
+            border: 1px solid rgba(255, 255, 255, 0.04);
+        }
+
+        /* Differentiated Node Textures */
+        .process__node--type-a .process__card {
+            background: radial-gradient(circle at 100% 0%, rgba(255,255,255,0.03) 0%, transparent 60%), rgba(255, 255, 255, 0.01);
+        }
+        .process__node--type-b .process__card {
+            background: linear-gradient(135deg, rgba(255,255,255,0.01) 0%, rgba(255,255,255,0.025) 100%);
+            border-bottom: 1px solid rgba(255,255,255,0.08); 
         }
 
         /* Intricate Corner Crosshairs */
@@ -2462,7 +2545,7 @@
             position: absolute;
             width: 8px;
             height: 8px;
-            opacity: 0.2;
+            opacity: 0.15;
             transition: opacity 0.5s;
         }
         .process__cross::before, .process__cross::after { content: ''; position: absolute; background: #fff; }
@@ -2477,12 +2560,12 @@
         /* Huge translucent background numbers */
         .process__bg-num {
             position: absolute;
-            top: -10%;
+            top: -5%;
             font-family: var(--font-heading);
-            font-size: clamp(10rem, 18vw, 18rem);
+            font-size: clamp(12rem, 20vw, 22rem);
             font-weight: 700;
             color: transparent;
-            -webkit-text-stroke: 1px rgba(255, 255, 255, 0.02);
+            -webkit-text-stroke: 1px rgba(255, 255, 255, 0.015);
             line-height: 1;
             z-index: 0;
             pointer-events: none;
@@ -2498,25 +2581,30 @@
             content: '';
             position: absolute;
             inset: 0;
-            background: radial-gradient(circle at 50% 0%, rgba(201, 210, 218, 0.08), transparent 70%);
             opacity: 0;
             transition: opacity 0.7s ease;
             pointer-events: none;
             z-index: 1;
         }
+        .process__node--type-a .process__card::before {
+            background: radial-gradient(circle at 10% 50%, rgba(201, 210, 218, 0.08), transparent 70%);
+        }
+        .process__node--type-b .process__card::before {
+            background: radial-gradient(circle at 90% 50%, rgba(180, 155, 100, 0.06), transparent 70%);
+        }
 
         .process__node:hover .process__card {
-            transform: translateY(-8px);
+            transform: translateY(-8px) scale(1.02);
             border-color: rgba(255, 255, 255, 0.15);
-            background: rgba(255, 255, 255, 0.03);
-            box-shadow: inset 0 0 0 1px rgba(255,255,255,0.05), 0 40px 80px rgba(0, 0, 0, 0.6), 0 0 40px rgba(201, 210, 218, 0.05);
+            background: rgba(255, 255, 255, 0.025);
+            box-shadow: inset 0 0 0 1px rgba(255,255,255,0.06), 0 40px 80px rgba(0, 0, 0, 0.6), 0 0 40px rgba(201, 210, 218, 0.04);
         }
 
         .process__node:hover .process__card::before { opacity: 1; }
         .process__node:hover .process__cross { opacity: 0.8; }
         .process__node:hover .process__bg-num {
-            -webkit-text-stroke: 1px rgba(255, 255, 255, 0.06);
-            transform: scale(1.05) translateY(-2%);
+            -webkit-text-stroke: 1px rgba(255, 255, 255, 0.04);
+            transform: scale(1.03) translateY(-2%);
         }
 
         /* Card Content */
@@ -2529,7 +2617,7 @@
             display: flex;
             align-items: center;
             gap: 1.2rem;
-            margin-bottom: 2rem;
+            margin-bottom: 2.2rem;
         }
 
         .process__node--left .process__meta { justify-content: flex-end; }
@@ -2541,22 +2629,22 @@
             font-weight: 600;
             letter-spacing: 0.1em;
             color: var(--accent);
-            padding: 0.3rem 0.8rem;
+            padding: 0.4rem 0.9rem;
             border: 1px solid rgba(255,255,255,0.1);
             border-radius: 6px;
-            background: rgba(255,255,255,0.02);
+            background: rgba(255,255,255,0.03);
             backdrop-filter: blur(4px);
         }
 
         .process__meta-line {
-            width: 40px;
+            width: 50px;
             height: 1px;
             background: rgba(255, 255, 255, 0.15);
         }
 
         .process__step-title {
             font-family: var(--font-heading);
-            font-size: clamp(1.6rem, 2.5vw, 2.3rem);
+            font-size: clamp(1.8rem, 2.8vw, 2.5rem);
             font-weight: 600;
             letter-spacing: -0.02em;
             margin-bottom: 1.2rem;
@@ -2565,21 +2653,27 @@
 
         .process__step-desc {
             font-size: clamp(0.95rem, 1.1vw, 1.05rem);
-            line-height: 1.75;
+            line-height: 1.8;
             color: var(--text-muted);
         }
 
         /* ── Responsive Mobile ── */
         @media (max-width: 992px) {
+            .process__core-wrapper { display: none; } /* Hide heavy core on mobile */
             .process__timeline {
-                gap: 4rem;
+                gap: 5rem;
+                padding: 4rem 0;
             }
             .process__axis {
                 left: 2rem;
+                width: 20px;
             }
+            .process__axis-line--left { left: 0; }
+            .process__axis-line--right { display: none; } /* single line for mobile */
+            
             .process__node {
                 width: 100%;
-                padding-left: 5.5rem;
+                padding-left: 6rem;
                 align-self: flex-start;
                 text-align: left;
             }
@@ -2587,18 +2681,18 @@
             .process__node--right .process__connector {
                 left: 2rem;
                 right: auto;
-                width: 3.5rem;
+                width: 4rem;
                 background: linear-gradient(to right, transparent, rgba(255,255,255,0.1));
             }
             .process__node--left .process__connector::after, 
             .process__node--right .process__connector::after {
-                left: 0;
+                left: -6px;
                 right: auto;
-                transform: translate(-50%, -50%);
+                transform: translate(0, -50%);
             }
             .process__node--left:hover .process__connector::after,
             .process__node--right:hover .process__connector::after {
-                transform: translate(-50%, -50%) scale(1.2);
+                transform: translate(0, -50%) scale(1.3);
             }
             .process__node--left .process__bg-num,
             .process__node--right .process__bg-num {
@@ -2611,23 +2705,15 @@
         }
 
         @media (max-width: 480px) {
-            .process__node {
-                padding-left: 3.5rem;
-            }
-            .process__axis {
-                left: 1rem;
-            }
+            .process__node { padding-left: 4.5rem; }
+            .process__axis { left: 1.5rem; }
             .process__node--left .process__connector, 
             .process__node--right .process__connector {
-                left: 1rem;
-                width: 2.5rem;
+                left: 1.5rem;
+                width: 3rem;
             }
-            .process__card {
-                padding: 2rem 1.5rem;
-            }
-            .process__cross {
-                display: none;
-            }
+            .process__card { padding: 2rem 1.5rem; }
+            .process__cross { display: none; }
         }
     </style>
 </head>
@@ -3502,7 +3588,6 @@
      ═══════════════════════════════════════════ -->
     <section class="process" id="processo">
         <div class="process__bg-grid" id="processGrid"></div>
-        <div class="process__core-glow"></div>
 
         <div class="process__container">
             <!-- Header Centralizado e Imponente -->
@@ -3522,12 +3607,26 @@
             <!-- Eixo Central com Zigue-Zague Editorial -->
             <div class="process__timeline">
                 
+                <!-- Sculptural Core (Sticky) -->
+                <div class="process__core-wrapper">
+                    <div class="process__core-sticky">
+                        <div class="process__core-glow"></div>
+                        <div class="process__core-ring process__core-ring--1"></div>
+                        <div class="process__core-ring process__core-ring--2"></div>
+                        <div class="process__core-orb">
+                            <div class="process__core-orb-inner"></div>
+                        </div>
+                    </div>
+                </div>
+
                 <div class="process__axis">
+                    <div class="process__axis-line process__axis-line--left"></div>
+                    <div class="process__axis-line process__axis-line--right"></div>
                     <div class="process__axis-beam"></div>
                 </div>
 
                 <!-- 01 Imersão -->
-                <div class="process__node process__node--left" data-st>
+                <div class="process__node process__node--left process__node--type-a" data-st>
                     <div class="process__connector"></div>
                     <div class="process__card">
                         <div class="process__cross process__cross--tl"></div>
@@ -3549,7 +3648,7 @@
                 </div>
 
                 <!-- 02 Direção -->
-                <div class="process__node process__node--right" data-st>
+                <div class="process__node process__node--right process__node--type-b" data-st>
                     <div class="process__connector"></div>
                     <div class="process__card">
                         <div class="process__cross process__cross--tl"></div>
@@ -3571,7 +3670,7 @@
                 </div>
 
                 <!-- 03 Construção -->
-                <div class="process__node process__node--left" data-st>
+                <div class="process__node process__node--left process__node--type-b" data-st>
                     <div class="process__connector"></div>
                     <div class="process__card">
                         <div class="process__cross process__cross--tl"></div>
@@ -3593,7 +3692,7 @@
                 </div>
 
                 <!-- 04 Refinamento -->
-                <div class="process__node process__node--right" data-st>
+                <div class="process__node process__node--right process__node--type-a" data-st>
                     <div class="process__connector"></div>
                     <div class="process__card">
                         <div class="process__cross process__cross--tl"></div>
