@@ -2223,48 +2223,59 @@
         }
 
         /* ═══════════════════════════════════════════
-   PROCESSO
+   PROCESSO (EDITORIAL & HIGH-END)
    ═══════════════════════════════════════════ */
         .process {
             position: relative;
             z-index: 2;
-            padding: clamp(7rem, 14vw, 12rem) 0;
-            background: linear-gradient(180deg, rgba(10, 10, 12, 1) 0%, rgba(14, 15, 17, 0.97) 50%, rgba(10, 10, 12, 1) 100%);
-            border-top: 1px solid rgba(255, 255, 255, 0.04);
+            padding: clamp(8rem, 16vw, 15rem) 0;
+            background: #0a0a0c;
             overflow: hidden;
         }
 
+        .process::before, .process::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            right: 0;
+            height: clamp(200px, 30vw, 400px);
+            z-index: 1;
+            pointer-events: none;
+        }
+        .process::before { top: 0; background: linear-gradient(180deg, var(--bg) 0%, transparent 100%); }
+        .process::after { bottom: 0; background: linear-gradient(0deg, var(--bg) 0%, transparent 100%); }
+
         .process__bg-grid {
             position: absolute;
-            inset: -200px 0;
-            background-size: 80px 80px;
+            inset: -20vw 0;
+            background-size: 100px 100px;
             background-image:
                 linear-gradient(to right, rgba(255, 255, 255, 0.015) 1px, transparent 1px),
                 linear-gradient(to bottom, rgba(255, 255, 255, 0.015) 1px, transparent 1px);
-            mask-image: radial-gradient(ellipse at 65% center, black 10%, transparent 65%);
-            -webkit-mask-image: radial-gradient(ellipse at 65% center, black 10%, transparent 65%);
+            mask-image: radial-gradient(ellipse at center, black 10%, transparent 70%);
+            -webkit-mask-image: radial-gradient(ellipse at center, black 10%, transparent 70%);
             pointer-events: none;
             z-index: 0;
             will-change: transform;
         }
 
-        .process__bg-glow {
+        .process__core-glow {
             position: absolute;
             top: 50%;
-            left: 60%;
-            width: 120%;
-            height: 120%;
-            background: radial-gradient(ellipse at center, rgba(201, 210, 218, 0.04), transparent 55%);
+            left: 50%;
+            width: 80vw;
+            height: 100%;
+            background: radial-gradient(ellipse at center, rgba(201, 210, 218, 0.035) 0%, transparent 60%);
             transform: translate(-50%, -50%);
             pointer-events: none;
             z-index: 0;
-            filter: blur(120px);
-            animation: processGlowPulse 10s ease-in-out infinite alternate;
+            filter: blur(80px);
+            animation: processCorePulse 8s ease-in-out infinite alternate;
         }
 
-        @keyframes processGlowPulse {
-            0% { opacity: 0.5; transform: translate(-50%, -50%) scale(0.95); }
-            100% { opacity: 0.9; transform: translate(-50%, -50%) scale(1.06); }
+        @keyframes processCorePulse {
+            0% { opacity: 0.6; transform: translate(-50%, -50%) scale(0.9); }
+            100% { opacity: 1; transform: translate(-50%, -50%) scale(1.1); }
         }
 
         .process__container {
@@ -2275,194 +2286,348 @@
             z-index: 2;
         }
 
-        .process__layout {
-            display: grid;
-            grid-template-columns: 1fr 1.4fr;
-            gap: clamp(4rem, 8vw, 8rem);
-            align-items: start;
-        }
-
+        /* ── Header ── */
         .process__header {
-            position: sticky;
-            top: 30vh;
+            text-align: center;
+            margin-bottom: clamp(6rem, 12vw, 10rem);
+            position: relative;
         }
 
         .process__label {
-            font-size: 0.7rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.8rem;
+            font-size: 0.75rem;
             font-weight: 600;
-            letter-spacing: 0.15em;
+            letter-spacing: 0.25em;
             text-transform: uppercase;
             color: var(--accent);
-            margin-bottom: 1.8rem;
-            display: flex;
-            align-items: center;
-            gap: 0.7rem;
+            margin-bottom: 2.5rem;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            padding: 0.7rem 1.6rem;
+            border-radius: 100px;
+            background: rgba(255, 255, 255, 0.02);
+            backdrop-filter: blur(12px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
         }
 
-        .process__label::before {
-            content: '';
+        .process__label-dot {
             width: 6px;
             height: 6px;
             background: var(--accent);
             border-radius: 50%;
-            box-shadow: 0 0 10px var(--accent);
+            box-shadow: 0 0 12px var(--accent);
+            animation: labelDotPulse 2s infinite;
+        }
+
+        @keyframes labelDotPulse {
+            0% { box-shadow: 0 0 0 0 rgba(201, 210, 218, 0.5); }
+            70% { box-shadow: 0 0 0 8px rgba(201, 210, 218, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(201, 210, 218, 0); }
         }
 
         .process__title {
             font-family: var(--font-heading);
-            font-size: clamp(2.2rem, 4.5vw, 3.5rem);
+            font-size: clamp(2.8rem, 5.5vw, 5.5rem);
             font-weight: 700;
-            line-height: 1.08;
-            letter-spacing: -0.03em;
-            margin-bottom: 1.8rem;
+            line-height: 1.05;
+            letter-spacing: -0.035em;
+            margin-bottom: 2rem;
+            color: var(--text);
         }
 
         .process__title-accent {
-            background: linear-gradient(135deg, var(--accent) 0%, var(--accent-light) 100%);
+            background: linear-gradient(135deg, #fff 0%, var(--accent-dark) 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
         }
 
         .process__desc {
-            font-size: clamp(0.9rem, 1.1vw, 1rem);
+            font-size: clamp(1rem, 1.2vw, 1.15rem);
             line-height: 1.8;
             color: var(--text-muted);
-            max-width: 400px;
+            max-width: 580px;
+            margin: 0 auto;
         }
 
-        .process__desc-line {
-            width: 40px;
-            height: 1px;
-            background: linear-gradient(to right, var(--accent), transparent);
-            margin-top: 2.5rem;
-        }
-
-        .process__steps {
+        /* ── Central Axis & Timeline ── */
+        .process__timeline {
+            position: relative;
+            max-width: 1000px;
+            margin: 0 auto;
             display: flex;
             flex-direction: column;
-            position: relative;
+            gap: clamp(4rem, 8vw, 7rem);
         }
 
-        .process__steps::before {
+        .process__axis {
+            position: absolute;
+            top: -2rem;
+            bottom: -5rem;
+            left: 50%;
+            width: 1px;
+            background: linear-gradient(to bottom, transparent, rgba(255, 255, 255, 0.08) 15%, rgba(255, 255, 255, 0.08) 85%, transparent);
+            transform: translateX(-50%);
+            z-index: 1;
+        }
+
+        .process__axis-beam {
+            position: absolute;
+            top: 0;
+            left: -1px;
+            width: 3px;
+            height: 25vh;
+            background: linear-gradient(to bottom, transparent, var(--accent) 80%, rgba(255,255,255,0.8) 100%);
+            filter: drop-shadow(0 0 10px var(--accent));
+            animation: beamTravel 8s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+        }
+
+        @keyframes beamTravel {
+            0% { top: -10%; opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { top: 110%; opacity: 0; }
+        }
+
+        /* ── Nodes ── */
+        .process__node {
+            position: relative;
+            width: calc(50% - 4rem);
+            z-index: 2;
+            perspective: 1000px;
+        }
+
+        .process__node--left { align-self: flex-start; text-align: right; }
+        .process__node--right { align-self: flex-end; text-align: left; }
+
+        .process__connector {
+            position: absolute;
+            top: 4.5rem;
+            width: 4rem;
+            height: 1px;
+            background: rgba(255, 255, 255, 0.1);
+            transition: all 0.5s ease;
+        }
+
+        .process__node--left .process__connector { right: -4rem; background: linear-gradient(to right, transparent, rgba(255,255,255,0.1)); }
+        .process__node--right .process__connector { left: -4rem; background: linear-gradient(to left, transparent, rgba(255,255,255,0.1)); }
+
+        .process__connector::after {
             content: '';
             position: absolute;
-            left: 34px;
-            top: 0;
-            bottom: 0;
-            width: 1px;
-            background: linear-gradient(to bottom, transparent, rgba(201, 210, 218, 0.08) 10%, rgba(201, 210, 218, 0.08) 90%, transparent);
-            z-index: 0;
+            top: 50%;
+            width: 13px;
+            height: 13px;
+            background: var(--bg);
+            border: 2px solid rgba(255, 255, 255, 0.15);
+            border-radius: 50%;
+            transition: all 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+            box-shadow: 0 0 0 6px var(--bg);
+            z-index: 2;
         }
 
-        .process__step {
+        .process__node--left .process__connector::after { right: 0; transform: translate(50%, -50%); }
+        .process__node--right .process__connector::after { left: 0; transform: translate(-50%, -50%); }
+
+        .process__node:hover .process__connector {
+            background: rgba(201, 210, 218, 0.4);
+        }
+
+        .process__node:hover .process__connector::after {
+            border-color: var(--accent);
+            background: var(--accent);
+            box-shadow: 0 0 0 6px var(--bg), 0 0 20px rgba(255, 255, 255, 0.4);
+            transform: translate(50%, -50%) scale(1.2);
+        }
+        .process__node--right:hover .process__connector::after { transform: translate(-50%, -50%) scale(1.2); }
+
+        /* ── Card (Glass Panel) ── */
+        .process__card {
             position: relative;
-            display: grid;
-            grid-template-columns: 68px 1fr;
-            gap: 0;
-            padding: clamp(2rem, 3.5vw, 3rem) 0;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.04);
-            transition: border-color 0.5s;
+            padding: clamp(2.5rem, 4vw, 3.5rem);
+            background: rgba(255, 255, 255, 0.015);
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 20px;
+            box-shadow: inset 0 0 0 1px rgba(255,255,255,0.02), 0 30px 60px rgba(0, 0, 0, 0.4);
+            overflow: hidden;
+            transition: all 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+            transform-style: preserve-3d;
         }
 
-        .process__step:first-child { padding-top: 0; }
-        .process__step:last-child { border-bottom: none; }
-        .process__step:hover { border-color: rgba(201, 210, 218, 0.12); }
+        /* Intricate Corner Crosshairs */
+        .process__cross {
+            position: absolute;
+            width: 8px;
+            height: 8px;
+            opacity: 0.2;
+            transition: opacity 0.5s;
+        }
+        .process__cross::before, .process__cross::after { content: ''; position: absolute; background: #fff; }
+        .process__cross::before { top: 50%; left: 0; width: 100%; height: 1px; transform: translateY(-50%); }
+        .process__cross::after { left: 50%; top: 0; height: 100%; width: 1px; transform: translateX(-50%); }
 
-        .process__step-number-wrap {
+        .process__cross--tl { top: 1.5rem; left: 1.5rem; }
+        .process__cross--tr { top: 1.5rem; right: 1.5rem; }
+        .process__cross--bl { bottom: 1.5rem; left: 1.5rem; }
+        .process__cross--br { bottom: 1.5rem; right: 1.5rem; }
+
+        /* Huge translucent background numbers */
+        .process__bg-num {
+            position: absolute;
+            top: -10%;
+            font-family: var(--font-heading);
+            font-size: clamp(10rem, 18vw, 18rem);
+            font-weight: 700;
+            color: transparent;
+            -webkit-text-stroke: 1px rgba(255, 255, 255, 0.02);
+            line-height: 1;
+            z-index: 0;
+            pointer-events: none;
+            user-select: none;
+            transition: all 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+
+        .process__node--left .process__bg-num { right: -5%; }
+        .process__node--right .process__bg-num { left: -5%; }
+
+        /* Inner Glow on hover */
+        .process__card::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(circle at 50% 0%, rgba(201, 210, 218, 0.08), transparent 70%);
+            opacity: 0;
+            transition: opacity 0.7s ease;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .process__node:hover .process__card {
+            transform: translateY(-8px);
+            border-color: rgba(255, 255, 255, 0.15);
+            background: rgba(255, 255, 255, 0.03);
+            box-shadow: inset 0 0 0 1px rgba(255,255,255,0.05), 0 40px 80px rgba(0, 0, 0, 0.6), 0 0 40px rgba(201, 210, 218, 0.05);
+        }
+
+        .process__node:hover .process__card::before { opacity: 1; }
+        .process__node:hover .process__cross { opacity: 0.8; }
+        .process__node:hover .process__bg-num {
+            -webkit-text-stroke: 1px rgba(255, 255, 255, 0.06);
+            transform: scale(1.05) translateY(-2%);
+        }
+
+        /* Card Content */
+        .process__card-content {
             position: relative;
             z-index: 2;
+        }
+
+        .process__meta {
             display: flex;
-            justify-content: center;
-            padding-top: 0.3rem;
+            align-items: center;
+            gap: 1.2rem;
+            margin-bottom: 2rem;
         }
 
-        .process__step-dot {
-            width: 10px;
-            height: 10px;
-            border-radius: 50%;
-            background: var(--bg);
-            border: 1.5px solid rgba(201, 210, 218, 0.2);
-            position: relative;
-            transition: all 0.5s cubic-bezier(0.22, 1, 0.36, 1);
-            box-shadow: 0 0 0 4px var(--bg);
-        }
+        .process__node--left .process__meta { justify-content: flex-end; }
+        .process__node--right .process__meta { justify-content: flex-start; }
 
-        .process__step-dot::after {
-            content: '';
-            position: absolute;
-            inset: 2px;
-            border-radius: 50%;
-            background: transparent;
-            transition: background 0.5s;
-        }
-
-        .process__step:hover .process__step-dot {
-            border-color: var(--accent);
-            box-shadow: 0 0 0 4px var(--bg), 0 0 20px rgba(201, 210, 218, 0.15);
-        }
-
-        .process__step:hover .process__step-dot::after { background: var(--accent); }
-
-        .process__step-body { position: relative; }
-
-        .process__step-number {
+        .process__meta-num {
             font-family: var(--font-heading);
-            font-size: 0.7rem;
+            font-size: 0.85rem;
             font-weight: 600;
-            letter-spacing: 0.15em;
-            color: var(--accent-dark);
-            margin-bottom: 0.7rem;
-            transition: color 0.4s;
+            letter-spacing: 0.1em;
+            color: var(--accent);
+            padding: 0.3rem 0.8rem;
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 6px;
+            background: rgba(255,255,255,0.02);
+            backdrop-filter: blur(4px);
         }
 
-        .process__step:hover .process__step-number { color: var(--accent); }
+        .process__meta-line {
+            width: 40px;
+            height: 1px;
+            background: rgba(255, 255, 255, 0.15);
+        }
 
         .process__step-title {
             font-family: var(--font-heading);
-            font-size: clamp(1.4rem, 2.2vw, 1.9rem);
+            font-size: clamp(1.6rem, 2.5vw, 2.3rem);
             font-weight: 600;
             letter-spacing: -0.02em;
-            margin-bottom: 0.9rem;
-            transition: color 0.4s;
+            margin-bottom: 1.2rem;
+            color: var(--text);
         }
-
-        .process__step:hover .process__step-title { color: var(--accent-light); }
 
         .process__step-desc {
-            font-size: clamp(0.88rem, 1vw, 0.95rem);
+            font-size: clamp(0.95rem, 1.1vw, 1.05rem);
             line-height: 1.75;
             color: var(--text-muted);
-            max-width: 440px;
-            transition: color 0.4s;
         }
 
-        .process__step:hover .process__step-desc { color: var(--text); }
-
-        .process__step-glow {
-            position: absolute;
-            top: 50%;
-            left: -20px;
-            width: 300px;
-            height: 200px;
-            background: radial-gradient(ellipse at left center, rgba(201, 210, 218, 0.03), transparent 70%);
-            transform: translateY(-50%);
-            pointer-events: none;
-            opacity: 0;
-            transition: opacity 0.6s;
-            z-index: -1;
-        }
-
-        .process__step:hover .process__step-glow { opacity: 1; }
-
+        /* ── Responsive Mobile ── */
         @media (max-width: 992px) {
-            .process__layout { grid-template-columns: 1fr; gap: clamp(3rem, 6vw, 5rem); }
-            .process__header { position: relative; top: auto; }
+            .process__timeline {
+                gap: 4rem;
+            }
+            .process__axis {
+                left: 2rem;
+            }
+            .process__node {
+                width: 100%;
+                padding-left: 5.5rem;
+                align-self: flex-start;
+                text-align: left;
+            }
+            .process__node--left .process__connector, 
+            .process__node--right .process__connector {
+                left: 2rem;
+                right: auto;
+                width: 3.5rem;
+                background: linear-gradient(to right, transparent, rgba(255,255,255,0.1));
+            }
+            .process__node--left .process__connector::after, 
+            .process__node--right .process__connector::after {
+                left: 0;
+                right: auto;
+                transform: translate(-50%, -50%);
+            }
+            .process__node--left:hover .process__connector::after,
+            .process__node--right:hover .process__connector::after {
+                transform: translate(-50%, -50%) scale(1.2);
+            }
+            .process__node--left .process__bg-num,
+            .process__node--right .process__bg-num {
+                right: 5%;
+                left: auto;
+            }
+            .process__node--left .process__meta {
+                justify-content: flex-start;
+            }
         }
 
         @media (max-width: 480px) {
-            .process__step { grid-template-columns: 40px 1fr; }
-            .process__steps::before { left: 19px; }
+            .process__node {
+                padding-left: 3.5rem;
+            }
+            .process__axis {
+                left: 1rem;
+            }
+            .process__node--left .process__connector, 
+            .process__node--right .process__connector {
+                left: 1rem;
+                width: 2.5rem;
+            }
+            .process__card {
+                padding: 2rem 1.5rem;
+            }
+            .process__cross {
+                display: none;
+            }
         }
     </style>
 </head>
@@ -3333,83 +3498,120 @@
     </section>
 
     <!-- ═══════════════════════════════════════
-     PROCESSO
-     ═══════════════════════════════════════ -->
+     PROCESSO (EDITORIAL & HIGH-END TIMELINE)
+     ═══════════════════════════════════════════ -->
     <section class="process" id="processo">
         <div class="process__bg-grid" id="processGrid"></div>
-        <div class="process__bg-glow"></div>
+        <div class="process__core-glow"></div>
 
         <div class="process__container">
-            <div class="process__layout">
+            <!-- Header Centralizado e Imponente -->
+            <div class="process__header" data-st>
+                <div class="process__label">
+                    <span class="process__label-dot"></span> Nosso Processo
+                </div>
+                <h2 class="process__title">
+                    Clareza em cada<br>
+                    <span class="process__title-accent">etapa do projeto.</span>
+                </h2>
+                <p class="process__desc">
+                    Da estratégia ao acabamento final, cada decisão é conduzida com intenção, precisão visual e foco absoluto na qualidade da entrega.
+                </p>
+            </div>
 
-                <!-- Left Column — Header (sticky) -->
-                <div class="process__header" data-st>
-                    <div class="process__label">Nosso Processo</div>
-                    <h2 class="process__title">
-                        Clareza em cada<br>
-                        <span class="process__title-accent">etapa do projeto.</span>
-                    </h2>
-                    <p class="process__desc">
-                        Da estratégia ao acabamento final, cada decisão é conduzida com intenção, precisão visual e foco absoluto na qualidade da entrega.
-                    </p>
-                    <div class="process__desc-line"></div>
+            <!-- Eixo Central com Zigue-Zague Editorial -->
+            <div class="process__timeline">
+                
+                <div class="process__axis">
+                    <div class="process__axis-beam"></div>
                 </div>
 
-                <!-- Right Column — Steps Timeline -->
-                <div class="process__steps">
-
-                    <!-- Step 01 -->
-                    <div class="process__step" data-st>
-                        <div class="process__step-number-wrap">
-                            <div class="process__step-dot"></div>
-                        </div>
-                        <div class="process__step-body">
-                            <div class="process__step-glow"></div>
-                            <div class="process__step-number">01</div>
+                <!-- 01 Imersão -->
+                <div class="process__node process__node--left" data-st>
+                    <div class="process__connector"></div>
+                    <div class="process__card">
+                        <div class="process__cross process__cross--tl"></div>
+                        <div class="process__cross process__cross--tr"></div>
+                        <div class="process__cross process__cross--bl"></div>
+                        <div class="process__cross process__cross--br"></div>
+                        
+                        <div class="process__bg-num">01</div>
+                        
+                        <div class="process__card-content">
+                            <div class="process__meta">
+                                <span class="process__meta-num">01</span>
+                                <span class="process__meta-line"></span>
+                            </div>
                             <h3 class="process__step-title">Imersão</h3>
                             <p class="process__step-desc">Antes de criar, entendemos a essência da marca, seus objetivos e o contexto do projeto. Mapeamos cada detalhe que orienta a direção certa.</p>
                         </div>
                     </div>
+                </div>
 
-                    <!-- Step 02 -->
-                    <div class="process__step" data-st>
-                        <div class="process__step-number-wrap">
-                            <div class="process__step-dot"></div>
-                        </div>
-                        <div class="process__step-body">
-                            <div class="process__step-glow"></div>
-                            <div class="process__step-number">02</div>
+                <!-- 02 Direção -->
+                <div class="process__node process__node--right" data-st>
+                    <div class="process__connector"></div>
+                    <div class="process__card">
+                        <div class="process__cross process__cross--tl"></div>
+                        <div class="process__cross process__cross--tr"></div>
+                        <div class="process__cross process__cross--bl"></div>
+                        <div class="process__cross process__cross--br"></div>
+                        
+                        <div class="process__bg-num">02</div>
+                        
+                        <div class="process__card-content">
+                            <div class="process__meta">
+                                <span class="process__meta-num">02</span>
+                                <span class="process__meta-line"></span>
+                            </div>
                             <h3 class="process__step-title">Direção</h3>
                             <p class="process__step-desc">Definimos a linguagem visual, a estrutura da experiência e a direção criativa que vai orientar cada decisão do projeto.</p>
                         </div>
                     </div>
+                </div>
 
-                    <!-- Step 03 -->
-                    <div class="process__step" data-st>
-                        <div class="process__step-number-wrap">
-                            <div class="process__step-dot"></div>
-                        </div>
-                        <div class="process__step-body">
-                            <div class="process__step-glow"></div>
-                            <div class="process__step-number">03</div>
+                <!-- 03 Construção -->
+                <div class="process__node process__node--left" data-st>
+                    <div class="process__connector"></div>
+                    <div class="process__card">
+                        <div class="process__cross process__cross--tl"></div>
+                        <div class="process__cross process__cross--tr"></div>
+                        <div class="process__cross process__cross--bl"></div>
+                        <div class="process__cross process__cross--br"></div>
+                        
+                        <div class="process__bg-num">03</div>
+                        
+                        <div class="process__card-content">
+                            <div class="process__meta">
+                                <span class="process__meta-num">03</span>
+                                <span class="process__meta-line"></span>
+                            </div>
                             <h3 class="process__step-title">Construção</h3>
                             <p class="process__step-desc">Transformamos conceito em interface com execução refinada, responsiva e tecnicamente sólida. Cada pixel é posicionado com intenção.</p>
                         </div>
                     </div>
+                </div>
 
-                    <!-- Step 04 -->
-                    <div class="process__step" data-st>
-                        <div class="process__step-number-wrap">
-                            <div class="process__step-dot"></div>
-                        </div>
-                        <div class="process__step-body">
-                            <div class="process__step-glow"></div>
-                            <div class="process__step-number">04</div>
+                <!-- 04 Refinamento -->
+                <div class="process__node process__node--right" data-st>
+                    <div class="process__connector"></div>
+                    <div class="process__card">
+                        <div class="process__cross process__cross--tl"></div>
+                        <div class="process__cross process__cross--tr"></div>
+                        <div class="process__cross process__cross--bl"></div>
+                        <div class="process__cross process__cross--br"></div>
+                        
+                        <div class="process__bg-num">04</div>
+                        
+                        <div class="process__card-content">
+                            <div class="process__meta">
+                                <span class="process__meta-num">04</span>
+                                <span class="process__meta-line"></span>
+                            </div>
                             <h3 class="process__step-title">Refinamento</h3>
                             <p class="process__step-desc">Lapidamos cada detalhe até que o resultado transmita clareza, consistência e valor percebido. O acabamento faz a diferença.</p>
                         </div>
                     </div>
-
                 </div>
 
             </div>
