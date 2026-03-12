@@ -156,13 +156,14 @@
                 flex-direction: column !important; 
                 align-items: center !important; 
                 text-align: center !important;
-                padding: 60px 1.5rem 1.5rem !important;
+                padding: 90px 1.5rem 1.5rem !important;
                 justify-content: flex-start !important;
                 box-sizing: border-box !important;
             }
             .hero__label { 
                 justify-content: center !important; 
                 margin-bottom: 0.6rem !important;
+                margin-top: 3.5rem !important;
                 order: 1 !important;
                 flex-shrink: 0 !important;
             }
@@ -175,20 +176,14 @@
                 flex-shrink: 0 !important;
             }
             .hero__subtitle { 
-                max-width: 88% !important; 
-                margin: 0 auto !important; 
-                font-size: 0.8rem !important; 
-                line-height: 1.65 !important;
-                text-align: center !important;
-                order: 3 !important;
-                flex-shrink: 0 !important;
+                display: none !important;
             }
             .hero__ctas { 
                 justify-content: center !important; 
                 flex-direction: column !important; 
                 width: 100% !important; 
-                max-width: 340px !important;
-                gap: 0.6rem !important; 
+                max-width: 300px !important;
+                gap: 0.5rem !important; 
                 margin: auto auto 0 auto !important;
                 order: 4 !important;
                 position: relative !important;
@@ -200,6 +195,16 @@
             .hero__ctas .cta__btn-custom { 
                 width: 100% !important; 
                 justify-content: center !important; 
+                padding: 10px 24px !important;
+                min-height: 44px !important;
+                font-size: 0.82rem !important;
+            }
+            .hero__ctas .cta__btn-custom .inner {
+                font-size: 0.85rem !important;
+            }
+            .hero__ctas .btn-ghost {
+                padding: 9px 22px !important;
+                font-size: 0.8rem !important;
             }
             .hero__scroll { 
                 bottom: 0.3rem !important; 
@@ -222,10 +227,60 @@
             }
             .hero__tag { display: none !important; }
             .hero__corner { display: none !important; }
-            .beams { display: none !important; }
+            /* Beams — mais visíveis no mobile */
+            .beams { 
+                opacity: 0.25 !important;
+            }
+            /* Orbs — mais brilhantes e maiores no mobile */
+            .hero__orb--a {
+                width: 350px !important;
+                height: 350px !important;
+                background: radial-gradient(circle, rgba(201, 210, 218, 0.09) 0%, transparent 60%) !important;
+                animation: orbDrift 10s ease-in-out infinite alternate !important;
+            }
+            .hero__orb--b {
+                width: 280px !important;
+                height: 280px !important;
+                background: radial-gradient(circle, rgba(111, 118, 125, 0.1) 0%, transparent 60%) !important;
+                animation: orbDrift 14s ease-in-out infinite alternate-reverse !important;
+            }
+            .hero__orb--c {
+                width: 200px !important;
+                height: 200px !important;
+                background: radial-gradient(circle, rgba(201, 210, 218, 0.07) 0%, transparent 60%) !important;
+                animation: orbDrift 18s ease-in-out infinite alternate !important;
+            }
+            /* Halo — maior e mais pulsante */
             .hero__halo {
-                width: clamp(250px, 55vw, 400px) !important;
-                height: clamp(250px, 55vw, 400px) !important;
+                width: clamp(300px, 70vw, 500px) !important;
+                height: clamp(300px, 70vw, 500px) !important;
+                opacity: 0.7 !important;
+            }
+            /* Shimmer face — sutil brilho */
+            .hero__shimmer {
+                opacity: 0.15 !important;
+            }
+            /* Partículas / estrelas no fundo */
+            .hero::before {
+                content: '' !important;
+                position: absolute !important;
+                inset: 0 !important;
+                z-index: 1 !important;
+                pointer-events: none !important;
+                background-image: 
+                    radial-gradient(1px 1px at 15% 25%, rgba(201,210,218,0.7) 1px, transparent 0),
+                    radial-gradient(1.5px 1.5px at 35% 55%, rgba(201,210,218,0.5) 1px, transparent 0),
+                    radial-gradient(1px 1px at 55% 15%, rgba(201,210,218,0.6) 1px, transparent 0),
+                    radial-gradient(2px 2px at 75% 70%, rgba(201,210,218,0.4) 1px, transparent 0),
+                    radial-gradient(1px 1px at 85% 35%, rgba(201,210,218,0.8) 1px, transparent 0),
+                    radial-gradient(1.5px 1.5px at 25% 80%, rgba(201,210,218,0.5) 1px, transparent 0),
+                    radial-gradient(1px 1px at 65% 45%, rgba(201,210,218,0.6) 1px, transparent 0),
+                    radial-gradient(2px 2px at 45% 90%, rgba(201,210,218,0.3) 1px, transparent 0),
+                    radial-gradient(1px 1px at 90% 85%, rgba(201,210,218,0.7) 1px, transparent 0),
+                    radial-gradient(1.5px 1.5px at 10% 60%, rgba(201,210,218,0.4) 1px, transparent 0) !important;
+                background-size: 300px 300px !important;
+                animation: heroStarsDrift 80s linear infinite !important;
+                opacity: 0.5 !important;
             }
 
             /* ═══════════════════════════════════════
