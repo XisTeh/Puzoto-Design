@@ -7,30 +7,38 @@
 
             /* ─── LOADER ────────────────────── */
             const loader = $('#loader'), fill = $('#loaderFill'), fill2 = $('#loaderFill2');
-            let prog = 0, prog2 = 0, tickCount = 0;
-            const tick = setInterval(() => {
-                tickCount++;
-                // Barra 1: avança rápido desde o início
-                if (prog < 85) { prog += Math.random() * 14 + 2; fill.style.width = Math.min(prog, 100) + '%'; }
-                // Barra 2: começa atrasada (~400ms delay) e avança mais devagar
-                if (tickCount > 3 && prog2 < prog * 0.6) { prog2 += Math.random() * 6 + 1; fill2.style.width = Math.min(prog2, 100) + '%'; }
-            }, 140);
+            let tick = null;
+            if (!isMobile) {
+                let prog = 0, prog2 = 0, tickCount = 0;
+                tick = setInterval(() => {
+                    tickCount++;
+                    if (prog < 85) { prog += Math.random() * 14 + 2; fill.style.width = Math.min(prog, 100) + '%'; }
+                    if (tickCount > 3 && prog2 < prog * 0.6) { prog2 += Math.random() * 6 + 1; fill2.style.width = Math.min(prog2, 100) + '%'; }
+                }, 140);
+            } else {
+                // Mobile immediate fake progress
+                fill.style.width = '60%';
+                if (fill2) fill2.style.width = '40%';
+            }
             const heroImg = $('#heroImg');
             function dismiss() {
-                clearInterval(tick);
+                if (tick) clearInterval(tick);
                 fill.style.width = '100%';
-                setTimeout(() => { fill2.style.width = '100%'; }, 200);
-                setTimeout(() => { loader.classList.add('is-loaded'); runEntrance() }, 650);
+                if(fill2) setTimeout(() => { fill2.style.width = '100%'; }, isMobile ? 50 : 200);
+                setTimeout(() => { loader.classList.add('is-loaded'); runEntrance() }, isMobile ? 150 : 650);
             }
-            if (heroImg.complete) setTimeout(dismiss, 500);
-            else { heroImg.addEventListener('load', () => setTimeout(dismiss, 200), { once: true }); setTimeout(dismiss, 4000) }
+            if (heroImg.complete || isMobile) setTimeout(dismiss, isMobile ? 50 : 500);
+            else { heroImg.addEventListener('load', () => setTimeout(dismiss, 100), { once: true }); setTimeout(dismiss, 3000) }
 
             /* ─── LENIS ─────────────────────── */
-            const lenis = new Lenis({ duration: 1.2, easing: t => Math.min(1, 1.001 - Math.pow(2, -10 * t)), smoothWheel: true });
-            function raf(t) { lenis.raf(t); requestAnimationFrame(raf) }
-            requestAnimationFrame(raf);
-            gsap.ticker.add(t => lenis.raf(t * 1000));
-            gsap.ticker.lagSmoothing(0);
+            let lenis = null;
+            if (!isMobile) {
+                lenis = new Lenis({ duration: 1.2, easing: t => Math.min(1, 1.001 - Math.pow(2, -10 * t)), smoothWheel: true });
+                function raf(t) { lenis.raf(t); requestAnimationFrame(raf) }
+                requestAnimationFrame(raf);
+                gsap.ticker.add(t => lenis.raf(t * 1000));
+                gsap.ticker.lagSmoothing(0);
+            }
 
             /* ─── NAV ───────────────────────── */
             const nav = $('#nav');
@@ -38,7 +46,12 @@
 
             /* ─── MOBILE MENU ───────────────── */
             const mobileMenu = $('#mobileMenu');
-            function toggleMenu() { mobileMenu.classList.toggle('is-open'); const o = mobileMenu.classList.contains('is-open'); document.body.style.overflow = o ? 'hidden' : ''; o ? lenis.stop() : lenis.start() }
+            function toggleMenu() { 
+                mobileMenu.classList.toggle('is-open'); 
+                const o = mobileMenu.classList.contains('is-open'); 
+                document.body.style.overflow = o ? 'hidden' : ''; 
+                if (lenis) { o ? lenis.stop() : lenis.start(); }
+            }
             $('#navToggle').addEventListener('click', toggleMenu);
             $('#mobileClose').addEventListener('click', toggleMenu);
             document.querySelectorAll('[data-mobile-link]').forEach(l => l.addEventListener('click', toggleMenu));
@@ -116,16 +129,20 @@
             }
 
             /* ─── WEBGL 3D BACKGROUND ────────── */
-            try {
-                const canvas = $('#webgl');
-                const scene = new THREE.Scene();
-                scene.background = null;
-                scene.fog = new THREE.FogExp2(0x0E0F11, .003);
-                const camera = new THREE.PerspectiveCamera(55, window.innerWidth / window.innerHeight, .1, 1000);
-                camera.position.z = 100;
-                const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true });
-                renderer.setSize(window.innerWidth, window.innerHeight);
-                renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+            if (!isMobile) {
+                const threeScript = document.createElement('script');
+                threeScript.src = 'https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js';
+                threeScript.onload = () => {
+                    try {
+                        const canvas = $('#webgl');
+                        const scene = new THREE.Scene();
+                        scene.background = null;
+                        scene.fog = new THREE.FogExp2(0x0E0F11, .003);
+                        const camera = new THREE.PerspectiveCamera(55, window.innerWidth / window.innerHeight, .1, 1000);
+                        camera.position.z = 100;
+                        const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true });
+                        renderer.setSize(window.innerWidth, window.innerHeight);
+                        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 
                 /* Deep particles — far background */
                 const deepGeo = new THREE.BufferGeometry();
@@ -233,6 +250,9 @@
                     renderer.setSize(window.innerWidth, window.innerHeight);
                 });
             } catch (e) { console.log('WebGL error:', e) }
+                }; // END threeScript.onload
+                document.head.appendChild(threeScript);
+            } // END if(!isMobile)
 
             /* ─── ENTRANCE ──────────────────── */
             function runEntrance() {
@@ -240,38 +260,63 @@
                 tl.fromTo(nav, { opacity: 0, y: -20 }, { opacity: 1, y: 0, duration: .9 }, .2);
 
                 const fig = $('#heroFigure');
-                tl.fromTo(fig, { scale: 1.06, opacity: 0 }, { scale: 1, opacity: 1, duration: 1.8, ease: 'power2.out' }, 0);
-                tl.fromTo(halo, { opacity: 0, scale: .8 }, { opacity: .6, scale: 1, duration: 1.4, ease: 'power2.out' }, .2);
 
-                document.querySelectorAll('[data-reveal]').forEach((el, i) => {
-                    tl.to(el, { y: 0, duration: 1.3, ease: 'power4.out' }, .25 + i * .12);
-                });
+                if (isMobile) {
+                    // Mobile: Lightweight entrance (no filter, shorter durations)
+                    tl.fromTo(fig, { opacity: 0 }, { opacity: 1, duration: .8, ease: 'power2.out' }, 0);
 
-                gsap.set('#heroLabel', { y: 15, filter: 'blur(6px)' });
-                tl.to('#heroLabel', { opacity: 1, y: 0, filter: 'blur(0px)', duration: .8 }, .35);
+                    document.querySelectorAll('[data-reveal]').forEach((el, i) => {
+                        tl.to(el, { y: 0, duration: .8, ease: 'power3.out' }, .15 + i * .08);
+                    });
 
-                gsap.set('#heroSub', { y: 25, filter: 'blur(6px)' });
-                tl.to('#heroSub', { opacity: 1, y: 0, filter: 'blur(0px)', duration: .9 }, .6);
+                    gsap.set('#heroLabel', { y: 10 });
+                    tl.to('#heroLabel', { opacity: 1, y: 0, duration: .6 }, .2);
 
-                gsap.set('#heroCtas', { y: 20 });
-                tl.to('#heroCtas', { opacity: 1, y: 0, duration: .8 }, .8);
+                    gsap.set('#heroSub', { y: 15 });
+                    tl.to('#heroSub', { opacity: 1, y: 0, duration: .6 }, .35);
 
-                gsap.set('#heroScroll', { y: 15 });
-                tl.to('#heroScroll', { opacity: .5, y: 0, duration: .7 }, 1.1);
+                    gsap.set('#heroCtas', { y: 10 });
+                    tl.to('#heroCtas', { opacity: 1, y: 0, duration: .5 }, .5);
 
-                tl.to('#tagL', { opacity: .35, duration: .8 }, 1.2);
-                tl.to('#tagR', { opacity: .35, duration: .8 }, 1.3);
-                tl.to('.hero__corner', { opacity: 1, duration: .6, stagger: .08 }, 1);
+                    gsap.set('#heroScroll', { y: 10 });
+                    tl.to('#heroScroll', { opacity: .5, y: 0, duration: .5 }, .7);
+                } else {
+                    // Desktop: Full premium entrance with blur
+                    tl.fromTo(fig, { scale: 1.06, opacity: 0 }, { scale: 1, opacity: 1, duration: 1.8, ease: 'power2.out' }, 0);
+                    tl.fromTo(halo, { opacity: 0, scale: .8 }, { opacity: .6, scale: 1, duration: 1.4, ease: 'power2.out' }, .2);
+
+                    document.querySelectorAll('[data-reveal]').forEach((el, i) => {
+                        tl.to(el, { y: 0, duration: 1.3, ease: 'power4.out' }, .25 + i * .12);
+                    });
+
+                    gsap.set('#heroLabel', { y: 15, filter: 'blur(6px)' });
+                    tl.to('#heroLabel', { opacity: 1, y: 0, filter: 'blur(0px)', duration: .8 }, .35);
+
+                    gsap.set('#heroSub', { y: 25, filter: 'blur(6px)' });
+                    tl.to('#heroSub', { opacity: 1, y: 0, filter: 'blur(0px)', duration: .9 }, .6);
+
+                    gsap.set('#heroCtas', { y: 20 });
+                    tl.to('#heroCtas', { opacity: 1, y: 0, duration: .8 }, .8);
+
+                    gsap.set('#heroScroll', { y: 15 });
+                    tl.to('#heroScroll', { opacity: .5, y: 0, duration: .7 }, 1.1);
+
+                    tl.to('#tagL', { opacity: .35, duration: .8 }, 1.2);
+                    tl.to('#tagR', { opacity: .35, duration: .8 }, 1.3);
+                    tl.to('.hero__corner', { opacity: 1, duration: .6, stagger: .08 }, 1);
+                }
             }
 
             /* ─── CINEMATIC ZOOM ────────────── */
-            gsap.to(heroImg, { scale: 1.02, duration: 20, ease: 'none', repeat: -1, yoyo: true });
+            if(!isMobile) gsap.to(heroImg, { scale: 1.02, duration: 20, ease: 'none', repeat: -1, yoyo: true });
 
             /* ─── HALO BREATHING ────────────── */
-            gsap.to(halo, {
-                boxShadow: '0 0 80px 30px rgba(201,210,218,.06)',
-                duration: 4, ease: 'sine.inOut', repeat: -1, yoyo: true
-            });
+            if(!isMobile) {
+                gsap.to(halo, {
+                    boxShadow: '0 0 80px 30px rgba(201,210,218,.06)',
+                    duration: 4, ease: 'sine.inOut', repeat: -1, yoyo: true
+                });
+            }
 
             /* ─── SCROLLTRIGGER LOGIC ───────── */
             gsap.registerPlugin(ScrollTrigger);
@@ -279,63 +324,62 @@
             // Stagger fade up for elements with data-st (Cinematic Motion)
             const stElems = gsap.utils.toArray('[data-st]');
             stElems.forEach((el) => {
-                // Pre-calcula propriedades para GPU
-                el.style.willChange = "opacity, transform, filter";
+                // Mobile: only opacity + transform (no filter = much less TBT)
+                // Desktop: full premium blur effect
+                el.style.willChange = "opacity, transform";
 
-                gsap.fromTo(el,
-                    { 
-                        opacity: 0, 
-                        y: 50, 
-                        scale: 0.96,
-                        filter: 'blur(12px)'
-                    },
-                    {
-                        opacity: 1,
-                        y: 0,
-                        scale: 1,
-                        filter: 'blur(0px)',
+                const fromProps = isMobile
+                    ? { opacity: 0, y: 30 }
+                    : { opacity: 0, y: 50, scale: 0.96, filter: 'blur(12px)' };
+
+                const toProps = isMobile
+                    ? {
+                        opacity: 1, y: 0,
+                        duration: 1,
+                        ease: 'power3.out',
+                        scrollTrigger: { trigger: el, start: 'top 95%', toggleActions: 'play none none reverse' },
+                        onComplete: () => { el.style.willChange = "auto"; }
+                    }
+                    : {
+                        opacity: 1, y: 0, scale: 1, filter: 'blur(0px)',
                         duration: 1.6,
                         ease: 'expo.out',
-                        scrollTrigger: {
-                            trigger: el,
-                            start: 'top 85%',
-                            toggleActions: 'play none none reverse'
-                        },
-                        onComplete: () => {
-                            el.style.willChange = "auto";
-                            el.style.filter = "none"; // Limpa artefatos no final
-                        }
-                    }
-                );
+                        scrollTrigger: { trigger: el, start: 'top 85%', toggleActions: 'play none none reverse' },
+                        onComplete: () => { el.style.willChange = "auto"; el.style.filter = "none"; }
+                    };
+
+                gsap.fromTo(el, fromProps, toProps);
             });
 
             /* ─── FLASHLIGHT CARDS & 3D TILT ────── */
-            const flashCards = document.querySelectorAll('.flashlight-card');
-            flashCards.forEach(card => {
-                const rotateXTo = gsap.quickTo(card, "rotateX", { duration: 0.4, ease: "power2.out" });
-                const rotateYTo = gsap.quickTo(card, "rotateY", { duration: 0.4, ease: "power2.out" });
+            if(!isMobile) {
+                const flashCards = document.querySelectorAll('.flashlight-card');
+                flashCards.forEach(card => {
+                    const rotateXTo = gsap.quickTo(card, "rotateX", { duration: 0.4, ease: "power2.out" });
+                    const rotateYTo = gsap.quickTo(card, "rotateY", { duration: 0.4, ease: "power2.out" });
 
-                card.addEventListener('mousemove', e => {
-                    const rect = card.getBoundingClientRect();
-                    const x = e.clientX - rect.left;
-                    const y = e.clientY - rect.top;
+                    card.addEventListener('mousemove', e => {
+                        const rect = card.getBoundingClientRect();
+                        const x = e.clientX - rect.left;
+                        const y = e.clientY - rect.top;
 
-                    // Flashlight follow
-                    card.style.setProperty('--fx', `${x}px`);
-                    card.style.setProperty('--fy', `${y}px`);
+                        // Flashlight follow
+                        card.style.setProperty('--fx', `${x}px`);
+                        card.style.setProperty('--fy', `${y}px`);
 
-                    // 3D Tilt Effect
-                    const centerX = rect.width / 2;
-                    const centerY = rect.height / 2;
-                    rotateXTo(((y - centerY) / centerY) * -5);
-                    rotateYTo(((x - centerX) / centerX) * 5);
+                        // 3D Tilt Effect
+                        const centerX = rect.width / 2;
+                        const centerY = rect.height / 2;
+                        rotateXTo(((y - centerY) / centerY) * -5);
+                        rotateYTo(((x - centerX) / centerX) * 5);
+                    });
+
+                    card.addEventListener('mouseleave', () => {
+                        rotateXTo(0);
+                        rotateYTo(0);
+                    });
                 });
-
-                card.addEventListener('mouseleave', () => {
-                    rotateXTo(0);
-                    rotateYTo(0);
-                });
-            });
+            }
 
             // Background Grid Parallax removed for render efficiency (Layout Thrashing Optimization)
 

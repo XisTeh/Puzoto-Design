@@ -12,42 +12,42 @@
     <link href="https://fonts.googleapis.com" rel="preconnect" />
     <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect" />
     <link
-        href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap"
+        href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap"
         rel="stylesheet" />
 
-    <!-- Icons -->
-    <script src="https://code.iconify.design/2/2.2.1/iconify.min.js"></script>
+    <!-- Preload LCP image -->
+    <link rel="preload" as="image" href="assets/images/Bora.webp" type="image/webp" fetchpriority="high" />
 
-    <!-- Three.js -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 
     <!-- GSAP -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
 
     <!-- Lenis -->
-    <script src="https://unpkg.com/lenis@1.1.18/dist/lenis.min.js"></script>
+    <script defer src="https://unpkg.com/lenis@1.1.18/dist/lenis.min.js"></script>
 
     <link rel="stylesheet" href="assets/css/main.css" />
-    <link rel="stylesheet" href="assets/css/components/ambient_orbs.css" />
-    <link rel="stylesheet" href="assets/css/components/beams.css" />
-    <link rel="stylesheet" href="assets/css/components/carousel.css" />
-    <link rel="stylesheet" href="assets/css/components/corners.css" />
-    <link rel="stylesheet" href="assets/css/components/decorative_elements.css" />
-    <link rel="stylesheet" href="assets/css/components/header.css" />
-    <link rel="stylesheet" href="assets/css/components/loader.css" />
     <link rel="stylesheet" href="assets/css/components/nav.css" />
-    <link rel="stylesheet" href="assets/css/components/navigation_thumbs.css" />
-    <link rel="stylesheet" href="assets/css/components/nodes.css" />
+    <link rel="stylesheet" href="assets/css/components/loader.css" />
     <link rel="stylesheet" href="assets/css/components/noise.css" />
-    <link rel="stylesheet" href="assets/css/components/project_card.css" />
     <link rel="stylesheet" href="assets/css/components/responsive_mobile.css" />
-    <link rel="stylesheet" href="assets/css/components/scroll.css" />
-    <link rel="stylesheet" href="assets/css/components/tags.css" />
-    <link rel="stylesheet" href="assets/css/components/webgl.css" />
-    <link rel="stylesheet" href="assets/css/sections/about.css" />
     <link rel="stylesheet" href="assets/css/sections/hero.css" />
-    <link rel="stylesheet" href="assets/css/sections/projects.css" />
+
+    <!-- Non-critical / Async CSS -->
+    <link rel="stylesheet" href="assets/css/components/ambient_orbs.css" media="print" onload="this.media='all'" />
+    <link rel="stylesheet" href="assets/css/components/beams.css" media="print" onload="this.media='all'" />
+    <link rel="stylesheet" href="assets/css/components/carousel.css" media="print" onload="this.media='all'" />
+    <link rel="stylesheet" href="assets/css/components/corners.css" media="print" onload="this.media='all'" />
+    <link rel="stylesheet" href="assets/css/components/decorative_elements.css" media="print" onload="this.media='all'" />
+    <link rel="stylesheet" href="assets/css/components/header.css" media="print" onload="this.media='all'" />
+    <link rel="stylesheet" href="assets/css/components/navigation_thumbs.css" media="print" onload="this.media='all'" />
+    <link rel="stylesheet" href="assets/css/components/nodes.css" media="print" onload="this.media='all'" />
+    <link rel="stylesheet" href="assets/css/components/project_card.css" media="print" onload="this.media='all'" />
+    <link rel="stylesheet" href="assets/css/components/scroll.css" media="print" onload="this.media='all'" />
+    <link rel="stylesheet" href="assets/css/components/tags.css" media="print" onload="this.media='all'" />
+    <link rel="stylesheet" href="assets/css/components/webgl.css" media="print" onload="this.media='all'" />
+    <link rel="stylesheet" href="assets/css/sections/about.css" media="print" onload="this.media='all'" />
+    <link rel="stylesheet" href="assets/css/sections/projects.css" media="print" onload="this.media='all'" />
 </head>
 
 <body>
@@ -100,10 +100,10 @@
             </div>
             <a class="nav__cta" href="#contato">
                 Iniciar Projeto
-                <span class="iconify" data-icon="solar:arrow-right-linear" data-width="14"></span>
+                <svg width="14" height="14" class="inline-svg" xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 12h16m0 0l-6-6m6 6l-6 6"/></svg>
             </a>
             <button aria-label="Abrir menu" class="nav__toggle" id="navToggle">
-                <span class="iconify" data-icon="solar:hamburger-menu-linear" data-width="24"></span>
+                <svg width="24" height="24" class="inline-svg" xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="1.5" d="M20 7H4m16 5H4m16 5H4"/></svg>
             </button>
         </div>
     </nav>
@@ -113,7 +113,7 @@
         <div class="mobile-menu__header">
             <a class="nav__logo" href="#">PUZOTO DESIGN</a>
             <button aria-label="Fechar menu" class="mobile-menu__close" id="mobileClose">
-                <span class="iconify" data-icon="solar:close-circle-linear" data-width="26"></span>
+                <svg width="26" height="26" class="inline-svg" xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path stroke-linecap="round" d="m14.5 9.5l-5 5m0-5l5 5"/></g></svg>
             </button>
         </div>
         <nav class="mobile-menu__nav">
@@ -140,7 +140,7 @@
         <!-- Character — CLEAN, no overlays on face -->
         <div class="hero__figure" id="heroFigure">
             <img src="assets/images/Bora.webp" alt="Puzoto Design — Experiências Digitais Premium" id="heroImg"
-                fetchpriority="high" draggable="false" />
+                fetchpriority="high" draggable="false"  width="800" height="1000" />
         </div>
 
         <!-- Subtle Face Interaction Layer -->
@@ -190,7 +190,7 @@
                 </button>
                 <a class="btn-ghost" href="#portfolio">
                     Ver Projetos
-                    <span class="iconify" data-icon="solar:arrow-right-up-linear" data-width="16"></span>
+                    <svg width="16" height="16" class="inline-svg" xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M6 18L18 6m0 0H9m9 0v9"/></svg>
                 </a>
             </div>
         </div>
@@ -222,51 +222,51 @@
 
                 <div class="flashlight-card serv-card" data-st>
                     <div class="serv-card__icon">
-                        <span class="iconify" data-icon="solar:rocket-linear" data-width="28"></span>
+                        <svg width="28" height="28" class="inline-svg" xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24"><path fill="currentColor" d="m7.58 15.008l.53-.531zm0-5.477L7.05 9zm6.867 6.846l-.53-.531zm-5.494 0l-.53.531zm2.747 1.936v.75zm8.593-7.765l.53.53zM13.427 3.7l.53.532zm-2.571 10.47a.75.75 0 1 0-1.059-1.063zm-5.283-2.64l.53-.53zM9.92 7.422a.75.75 0 0 0 .811-1.261zm-.224-1.036l.406-.63zm-2.57-1.318l.11-.742zm-4.9 2.955l.529.531zm3.113-2.727l.288.693zm-2.476 4.13l-.276.697zm.123.05l.286-.694zm1.627 1.097l.53-.53zm-.095-.093l-.522.538zM2.484 9.276l.277-.697zM12.5 18.5l-.53.53l.036.034zm5.324-5.268a.75.75 0 1 0-1.26.815zm-.224 1.035l-.63.408zm1.323 2.562l.742-.11zm-2.964 4.886l.53.532zm2.735-3.104l.692.288zm-3.945 2.964l.697-.278zm-.474-1.092l.657-.36zm-1.252-1.525l.53-.53l-.018-.018l-.018-.015zm.818.867l.59-.463zm2.034 1.974l-.53-.53zM5.75 11.708l.695.28zm14.014-1.691l-5.847 5.829l1.06 1.062l5.846-5.83zM9.483 15.846l-1.374-1.37L7.05 15.54l1.374 1.37zm-1.374-5.784l5.847-5.83l-1.059-1.062L7.05 9zm9.438-7.312h.569v-1.5h-.57zm3.703 3.123v.567h1.5v-.567zM18.116 2.75c.936 0 1.564.002 2.031.064c.446.06.633.163.755.284l1.059-1.062c-.447-.446-1.003-.626-1.615-.708c-.59-.08-1.336-.078-2.23-.078zm4.634 3.123c0-.892.002-1.636-.078-2.225c-.082-.611-.264-1.166-.711-1.612L20.9 3.098c.122.121.225.307.285.75c.062.466.064 1.09.064 2.025zM8.11 14.477c-.663-.66-1.105-1.104-1.391-1.478c-.273-.356-.331-.56-.331-.73h-1.5c0 .632.265 1.152.64 1.642c.361.472.89.997 1.522 1.628zm.314 2.431c.632.63 1.159 1.158 1.632 1.518c.491.374 1.012.637 1.644.637v-1.5c-.173 0-.378-.059-.736-.33c-.374-.286-.819-.727-1.481-1.387zm12.399-5.83c.799-.795 1.355-1.332 1.648-2.036l-1.385-.575c-.151.364-.437.667-1.322 1.55zm.427-4.638c0 1.249-.013 1.663-.164 2.027l1.385.575c.292-.704.279-1.476.279-2.602zm-7.294-2.207c.885-.883 1.19-1.168 1.555-1.319l-.572-1.386c-.705.291-1.243.846-2.042 1.642zm3.59-2.983c-1.13 0-1.902-.013-2.607.278l.572 1.386c.366-.15.784-.164 2.036-.164zm-8.75 14.973l2.06-2.053l-1.059-1.063l-2.06 2.054zm1.935-10.062l-.629-.405l-.812 1.261l.63.405zm-.629-.405c-.621-.4-1.123-.724-1.554-.956c-.442-.238-.855-.407-1.312-.474L7.017 5.81c.22.032.46.117.819.31c.368.199.814.485 1.454.897zM2.755 8.554a57 57 0 0 1 1.71-1.658a12 12 0 0 1 .73-.623c.223-.172.365-.256.432-.284l-.575-1.386c-.257.107-.527.292-.773.482c-.258.199-.54.442-.826.703c-.572.522-1.2 1.149-1.757 1.704zm4.481-4.228a4.13 4.13 0 0 0-2.184.277l.575 1.386a2.63 2.63 0 0 1 1.39-.18zM2.208 9.973l.379.15l.552-1.394l-.378-.15zm1.875 1.131l.96.958L6.104 11l-.96-.958zm-1.496-.98l.114.045l.571-1.387l-.133-.053zm2.555-.082l-.101-.1l-1.045 1.076l.087.086zm-2.441.127c.482.198.921.487 1.295.85l1.045-1.077a5.6 5.6 0 0 0-1.769-1.16zM1.696 7.492a1.514 1.514 0 0 0 .512 2.481l.553-1.394l-.007-.004l-.003-.008V8.56l.004-.006zm14.869 6.555l.406.627l1.259-.815l-.406-.627zm-1.136 7.137l-.084.084l1.06 1.062l.083-.083zm1.542-6.51c.414.64.7 1.083.9 1.45c.193.358.278.597.31.815l1.484-.22c-.068-.457-.238-.87-.476-1.31c-.233-.43-.558-.93-.959-1.55zm-.483 7.573c.557-.556 1.186-1.183 1.71-1.753c.261-.285.505-.566.705-.823c.19-.245.376-.514.483-.771l-1.384-.578a2.3 2.3 0 0 1-.285.43a12 12 0 0 1-.624.728a57 57 0 0 1-1.664 1.704zm1.693-5.308c.068.456.008.934-.18 1.383l1.385.578a4.1 4.1 0 0 0 .279-2.182zm-4.664 1.456l-.523-.459l-.988 1.128l.522.458zm1.929 2.902c-.215-.539-.344-.866-.514-1.175l-1.315.721c.116.21.208.438.435 1.01zm-2.953-1.807c.436.434.61.609.758.798l1.18-.926c-.217-.277-.467-.525-.879-.935zm2.44.632a5.6 5.6 0 0 0-.502-.76l-1.18.926q.206.262.366.555zM16.662 9a1.196 1.196 0 0 1-1.687 0l-1.059 1.062a2.696 2.696 0 0 0 3.806 0zm-1.687 0a1.18 1.18 0 0 1 0-1.677l-1.059-1.062a2.68 2.68 0 0 0 0 3.8zm0-1.677a1.196 1.196 0 0 1 1.688 0l1.059-1.062a2.696 2.696 0 0 0-3.806 0zm1.688 0a1.18 1.18 0 0 1 0 1.677l1.059 1.062a2.68 2.68 0 0 0 0-3.8zm-1.319 13.945a.1.1 0 0 1 .028-.016l.023-.001l.024.012q.018.015.026.034l-1.394.555c.384.963 1.632 1.196 2.352.478zm-1.428-5.422c-.511.51-.896.893-1.227 1.178c-.331.287-.555.426-.73.491l.518 1.408c.428-.158.814-.436 1.193-.764s.808-.755 1.305-1.25zm-1.957 1.669a.7.7 0 0 1-.26.048v1.5q.404-.001.778-.14zm1.07.455l-.28-.281l-1.062 1.06l.282.281zM7.05 9c-.485.484-.904.901-1.23 1.272c-.324.37-.601.745-.766 1.156l1.391.56c.071-.177.217-.4.503-.727c.285-.325.663-.702 1.161-1.2zm-1.996 2.428a2.2 2.2 0 0 0-.166.841h1.5c0-.09.016-.179.057-.282zm-.011.634l.176.176l1.06-1.06L6.105 11z"/></svg>
                     </div>
                     <h3 class="serv-card__title">Landing Pages</h3>
                     <p class="serv-card__desc">Construídas para conversão máxima. Focamo-nos em performance, gatilhos
                         mentais visuais e copywriting alinhado para escalar o seu funil de vendas sem fricção.</p>
                     <div class="serv-card__footer">
-                        Aumentar ROI <span class="iconify" data-icon="solar:arrow-right-linear"></span>
+                        Aumentar ROI <svg width="24" height="24" class="inline-svg" xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 12h16m0 0l-6-6m6 6l-6 6"/></svg>
                     </div>
                 </div>
 
                 <div class="flashlight-card serv-card" data-st>
                     <div class="serv-card__icon">
-                        <span class="iconify" data-icon="solar:buildings-linear" data-width="28"></span>
+                        <svg width="28" height="28" class="inline-svg" xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" d="M22 22H2"/><path d="M21 22V6c0-1.886 0-2.828-.586-3.414S18.886 2 17 2h-2c-1.886 0-2.828 0-3.414.586c-.472.471-.564 1.174-.582 2.414"/><path d="M15 22V9c0-1.886 0-2.828-.586-3.414S12.886 5 11 5H7c-1.886 0-2.828 0-3.414.586S3 7.114 3 9v13"/><path stroke-linecap="round" d="M9 22v-3M6 8h6m-6 3h6m-6 3h6"/></g></svg>
                     </div>
                     <h3 class="serv-card__title">Sites Institucionais</h3>
                     <p class="serv-card__desc">A morada definitiva da sua empresa digital. Um refúgio premiun, blindado
                         contra a concorrência e preparado para fechar negócios ao elevar instantaneamente a sua
                         autoridade.</p>
                     <div class="serv-card__footer">
-                        Projetar Autoridade <span class="iconify" data-icon="solar:arrow-right-linear"></span>
+                        Projetar Autoridade <svg width="24" height="24" class="inline-svg" xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 12h16m0 0l-6-6m6 6l-6 6"/></svg>
                     </div>
                 </div>
 
                 <div class="flashlight-card serv-card" data-st>
                     <div class="serv-card__icon">
-                        <span class="iconify" data-icon="solar:magic-stick-3-linear" data-width="28"></span>
+                        <svg width="28" height="28" class="inline-svg" xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24"><g fill="none" stroke="currentColor"><path stroke-width="1.5" d="M3.845 7.922a2.883 2.883 0 1 1 4.077-4.077l12.234 12.233a2.884 2.884 0 0 1-4.078 4.078z"/><path stroke-linecap="round" stroke-width="1.5" d="m6 10l4-4"/><path d="M16.1 2.307a.483.483 0 0 1 .9 0l.43 1.095a.48.48 0 0 0 .272.274l1.091.432a.486.486 0 0 1 0 .903l-1.09.432a.5.5 0 0 0-.273.273L17 6.81a.483.483 0 0 1-.9 0l-.43-1.095a.5.5 0 0 0-.273-.273l-1.09-.432a.486.486 0 0 1 0-.903l1.09-.432a.5.5 0 0 0 .273-.274zm3.867 6.823a.483.483 0 0 1 .9 0l.156.399c.05.125.148.224.273.273l.398.158a.486.486 0 0 1 0 .902l-.398.158a.5.5 0 0 0-.273.273l-.156.4a.483.483 0 0 1-.9 0l-.157-.4a.5.5 0 0 0-.272-.273l-.398-.158a.486.486 0 0 1 0-.902l.398-.158a.5.5 0 0 0 .272-.273zM5.133 15.307a.483.483 0 0 1 .9 0l.157.4a.48.48 0 0 0 .272.273l.398.157a.486.486 0 0 1 0 .903l-.398.158a.48.48 0 0 0-.272.273l-.157.4a.483.483 0 0 1-.9 0l-.157-.4a.48.48 0 0 0-.272-.273l-.398-.158a.486.486 0 0 1 0-.903l.398-.157a.48.48 0 0 0 .272-.274z"/></g></svg>
                     </div>
                     <h3 class="serv-card__title">Redesign / Reformulação</h3>
                     <p class="serv-card__desc">Transformamos ativos digitais obsoletos ou de baixa conversão num
                         ecossistema vital e moderno. Reengenharia completa baseada em Design System e usabilidade
                         sólida.</p>
                     <div class="serv-card__footer">
-                        Revitalizar Design <span class="iconify" data-icon="solar:arrow-right-linear"></span>
+                        Revitalizar Design <svg width="24" height="24" class="inline-svg" xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 12h16m0 0l-6-6m6 6l-6 6"/></svg>
                     </div>
                 </div>
 
                 <div class="flashlight-card serv-card" data-st>
                     <div class="serv-card__icon">
-                        <span class="iconify" data-icon="solar:code-scan-linear" data-width="28"></span>
+                        <svg width="28" height="28" class="inline-svg" xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5.5 15.5c0-.943 0-1.414.293-1.707S6.557 13.5 7.5 13.5h1c.943 0 1.414 0 1.707.293s.293.764.293 1.707v1c0 .943 0 1.414-.293 1.707s-.764.293-1.707.293c-1.414 0-2.121 0-2.56-.44c-.44-.439-.44-1.146-.44-2.56Zm0-7c0-1.414 0-2.121.44-2.56c.439-.44 1.146-.44 2.56-.44c.943 0 1.414 0 1.707.293s.293.764.293 1.707v1c0 .943 0 1.414-.293 1.707s-.764.293-1.707.293h-1c-.943 0-1.414 0-1.707-.293S5.5 9.443 5.5 8.5Zm8 7c0-.943 0-1.414.293-1.707s.764-.293 1.707-.293h1c.943 0 1.414 0 1.707.293s.293.764.293 1.707c0 1.414 0 2.121-.44 2.56c-.439.44-1.146.44-2.56.44c-.943 0-1.414 0-1.707-.293s-.293-.764-.293-1.707zm0-8c0-.943 0-1.414.293-1.707S14.557 5.5 15.5 5.5c1.414 0 2.121 0 2.56.44c.44.439.44 1.146.44 2.56c0 .943 0 1.414-.293 1.707s-.764.293-1.707.293h-1c-.943 0-1.414 0-1.707-.293S13.5 9.443 13.5 8.5z"/><path stroke-linecap="round" d="M22 14c0 3.771 0 5.657-1.172 6.828S17.771 22 14 22m-4 0c-3.771 0-5.657 0-6.828-1.172S2 17.771 2 14m8-12C6.229 2 4.343 2 3.172 3.172S2 6.229 2 10m12-8c3.771 0 5.657 0 6.828 1.172S22 6.229 22 10"/></g></svg>
                     </div>
                     <h3 class="serv-card__title">Páginas Personalizadas</h3>
                     <p class="serv-card__desc">Aplicações imersivas, e-commerces taylor-made ou portfólios luxuosos. Se
                         demanda uma experiência de ponta com WebGL ou animações sob medida, nós executamos.</p>
                     <div class="serv-card__footer">
-                        Visão sob Medida <span class="iconify" data-icon="solar:arrow-right-linear"></span>
+                        Visão sob Medida <svg width="24" height="24" class="inline-svg" xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 12h16m0 0l-6-6m6 6l-6 6"/></svg>
                     </div>
                 </div>
 
@@ -313,15 +313,15 @@
                         <video class="project-card__video" src="assets/videos/dimagem-video.mp4" muted loop playsinline preload="metadata"></video>
                     </div>
                     <div class="project-card__cover">
-                        <img src="assets/images/projects/dimagem.webp" alt="Dimagem — Diagnóstico por Imagem" loading="lazy">
+                        <img src="assets/images/projects/dimagem.webp" alt="Dimagem — Diagnóstico por Imagem" loading="lazy" width="800" height="600" >
                     </div>
                     <div class="project-card__shimmer"></div>
                     <div class="project-card__live"><span class="project-card__live-dot"></span>Video Preview</div>
                     <div class="project-card__arrow">
-                        <span class="iconify" data-icon="solar:arrow-right-up-linear" data-width="18"></span>
+                        <svg width="18" height="18" class="inline-svg" xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M6 18L18 6m0 0H9m9 0v9"/></svg>
                     </div>
                     <div class="project-card__featured">
-                        <span class="iconify" data-icon="solar:star-bold" data-width="10"></span>
+                        <svg width="10" height="10" class="inline-svg" xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24"><path fill="currentColor" d="M9.153 5.408C10.42 3.136 11.053 2 12 2s1.58 1.136 2.847 3.408l.328.588c.36.646.54.969.82 1.182s.63.292 1.33.45l.636.144c2.46.557 3.689.835 3.982 1.776c.292.94-.546 1.921-2.223 3.882l-.434.507c-.476.557-.715.836-.822 1.18c-.107.345-.071.717.001 1.46l.066.677c.253 2.617.38 3.925-.386 4.506s-1.918.051-4.22-1.009l-.597-.274c-.654-.302-.981-.452-1.328-.452s-.674.15-1.328.452l-.596.274c-2.303 1.06-3.455 1.59-4.22 1.01c-.767-.582-.64-1.89-.387-4.507l.066-.676c.072-.744.108-1.116 0-1.46c-.106-.345-.345-.624-.821-1.18l-.434-.508c-1.677-1.96-2.515-2.941-2.223-3.882S3.58 8.328 6.04 7.772l.636-.144c.699-.158 1.048-.237 1.329-.45s.46-.536.82-1.182z"/></svg>
                         Projeto Real
                     </div>
                     <div class="project-card__overlay">
@@ -336,12 +336,12 @@
                 </div>
                 <div class="project-card">
                     <div class="project-card__img-wrap">
-                        <img class="project-card__img" src="assets/images/projects/project_ecommerce.webp" alt="Lumina Store" loading="lazy">
+                        <img class="project-card__img" src="assets/images/projects/project_ecommerce.webp" alt="Lumina Store" loading="lazy" width="800" height="600" >
                     </div>
                     <div class="project-card__shimmer"></div>
                     <div class="project-card__live"><span class="project-card__live-dot"></span>Preview</div>
                     <div class="project-card__arrow">
-                        <span class="iconify" data-icon="solar:arrow-right-up-linear" data-width="18"></span>
+                        <svg width="18" height="18" class="inline-svg" xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M6 18L18 6m0 0H9m9 0v9"/></svg>
                     </div>
                     <div class="project-card__overlay">
                         <span class="project-card__category">E-Commerce</span>
@@ -356,12 +356,12 @@
 
                 <div class="project-card">
                     <div class="project-card__img-wrap">
-                        <img class="project-card__img" src="assets/images/projects/project_dashboard.webp" alt="FinanceHub" loading="lazy">
+                        <img class="project-card__img" src="assets/images/projects/project_dashboard.webp" alt="FinanceHub" loading="lazy" width="800" height="600" >
                     </div>
                     <div class="project-card__shimmer"></div>
                     <div class="project-card__live"><span class="project-card__live-dot"></span>Preview</div>
                     <div class="project-card__arrow">
-                        <span class="iconify" data-icon="solar:arrow-right-up-linear" data-width="18"></span>
+                        <svg width="18" height="18" class="inline-svg" xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M6 18L18 6m0 0H9m9 0v9"/></svg>
                     </div>
                     <div class="project-card__overlay">
                         <span class="project-card__category">Dashboard</span>
@@ -376,12 +376,12 @@
 
                 <div class="project-card">
                     <div class="project-card__img-wrap">
-                        <img class="project-card__img" src="assets/images/projects/project_portfolio.webp" alt="Studio Forma" loading="lazy">
+                        <img class="project-card__img" src="assets/images/projects/project_portfolio.webp" alt="Studio Forma" loading="lazy" width="800" height="600" >
                     </div>
                     <div class="project-card__shimmer"></div>
                     <div class="project-card__live"><span class="project-card__live-dot"></span>Preview</div>
                     <div class="project-card__arrow">
-                        <span class="iconify" data-icon="solar:arrow-right-up-linear" data-width="18"></span>
+                        <svg width="18" height="18" class="inline-svg" xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M6 18L18 6m0 0H9m9 0v9"/></svg>
                     </div>
                     <div class="project-card__overlay">
                         <span class="project-card__category">Portfólio</span>
@@ -396,12 +396,12 @@
 
                 <div class="project-card">
                     <div class="project-card__img-wrap">
-                        <img class="project-card__img" src="assets/images/projects/project_branding.webp" alt="Nexus" loading="lazy">
+                        <img class="project-card__img" src="assets/images/projects/project_branding.webp" alt="Nexus" loading="lazy" width="800" height="600" >
                     </div>
                     <div class="project-card__shimmer"></div>
                     <div class="project-card__live"><span class="project-card__live-dot"></span>Preview</div>
                     <div class="project-card__arrow">
-                        <span class="iconify" data-icon="solar:arrow-right-up-linear" data-width="18"></span>
+                        <svg width="18" height="18" class="inline-svg" xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M6 18L18 6m0 0H9m9 0v9"/></svg>
                     </div>
                     <div class="project-card__overlay">
                         <span class="project-card__category">Branding</span>
@@ -416,12 +416,12 @@
 
                 <div class="project-card">
                     <div class="project-card__img-wrap">
-                        <img class="project-card__img" src="assets/images/projects/project_saas.webp" alt="CloudVault" loading="lazy">
+                        <img class="project-card__img" src="assets/images/projects/project_saas.webp" alt="CloudVault" loading="lazy" width="800" height="600" >
                     </div>
                     <div class="project-card__shimmer"></div>
                     <div class="project-card__live"><span class="project-card__live-dot"></span>Preview</div>
                     <div class="project-card__arrow">
-                        <span class="iconify" data-icon="solar:arrow-right-up-linear" data-width="18"></span>
+                        <svg width="18" height="18" class="inline-svg" xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M6 18L18 6m0 0H9m9 0v9"/></svg>
                     </div>
                     <div class="project-card__overlay">
                         <span class="project-card__category">SaaS Platform</span>
@@ -436,12 +436,12 @@
 
                 <div class="project-card">
                     <div class="project-card__img-wrap">
-                        <img class="project-card__img" src="assets/images/projects/project_landing.webp" alt="Velocity" loading="lazy">
+                        <img class="project-card__img" src="assets/images/projects/project_landing.webp" alt="Velocity" loading="lazy" width="800" height="600" >
                     </div>
                     <div class="project-card__shimmer"></div>
                     <div class="project-card__live"><span class="project-card__live-dot"></span>Preview</div>
                     <div class="project-card__arrow">
-                        <span class="iconify" data-icon="solar:arrow-right-up-linear" data-width="18"></span>
+                        <svg width="18" height="18" class="inline-svg" xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M6 18L18 6m0 0H9m9 0v9"/></svg>
                     </div>
                     <div class="project-card__overlay">
                         <span class="project-card__category">Landing Page</span>
@@ -460,15 +460,15 @@
                         <video class="project-card__video" src="assets/videos/dimagem-video.mp4" muted loop playsinline preload="metadata"></video>
                     </div>
                     <div class="project-card__cover">
-                        <img src="assets/images/projects/dimagem.webp" alt="Dimagem — Diagnóstico por Imagem" loading="lazy">
+                        <img src="assets/images/projects/dimagem.webp" alt="Dimagem — Diagnóstico por Imagem" loading="lazy" width="800" height="600" >
                     </div>
                     <div class="project-card__shimmer"></div>
                     <div class="project-card__live"><span class="project-card__live-dot"></span>Video Preview</div>
                     <div class="project-card__arrow">
-                        <span class="iconify" data-icon="solar:arrow-right-up-linear" data-width="18"></span>
+                        <svg width="18" height="18" class="inline-svg" xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M6 18L18 6m0 0H9m9 0v9"/></svg>
                     </div>
                     <div class="project-card__featured">
-                        <span class="iconify" data-icon="solar:star-bold" data-width="10"></span>
+                        <svg width="10" height="10" class="inline-svg" xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24"><path fill="currentColor" d="M9.153 5.408C10.42 3.136 11.053 2 12 2s1.58 1.136 2.847 3.408l.328.588c.36.646.54.969.82 1.182s.63.292 1.33.45l.636.144c2.46.557 3.689.835 3.982 1.776c.292.94-.546 1.921-2.223 3.882l-.434.507c-.476.557-.715.836-.822 1.18c-.107.345-.071.717.001 1.46l.066.677c.253 2.617.38 3.925-.386 4.506s-1.918.051-4.22-1.009l-.597-.274c-.654-.302-.981-.452-1.328-.452s-.674.15-1.328.452l-.596.274c-2.303 1.06-3.455 1.59-4.22 1.01c-.767-.582-.64-1.89-.387-4.507l.066-.676c.072-.744.108-1.116 0-1.46c-.106-.345-.345-.624-.821-1.18l-.434-.508c-1.677-1.96-2.515-2.941-2.223-3.882S3.58 8.328 6.04 7.772l.636-.144c.699-.158 1.048-.237 1.329-.45s.46-.536.82-1.182z"/></svg>
                         Projeto Real
                     </div>
                     <div class="project-card__overlay">
@@ -483,12 +483,12 @@
                 </div>
                 <div class="project-card">
                     <div class="project-card__img-wrap">
-                        <img class="project-card__img" src="assets/images/projects/project_ecommerce.webp" alt="Lumina Store" loading="lazy">
+                        <img class="project-card__img" src="assets/images/projects/project_ecommerce.webp" alt="Lumina Store" loading="lazy" width="800" height="600" >
                     </div>
                     <div class="project-card__shimmer"></div>
                     <div class="project-card__live"><span class="project-card__live-dot"></span>Preview</div>
                     <div class="project-card__arrow">
-                        <span class="iconify" data-icon="solar:arrow-right-up-linear" data-width="18"></span>
+                        <svg width="18" height="18" class="inline-svg" xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M6 18L18 6m0 0H9m9 0v9"/></svg>
                     </div>
                     <div class="project-card__overlay">
                         <span class="project-card__category">E-Commerce</span>
@@ -503,12 +503,12 @@
 
                 <div class="project-card">
                     <div class="project-card__img-wrap">
-                        <img class="project-card__img" src="assets/images/projects/project_dashboard.webp" alt="FinanceHub" loading="lazy">
+                        <img class="project-card__img" src="assets/images/projects/project_dashboard.webp" alt="FinanceHub" loading="lazy" width="800" height="600" >
                     </div>
                     <div class="project-card__shimmer"></div>
                     <div class="project-card__live"><span class="project-card__live-dot"></span>Preview</div>
                     <div class="project-card__arrow">
-                        <span class="iconify" data-icon="solar:arrow-right-up-linear" data-width="18"></span>
+                        <svg width="18" height="18" class="inline-svg" xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M6 18L18 6m0 0H9m9 0v9"/></svg>
                     </div>
                     <div class="project-card__overlay">
                         <span class="project-card__category">Dashboard</span>
@@ -523,12 +523,12 @@
 
                 <div class="project-card">
                     <div class="project-card__img-wrap">
-                        <img class="project-card__img" src="assets/images/projects/project_portfolio.webp" alt="Studio Forma" loading="lazy">
+                        <img class="project-card__img" src="assets/images/projects/project_portfolio.webp" alt="Studio Forma" loading="lazy" width="800" height="600" >
                     </div>
                     <div class="project-card__shimmer"></div>
                     <div class="project-card__live"><span class="project-card__live-dot"></span>Preview</div>
                     <div class="project-card__arrow">
-                        <span class="iconify" data-icon="solar:arrow-right-up-linear" data-width="18"></span>
+                        <svg width="18" height="18" class="inline-svg" xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M6 18L18 6m0 0H9m9 0v9"/></svg>
                     </div>
                     <div class="project-card__overlay">
                         <span class="project-card__category">Portfólio</span>
@@ -543,12 +543,12 @@
 
                 <div class="project-card">
                     <div class="project-card__img-wrap">
-                        <img class="project-card__img" src="assets/images/projects/project_branding.webp" alt="Nexus" loading="lazy">
+                        <img class="project-card__img" src="assets/images/projects/project_branding.webp" alt="Nexus" loading="lazy" width="800" height="600" >
                     </div>
                     <div class="project-card__shimmer"></div>
                     <div class="project-card__live"><span class="project-card__live-dot"></span>Preview</div>
                     <div class="project-card__arrow">
-                        <span class="iconify" data-icon="solar:arrow-right-up-linear" data-width="18"></span>
+                        <svg width="18" height="18" class="inline-svg" xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M6 18L18 6m0 0H9m9 0v9"/></svg>
                     </div>
                     <div class="project-card__overlay">
                         <span class="project-card__category">Branding</span>
@@ -563,12 +563,12 @@
 
                 <div class="project-card">
                     <div class="project-card__img-wrap">
-                        <img class="project-card__img" src="assets/images/projects/project_saas.webp" alt="CloudVault" loading="lazy">
+                        <img class="project-card__img" src="assets/images/projects/project_saas.webp" alt="CloudVault" loading="lazy" width="800" height="600" >
                     </div>
                     <div class="project-card__shimmer"></div>
                     <div class="project-card__live"><span class="project-card__live-dot"></span>Preview</div>
                     <div class="project-card__arrow">
-                        <span class="iconify" data-icon="solar:arrow-right-up-linear" data-width="18"></span>
+                        <svg width="18" height="18" class="inline-svg" xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M6 18L18 6m0 0H9m9 0v9"/></svg>
                     </div>
                     <div class="project-card__overlay">
                         <span class="project-card__category">SaaS Platform</span>
@@ -583,12 +583,12 @@
 
                 <div class="project-card">
                     <div class="project-card__img-wrap">
-                        <img class="project-card__img" src="assets/images/projects/project_landing.webp" alt="Velocity" loading="lazy">
+                        <img class="project-card__img" src="assets/images/projects/project_landing.webp" alt="Velocity" loading="lazy" width="800" height="600" >
                     </div>
                     <div class="project-card__shimmer"></div>
                     <div class="project-card__live"><span class="project-card__live-dot"></span>Preview</div>
                     <div class="project-card__arrow">
-                        <span class="iconify" data-icon="solar:arrow-right-up-linear" data-width="18"></span>
+                        <svg width="18" height="18" class="inline-svg" xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M6 18L18 6m0 0H9m9 0v9"/></svg>
                     </div>
                     <div class="project-card__overlay">
                         <span class="project-card__category">Landing Page</span>
@@ -607,12 +607,12 @@
                 <!-- Set 1 -->
                 <div class="project-card">
                     <div class="project-card__img-wrap">
-                        <img class="project-card__img" src="assets/images/projects/project_landing.webp" alt="Vertex" loading="lazy">
+                        <img class="project-card__img" src="assets/images/projects/project_landing.webp" alt="Vertex" loading="lazy" width="800" height="600" >
                     </div>
                     <div class="project-card__shimmer"></div>
                     <div class="project-card__live"><span class="project-card__live-dot"></span>Preview</div>
                     <div class="project-card__arrow">
-                        <span class="iconify" data-icon="solar:arrow-right-up-linear" data-width="18"></span>
+                        <svg width="18" height="18" class="inline-svg" xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M6 18L18 6m0 0H9m9 0v9"/></svg>
                     </div>
                     <div class="project-card__overlay">
                         <span class="project-card__category">Site Institucional</span>
@@ -627,12 +627,12 @@
 
                 <div class="project-card">
                     <div class="project-card__img-wrap">
-                        <img class="project-card__img" src="assets/images/projects/project_saas.webp" alt="Pulse" loading="lazy">
+                        <img class="project-card__img" src="assets/images/projects/project_saas.webp" alt="Pulse" loading="lazy" width="800" height="600" >
                     </div>
                     <div class="project-card__shimmer"></div>
                     <div class="project-card__live"><span class="project-card__live-dot"></span>Preview</div>
                     <div class="project-card__arrow">
-                        <span class="iconify" data-icon="solar:arrow-right-up-linear" data-width="18"></span>
+                        <svg width="18" height="18" class="inline-svg" xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M6 18L18 6m0 0H9m9 0v9"/></svg>
                     </div>
                     <div class="project-card__overlay">
                         <span class="project-card__category">App Mobile</span>
@@ -647,12 +647,12 @@
 
                 <div class="project-card">
                     <div class="project-card__img-wrap">
-                        <img class="project-card__img" src="assets/images/projects/project_branding.webp" alt="Aether" loading="lazy">
+                        <img class="project-card__img" src="assets/images/projects/project_branding.webp" alt="Aether" loading="lazy" width="800" height="600" >
                     </div>
                     <div class="project-card__shimmer"></div>
                     <div class="project-card__live"><span class="project-card__live-dot"></span>Preview</div>
                     <div class="project-card__arrow">
-                        <span class="iconify" data-icon="solar:arrow-right-up-linear" data-width="18"></span>
+                        <svg width="18" height="18" class="inline-svg" xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M6 18L18 6m0 0H9m9 0v9"/></svg>
                     </div>
                     <div class="project-card__overlay">
                         <span class="project-card__category">Experiência Imersiva</span>
@@ -670,15 +670,15 @@
                         <video class="project-card__video" src="assets/videos/dimagem-video.mp4" muted loop playsinline preload="metadata"></video>
                     </div>
                     <div class="project-card__cover">
-                        <img src="assets/images/projects/dimagem.webp" alt="Dimagem — Diagnóstico por Imagem" loading="lazy">
+                        <img src="assets/images/projects/dimagem.webp" alt="Dimagem — Diagnóstico por Imagem" loading="lazy" width="800" height="600" >
                     </div>
                     <div class="project-card__shimmer"></div>
                     <div class="project-card__live"><span class="project-card__live-dot"></span>Video Preview</div>
                     <div class="project-card__arrow">
-                        <span class="iconify" data-icon="solar:arrow-right-up-linear" data-width="18"></span>
+                        <svg width="18" height="18" class="inline-svg" xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M6 18L18 6m0 0H9m9 0v9"/></svg>
                     </div>
                     <div class="project-card__featured">
-                        <span class="iconify" data-icon="solar:star-bold" data-width="10"></span>
+                        <svg width="10" height="10" class="inline-svg" xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24"><path fill="currentColor" d="M9.153 5.408C10.42 3.136 11.053 2 12 2s1.58 1.136 2.847 3.408l.328.588c.36.646.54.969.82 1.182s.63.292 1.33.45l.636.144c2.46.557 3.689.835 3.982 1.776c.292.94-.546 1.921-2.223 3.882l-.434.507c-.476.557-.715.836-.822 1.18c-.107.345-.071.717.001 1.46l.066.677c.253 2.617.38 3.925-.386 4.506s-1.918.051-4.22-1.009l-.597-.274c-.654-.302-.981-.452-1.328-.452s-.674.15-1.328.452l-.596.274c-2.303 1.06-3.455 1.59-4.22 1.01c-.767-.582-.64-1.89-.387-4.507l.066-.676c.072-.744.108-1.116 0-1.46c-.106-.345-.345-.624-.821-1.18l-.434-.508c-1.677-1.96-2.515-2.941-2.223-3.882S3.58 8.328 6.04 7.772l.636-.144c.699-.158 1.048-.237 1.329-.45s.46-.536.82-1.182z"/></svg>
                         Projeto Real
                     </div>
                     <div class="project-card__overlay">
@@ -694,12 +694,12 @@
 
                 <div class="project-card">
                     <div class="project-card__img-wrap">
-                        <img class="project-card__img" src="assets/images/projects/project_ecommerce.webp" alt="Prism" loading="lazy">
+                        <img class="project-card__img" src="assets/images/projects/project_ecommerce.webp" alt="Prism" loading="lazy" width="800" height="600" >
                     </div>
                     <div class="project-card__shimmer"></div>
                     <div class="project-card__live"><span class="project-card__live-dot"></span>Preview</div>
                     <div class="project-card__arrow">
-                        <span class="iconify" data-icon="solar:arrow-right-up-linear" data-width="18"></span>
+                        <svg width="18" height="18" class="inline-svg" xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M6 18L18 6m0 0H9m9 0v9"/></svg>
                     </div>
                     <div class="project-card__overlay">
                         <span class="project-card__category">Design System</span>
@@ -714,12 +714,12 @@
 
                 <div class="project-card">
                     <div class="project-card__img-wrap">
-                        <img class="project-card__img" src="assets/images/projects/project_portfolio.webp" alt="Architecta" loading="lazy">
+                        <img class="project-card__img" src="assets/images/projects/project_portfolio.webp" alt="Architecta" loading="lazy" width="800" height="600" >
                     </div>
                     <div class="project-card__shimmer"></div>
                     <div class="project-card__live"><span class="project-card__live-dot"></span>Preview</div>
                     <div class="project-card__arrow">
-                        <span class="iconify" data-icon="solar:arrow-right-up-linear" data-width="18"></span>
+                        <svg width="18" height="18" class="inline-svg" xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M6 18L18 6m0 0H9m9 0v9"/></svg>
                     </div>
                     <div class="project-card__overlay">
                         <span class="project-card__category">Arquitetura</span>
@@ -734,12 +734,12 @@
 
                 <div class="project-card">
                     <div class="project-card__img-wrap">
-                        <img class="project-card__img" src="assets/images/projects/project_dashboard.webp" alt="Orbital" loading="lazy">
+                        <img class="project-card__img" src="assets/images/projects/project_dashboard.webp" alt="Orbital" loading="lazy" width="800" height="600" >
                     </div>
                     <div class="project-card__shimmer"></div>
                     <div class="project-card__live"><span class="project-card__live-dot"></span>Preview</div>
                     <div class="project-card__arrow">
-                        <span class="iconify" data-icon="solar:arrow-right-up-linear" data-width="18"></span>
+                        <svg width="18" height="18" class="inline-svg" xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M6 18L18 6m0 0H9m9 0v9"/></svg>
                     </div>
                     <div class="project-card__overlay">
                         <span class="project-card__category">Crypto</span>
@@ -755,12 +755,12 @@
                 <!-- Duplicate set for infinite loop -->
                 <div class="project-card">
                     <div class="project-card__img-wrap">
-                        <img class="project-card__img" src="assets/images/projects/project_landing.webp" alt="Vertex" loading="lazy">
+                        <img class="project-card__img" src="assets/images/projects/project_landing.webp" alt="Vertex" loading="lazy" width="800" height="600" >
                     </div>
                     <div class="project-card__shimmer"></div>
                     <div class="project-card__live"><span class="project-card__live-dot"></span>Preview</div>
                     <div class="project-card__arrow">
-                        <span class="iconify" data-icon="solar:arrow-right-up-linear" data-width="18"></span>
+                        <svg width="18" height="18" class="inline-svg" xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M6 18L18 6m0 0H9m9 0v9"/></svg>
                     </div>
                     <div class="project-card__overlay">
                         <span class="project-card__category">Site Institucional</span>
@@ -775,12 +775,12 @@
 
                 <div class="project-card">
                     <div class="project-card__img-wrap">
-                        <img class="project-card__img" src="assets/images/projects/project_saas.webp" alt="Pulse" loading="lazy">
+                        <img class="project-card__img" src="assets/images/projects/project_saas.webp" alt="Pulse" loading="lazy" width="800" height="600" >
                     </div>
                     <div class="project-card__shimmer"></div>
                     <div class="project-card__live"><span class="project-card__live-dot"></span>Preview</div>
                     <div class="project-card__arrow">
-                        <span class="iconify" data-icon="solar:arrow-right-up-linear" data-width="18"></span>
+                        <svg width="18" height="18" class="inline-svg" xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M6 18L18 6m0 0H9m9 0v9"/></svg>
                     </div>
                     <div class="project-card__overlay">
                         <span class="project-card__category">App Mobile</span>
@@ -795,12 +795,12 @@
 
                 <div class="project-card">
                     <div class="project-card__img-wrap">
-                        <img class="project-card__img" src="assets/images/projects/project_branding.webp" alt="Aether" loading="lazy">
+                        <img class="project-card__img" src="assets/images/projects/project_branding.webp" alt="Aether" loading="lazy" width="800" height="600" >
                     </div>
                     <div class="project-card__shimmer"></div>
                     <div class="project-card__live"><span class="project-card__live-dot"></span>Preview</div>
                     <div class="project-card__arrow">
-                        <span class="iconify" data-icon="solar:arrow-right-up-linear" data-width="18"></span>
+                        <svg width="18" height="18" class="inline-svg" xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M6 18L18 6m0 0H9m9 0v9"/></svg>
                     </div>
                     <div class="project-card__overlay">
                         <span class="project-card__category">Experiência Imersiva</span>
@@ -818,15 +818,15 @@
                         <video class="project-card__video" src="assets/videos/dimagem-video.mp4" muted loop playsinline preload="metadata"></video>
                     </div>
                     <div class="project-card__cover">
-                        <img src="assets/images/projects/dimagem.webp" alt="Dimagem — Diagnóstico por Imagem" loading="lazy">
+                        <img src="assets/images/projects/dimagem.webp" alt="Dimagem — Diagnóstico por Imagem" loading="lazy" width="800" height="600" >
                     </div>
                     <div class="project-card__shimmer"></div>
                     <div class="project-card__live"><span class="project-card__live-dot"></span>Video Preview</div>
                     <div class="project-card__arrow">
-                        <span class="iconify" data-icon="solar:arrow-right-up-linear" data-width="18"></span>
+                        <svg width="18" height="18" class="inline-svg" xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M6 18L18 6m0 0H9m9 0v9"/></svg>
                     </div>
                     <div class="project-card__featured">
-                        <span class="iconify" data-icon="solar:star-bold" data-width="10"></span>
+                        <svg width="10" height="10" class="inline-svg" xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24"><path fill="currentColor" d="M9.153 5.408C10.42 3.136 11.053 2 12 2s1.58 1.136 2.847 3.408l.328.588c.36.646.54.969.82 1.182s.63.292 1.33.45l.636.144c2.46.557 3.689.835 3.982 1.776c.292.94-.546 1.921-2.223 3.882l-.434.507c-.476.557-.715.836-.822 1.18c-.107.345-.071.717.001 1.46l.066.677c.253 2.617.38 3.925-.386 4.506s-1.918.051-4.22-1.009l-.597-.274c-.654-.302-.981-.452-1.328-.452s-.674.15-1.328.452l-.596.274c-2.303 1.06-3.455 1.59-4.22 1.01c-.767-.582-.64-1.89-.387-4.507l.066-.676c.072-.744.108-1.116 0-1.46c-.106-.345-.345-.624-.821-1.18l-.434-.508c-1.677-1.96-2.515-2.941-2.223-3.882S3.58 8.328 6.04 7.772l.636-.144c.699-.158 1.048-.237 1.329-.45s.46-.536.82-1.182z"/></svg>
                         Projeto Real
                     </div>
                     <div class="project-card__overlay">
@@ -842,12 +842,12 @@
 
                 <div class="project-card">
                     <div class="project-card__img-wrap">
-                        <img class="project-card__img" src="assets/images/projects/project_ecommerce.webp" alt="Prism" loading="lazy">
+                        <img class="project-card__img" src="assets/images/projects/project_ecommerce.webp" alt="Prism" loading="lazy" width="800" height="600" >
                     </div>
                     <div class="project-card__shimmer"></div>
                     <div class="project-card__live"><span class="project-card__live-dot"></span>Preview</div>
                     <div class="project-card__arrow">
-                        <span class="iconify" data-icon="solar:arrow-right-up-linear" data-width="18"></span>
+                        <svg width="18" height="18" class="inline-svg" xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M6 18L18 6m0 0H9m9 0v9"/></svg>
                     </div>
                     <div class="project-card__overlay">
                         <span class="project-card__category">Design System</span>
@@ -862,12 +862,12 @@
 
                 <div class="project-card">
                     <div class="project-card__img-wrap">
-                        <img class="project-card__img" src="assets/images/projects/project_portfolio.webp" alt="Architecta" loading="lazy">
+                        <img class="project-card__img" src="assets/images/projects/project_portfolio.webp" alt="Architecta" loading="lazy" width="800" height="600" >
                     </div>
                     <div class="project-card__shimmer"></div>
                     <div class="project-card__live"><span class="project-card__live-dot"></span>Preview</div>
                     <div class="project-card__arrow">
-                        <span class="iconify" data-icon="solar:arrow-right-up-linear" data-width="18"></span>
+                        <svg width="18" height="18" class="inline-svg" xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M6 18L18 6m0 0H9m9 0v9"/></svg>
                     </div>
                     <div class="project-card__overlay">
                         <span class="project-card__category">Arquitetura</span>
@@ -882,12 +882,12 @@
 
                 <div class="project-card">
                     <div class="project-card__img-wrap">
-                        <img class="project-card__img" src="assets/images/projects/project_dashboard.webp" alt="Orbital" loading="lazy">
+                        <img class="project-card__img" src="assets/images/projects/project_dashboard.webp" alt="Orbital" loading="lazy" width="800" height="600" >
                     </div>
                     <div class="project-card__shimmer"></div>
                     <div class="project-card__live"><span class="project-card__live-dot"></span>Preview</div>
                     <div class="project-card__arrow">
-                        <span class="iconify" data-icon="solar:arrow-right-up-linear" data-width="18"></span>
+                        <svg width="18" height="18" class="inline-svg" xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M6 18L18 6m0 0H9m9 0v9"/></svg>
                     </div>
                     <div class="project-card__overlay">
                         <span class="project-card__category">Crypto</span>
@@ -909,7 +909,7 @@
             </div>
             <a class="projects__cta-link" href="#contato">
                 Iniciar meu Projeto
-                <span class="iconify" data-icon="solar:arrow-right-linear" data-width="16"></span>
+                <svg width="16" height="16" class="inline-svg" xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 12h16m0 0l-6-6m6 6l-6 6"/></svg>
             </a>
         </div>
     </section>
@@ -1172,11 +1172,11 @@
                         <div class="team__nav-counter"><strong id="teamCurrentNum">01</strong> / 05</div>
                         <div class="team__nav-divider"></div>
                         <div class="team__thumbs">
-                            <div class="team__thumb is-active"><img src="assets/images/projects/Ronnan.webp" alt="Thumb 1" loading="lazy"></div>
-                            <div class="team__thumb"><img src="assets/images/projects/Janifer.webp" alt="Thumb 2" loading="lazy"></div>
-                            <div class="team__thumb"><img src="assets/images/projects/Tallys.webp" alt="Thumb 3" loading="lazy"></div>
-                            <div class="team__thumb"><img src="assets/images/projects/Sidney.webp" alt="Thumb 4" loading="lazy"></div>
-                            <div class="team__thumb"><img src="assets/images/projects/Raabe.webp" alt="Thumb 5" loading="lazy"></div>
+                            <div class="team__thumb is-active"><img src="assets/images/projects/Ronnan.webp" alt="Thumb 1" loading="lazy" width="100" height="120" ></div>
+                            <div class="team__thumb"><img src="assets/images/projects/Janifer.webp" alt="Thumb 2" loading="lazy" width="100" height="120" ></div>
+                            <div class="team__thumb"><img src="assets/images/projects/Tallys.webp" alt="Thumb 3" loading="lazy" width="100" height="120" ></div>
+                            <div class="team__thumb"><img src="assets/images/projects/Sidney.webp" alt="Thumb 4" loading="lazy" width="100" height="120" ></div>
+                            <div class="team__thumb"><img src="assets/images/projects/Raabe.webp" alt="Thumb 5" loading="lazy" width="100" height="120" ></div>
                         </div>
                     </div>
                 </div>
@@ -1251,8 +1251,8 @@
     
 
     
-    <script src="assets/js/animations/webgl_hero.js"></script>
-    <script src="assets/js/main.js"></script>
+    <script defer src="assets/js/animations/webgl_hero.js"></script>
+    <script defer src="assets/js/main.js"></script>
 </body>
 
 </html>

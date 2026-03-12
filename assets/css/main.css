@@ -347,4 +347,12 @@
 
         .ml-2 { margin-left: 8px; }
         .text-accent { color: var(--accent); }
+
+        /* SVG Icons (replaced Iconify) */
+        .inline-svg {
+            display: inline-block;
+            vertical-align: middle;
+            fill: currentColor;
+        }
+        
         
