@@ -159,6 +159,7 @@
                 padding: 90px 1.5rem 1.5rem !important;
                 justify-content: flex-start !important;
                 box-sizing: border-box !important;
+                margin: 0 !important;
             }
             .hero__label { 
                 justify-content: center !important; 
