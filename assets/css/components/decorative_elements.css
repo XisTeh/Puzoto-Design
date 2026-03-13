@@ -64,7 +64,7 @@
             z-index: 2;
             min-height: 70vh; /* Ajustado de 100vh para menos vazio vertical */
             padding: clamp(6rem, 12vw, 10rem) 0 clamp(3rem, 6vw, 4rem); /* Menos padding no bottom */
-            background: var(--bg);
+            background: rgba(14, 15, 17, 0.75);
             border-top: 1px solid rgba(255, 255, 255, 0.03);
             overflow: hidden;
             display: flex;
@@ -516,7 +516,7 @@
             position: relative;
             z-index: 2;
             padding: clamp(4rem, 8vw, 6rem) 0;
-            background: var(--bg);
+            background: rgba(14, 15, 17, 0.85);
             overflow: hidden;
             border-top: 1px solid rgba(255, 255, 255, 0.03);
             border-bottom: 1px solid rgba(255, 255, 255, 0.03);

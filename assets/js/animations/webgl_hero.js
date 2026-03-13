@@ -128,7 +128,7 @@
                 });
             }
 
-            /* ─── WEBGL 3D BACKGROUND ────────── */
+            /* ─── WEBGL 3D BACKGROUND (GLOBAL SITE-WIDE) ────────── */
             if (!isMobile) {
                 const threeScript = document.createElement('script');
                 threeScript.src = 'https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js';
@@ -197,19 +197,9 @@
                 });
                 const clock = new THREE.Clock();
 
-                // Optimization: Pause WebGL when not visible
-                let isHeroVisible = true;
-                const heroSection = document.getElementById('hero');
-                if (heroSection) {
-                    new IntersectionObserver(entries => {
-                        isHeroVisible = entries[0].isIntersecting;
-                    }, { threshold: 0 }).observe(heroSection);
-                }
-
+                // WebGL Render Loop - Removed IntersectionObserver pause so it runs site-wide
                 (function anim() {
                     requestAnimationFrame(anim);
-                    if (!isHeroVisible) return; // Saves CPU/GPU load
-
                     const t = clock.getElapsedTime();
 
                     // Each layer at different speed = depth parallax
@@ -229,13 +219,12 @@
                     ring2.rotation.y = t * -.018 + (wmx * -.08);
                     ring2.rotation.z = t * -.01 + (wmy * .04);
 
-                    // Reaction to face hover
+                    // Reaction to face hover (if triggered elsewhere)
                     if (webglFlash > 0) {
                         closePts.material.opacity = 0.4 + (webglFlash * 0.4);
                         midPts.material.opacity = 0.3 + (webglFlash * 0.2);
                         ring.material.opacity = 0.05 + (webglFlash * 0.07);
                     } else {
-                        // Default opacities
                         closePts.material.opacity = 0.4;
                         midPts.material.opacity = 0.3;
                         ring.material.opacity = 0.05;
