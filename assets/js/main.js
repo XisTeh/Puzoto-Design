@@ -10,14 +10,19 @@ document.addEventListener('DOMContentLoaded', () => {
     const teamGlare = document.querySelector('#teamImageGlare');
     const teamCounter = document.querySelector('#teamCurrentNum');
     const teamMarker = document.querySelector('#teamMarkerText');
-    const markerLabels = ['Fundador', 'Gestão', 'Engenharia', 'UI/UX', 'Motion', 'Especialista'];
+    const markerLabels = ['Fundador', 'Gestão'];
 
     if (teamThumbs.length) {
         teamThumbs.forEach((thumb, idx) => {
             thumb.addEventListener('click', () => {
                 teamThumbs.forEach(t => t.classList.remove('is-active'));
                 teamInfos.forEach(i => i.classList.remove('is-active'));
-                teamImgs.forEach(m => m.classList.remove('is-active'));
+                teamImgs.forEach(m => {
+                    m.classList.remove('is-active');
+                    if (typeof gsap !== 'undefined') {
+                        gsap.set(m, { clearProps: 'transform' });
+                    }
+                });
 
                 thumb.classList.add('is-active');
                 if (teamInfos[idx]) teamInfos[idx].classList.add('is-active');

@@ -457,15 +457,15 @@
 
         .cta__footer-note {
             margin-top: 5rem;
-            font-size: 0.85rem;
+            font-size: 0.75rem;
             color: rgba(255, 255, 255, 0.3);
-            letter-spacing: 0.02em;
+            letter-spacing: 0.12em;
             line-height: 1.6;
             text-transform: uppercase;
-            letter-spacing: 0.2em;
             display: flex;
             align-items: center;
             gap: 1rem;
+            white-space: nowrap;
         }
 
         .cta__footer-note::before,
