@@ -104,12 +104,19 @@ document.addEventListener('DOMContentLoaded', () => {
         const video = card.querySelector('.project-card__video');
         if (!video) return;
         
+        let playTimeout;
+        
         card.addEventListener('mouseenter', () => {
+            clearTimeout(playTimeout);
             video.currentTime = 0;
-            video.play().catch(e => console.log('Video auto-play prevented:', e));
+            // Pequeno delay para sincronizar com o fade CSS
+            playTimeout = setTimeout(() => {
+                video.play().catch(e => console.log('Video auto-play prevented:', e));
+            }, 300);
         });
         
         card.addEventListener('mouseleave', () => {
+            clearTimeout(playTimeout);
             video.pause();
             video.currentTime = 0;
         });
