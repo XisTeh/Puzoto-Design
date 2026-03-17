@@ -453,14 +453,43 @@
             /* ═══════════════════════════════════════
                CTA FINAL
                ═══════════════════════════════════════ */
-            .cta { padding: 4rem 0 !important; }
-            .cta__title { font-size: clamp(1.8rem, 7vw, 2.6rem) !important; }
-            .cta__content-matte { padding: 2.5rem 1.5rem !important; border-radius: 20px !important; }
-            .cta__desc { font-size: 0.9rem !important; }
-            .cta__actions { flex-direction: column !important; width: 100% !important; }
-            .cta__actions .cta__btn-custom { width: 100% !important; justify-content: center !important; }
-            .cta__footer-note { font-size: 0.75rem !important; }
+            .cta { padding: 4rem 0 !important; min-height: auto !important; }
+            .cta__container { padding: 0 1.25rem !important; }
+            .cta__content-matte { 
+                padding: 2.5rem 1.25rem !important; 
+                border-radius: 24px !important;
+                background: radial-gradient(ellipse at center, rgba(14, 15, 17, 0.85) 0%, rgba(14, 15, 17, 0) 80%) !important;
+            }
+            .cta__title { font-size: clamp(1.8rem, 7vw, 2.6rem) !important; margin-bottom: 1.5rem !important; }
+            .cta__desc { 
+                font-size: 0.9rem !important; 
+                max-width: 100% !important; 
+                margin-bottom: 2.5rem !important;
+                word-break: normal !important;
+                overflow-wrap: break-word !important;
+                padding: 0 0.5rem !important;
+            }
+            .cta__actions { flex-direction: column !important; width: 100% !important; align-items: center !important; }
+            .cta__actions .cta__btn-custom { 
+                width: 100% !important; 
+                max-width: 320px !important;
+                justify-content: center !important; 
+            }
+            .cta__footer-note { 
+                font-size: 0.65rem !important; 
+                white-space: normal !important;
+                text-align: center !important;
+                flex-wrap: wrap !important;
+                justify-content: center !important;
+                margin-top: 3rem !important;
+                padding: 0 0.5rem !important;
+            }
             .cta__footer-note::before, .cta__footer-note::after { display: none !important; }
+            .cta__label {
+                font-size: 0.65rem !important;
+                padding: 0.5rem 1.2rem !important;
+                margin-bottom: 1.5rem !important;
+            }
         }
 
         /* ── Extra small phones (390px and below) ── */

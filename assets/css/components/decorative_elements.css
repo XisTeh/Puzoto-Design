@@ -465,7 +465,10 @@
             display: flex;
             align-items: center;
             gap: 1rem;
-            white-space: nowrap;
+            white-space: normal;
+            text-align: center;
+            flex-wrap: wrap;
+            justify-content: center;
         }
 
         .cta__footer-note::before,
@@ -480,19 +483,50 @@
         .cta__content-matte {
             background: radial-gradient(ellipse at center, rgba(14, 15, 17, 0.8) 0%, rgba(14, 15, 17, 0) 70%);
             padding: 4rem 2rem;
-            border-radius: 100%;
+            border-radius: 50%;
             display: flex;
             flex-direction: column;
             align-items: center;
+            width: 100%;
         }
 
         @media (max-width: 768px) {
-            .cta { padding: clamp(6rem, 12vw, 8rem) 0; }
+            .cta { padding: clamp(4rem, 10vw, 6rem) 0; }
+            .cta__container { padding: 0 1.25rem; }
+            .cta__content-matte { 
+                padding: 2.5rem 1.25rem;
+                border-radius: 24px;
+                background: radial-gradient(ellipse at center, rgba(14, 15, 17, 0.85) 0%, rgba(14, 15, 17, 0) 80%);
+            }
+            .cta__title { 
+                font-size: clamp(1.8rem, 7vw, 2.6rem);
+                margin-bottom: 1.5rem;
+            }
+            .cta__desc { 
+                font-size: 0.9rem;
+                max-width: 100%;
+                margin-bottom: 2.5rem;
+                word-break: normal;
+                overflow-wrap: break-word;
+            }
             .cta__actions { flex-direction: column; width: 100%; }
-            .cta__btn-custom, .cta__btn-secondary { width: 100%; }
+            .cta__btn-custom, .cta__btn-secondary { 
+                width: 100%; 
+                max-width: 320px;
+                margin: 0 auto;
+            }
+            .cta__footer-note { 
+                text-align: center; 
+                margin-top: 3rem;
+                font-size: 0.65rem;
+                padding: 0 0.5rem;
+            }
             .cta__footer-note::before, .cta__footer-note::after { display: none; }
-            .cta__footer-note { text-align: center; }
-            .cta__content-matte { padding: 2rem 0; }
+            .cta__label {
+                font-size: 0.65rem;
+                padding: 0.5rem 1.2rem;
+                margin-bottom: 1.5rem;
+            }
             .cta__vortex { max-width: 1200px; max-height: 1200px; }
         }
 
