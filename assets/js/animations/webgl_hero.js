@@ -77,19 +77,18 @@
                     smx += (mx - smx) * .03;
                     smy += (my - smy) * .03;
 
-                    // Halo: subtle brightness/blur variation based on mouse position
-                    const hBright = 1 + Math.abs(smx) * .1 + Math.abs(smy) * .06 + (webglFlash * 0.3);
-                    const hBlur = 28 - Math.abs(smx) * 3 - (webglFlash * 5);
-                    const hScale = 1 + (webglFlash * 0.04);
+                    // Halo: purely transform and opacity for max performance (hardware accelerated)
+                    const hScale = 1 + (Math.abs(smx) * 0.05) + (webglFlash * 0.04);
+                    const hOpac = 0.6 + (Math.abs(smx) * 0.05) + (webglFlash * 0.2); // simulating brightness
                     if (halo) {
-                        halo.style.filter = `blur(${Math.max(20, hBlur)}px) brightness(${hBright})`;
-                        halo.style.transform = `translateX(-50%) scale(${hScale})`;
+                        halo.style.opacity = hOpac;
+                        halo.style.transform = `translateX(-50%) scale(${hScale}) translateZ(0)`;
                     }
 
                     // Orbs: gentle positional drift responding to mouse
-                    if (orbA) orbA.style.transform = `translate(${smx * -15}px,${smy * -10}px)`;
-                    if (orbB) orbB.style.transform = `translate(${smx * 12}px,${smy * 14}px)`;
-                    if (orbC) orbC.style.transform = `translate(${smx * -7}px,${smy * 8}px)`;
+                    if (orbA) orbA.style.transform = `translate3d(${smx * -15}px,${smy * -10}px, 0)`;
+                    if (orbB) orbB.style.transform = `translate3d(${smx * 12}px,${smy * 14}px, 0)`;
+                    if (orbC) orbC.style.transform = `translate3d(${smx * -7}px,${smy * 8}px, 0)`;
 
                     requestAnimationFrame(ambientLoop);
                 })();
@@ -146,7 +145,7 @@
 
                 /* Deep particles — far background */
                 const deepGeo = new THREE.BufferGeometry();
-                const deepN = isMobile ? 100 : 300;
+                const deepN = isMobile ? 50 : 150;
                 const deepPos = new Float32Array(deepN * 3);
                 for (let i = 0; i < deepN * 3; i++)deepPos[i] = (Math.random() - .5) * 400;
                 deepGeo.setAttribute('position', new THREE.BufferAttribute(deepPos, 3));
@@ -156,7 +155,7 @@
 
                 /* Mid particles */
                 const midGeo = new THREE.BufferGeometry();
-                const midN = isMobile ? 65 : 180;
+                const midN = isMobile ? 30 : 90;
                 const midPos = new Float32Array(midN * 3);
                 for (let i = 0; i < midN * 3; i++)midPos[i] = (Math.random() - .5) * 250;
                 midGeo.setAttribute('position', new THREE.BufferAttribute(midPos, 3));
@@ -166,7 +165,7 @@
 
                 /* Close bright particles */
                 const closeGeo = new THREE.BufferGeometry();
-                const closeN = isMobile ? 30 : 80;
+                const closeN = isMobile ? 15 : 40;
                 const closePos = new Float32Array(closeN * 3);
                 for (let i = 0; i < closeN * 3; i++)closePos[i] = (Math.random() - .5) * 150;
                 closeGeo.setAttribute('position', new THREE.BufferAttribute(closePos, 3));
@@ -175,14 +174,14 @@
                 scene.add(closePts);
 
                 /* Rings — geometric depth elements */
-                const ringGeo = new THREE.TorusGeometry(60, .12, 16, 120);
+                const ringGeo = new THREE.TorusGeometry(60, .12, 10, 80);
                 const ringMat = new THREE.MeshBasicMaterial({ color: '#C9D2DA', transparent: true, opacity: .05, wireframe: true });
                 const ring = new THREE.Mesh(ringGeo, ringMat);
                 ring.rotation.x = Math.PI * .45;
                 ring.position.z = -30;
                 scene.add(ring);
 
-                const ring2Geo = new THREE.TorusGeometry(42, .08, 12, 80);
+                const ring2Geo = new THREE.TorusGeometry(42, .08, 8, 60);
                 const ring2Mat = new THREE.MeshBasicMaterial({ color: '#6F767D', transparent: true, opacity: .035, wireframe: true });
                 const ring2 = new THREE.Mesh(ring2Geo, ring2Mat);
                 ring2.rotation.x = Math.PI * .55;

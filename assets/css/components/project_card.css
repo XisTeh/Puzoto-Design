@@ -744,7 +744,7 @@
             transform: translate(-50%, -50%);
             pointer-events: none;
             z-index: 0;
-            animation: teamGlowPulse 12s ease-in-out infinite alternate;
+            opacity: 0.8;
         }
 
         .team__bg-glow-secondary {
@@ -757,13 +757,10 @@
             transform: translate(-50%, -50%);
             pointer-events: none;
             z-index: 0;
-            animation: teamGlowPulse 15s ease-in-out infinite alternate-reverse;
+            opacity: 0.6;
         }
 
-        @keyframes teamGlowPulse {
-            0% { opacity: 0.5; transform: translate(-50%, -50%) scale(0.9); }
-            100% { opacity: 1; transform: translate(-50%, -50%) scale(1.08); }
-        }
+        /* Removing teamGlowPulse animation for performance */
 
         .team__container {
             max-width: var(--container);

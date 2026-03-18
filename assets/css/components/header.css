@@ -87,13 +87,11 @@
             position: absolute;
             width: 80vw; height: 80vh;
             background: radial-gradient(ellipse at center, rgba(14, 25, 34, 0.5) 0%, rgba(201, 210, 218, 0.03) 30%, transparent 60%);
-            animation: coreGlowPulse 8s ease-in-out infinite alternate;
+            opacity: 0.8;
+            pointer-events: none;
         }
 
-        @keyframes coreGlowPulse {
-            0% { opacity: 0.5; transform: scale(0.9); }
-            100% { opacity: 1; transform: scale(1.1); }
-        }
+        /* Removed coreGlowPulse animation */
 
         .process__core-ring {
             position: absolute;
@@ -138,10 +136,9 @@
         }
 
         @keyframes orbPulse {
-            0% { transform: scale(0.9); filter: hue-rotate(-10deg); opacity: 0.8; }
-            100% { transform: scale(1.1); filter: hue-rotate(10deg); opacity: 1; }
+            0% { transform: scale(0.9); opacity: 0.8; }
+            100% { transform: scale(1.1); opacity: 1; }
         }
-
 
         /* ── Central Axis & Timeline ── */
         .process__timeline {
@@ -181,7 +178,7 @@
             width: 2px;
             height: 25vh;
             background: linear-gradient(to bottom, transparent, var(--accent) 50%, rgba(255,255,255,1) 100%);
-            filter: drop-shadow(0 0 12px var(--accent));
+            box-shadow: 0 0 12px var(--accent);
             animation: beamTravel 6s cubic-bezier(0.4, 0, 0.2, 1) infinite;
             will-change: transform;
         }
