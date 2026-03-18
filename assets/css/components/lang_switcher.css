@@ -1,0 +1,102 @@
+/* ═══════════════════════════════════════════
+   LANGUAGE SWITCHER
+   ═══════════════════════════════════════════ */
+
+/* Nav right wrapper */
+.nav__right {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+/* Switcher container */
+.lang-switcher {
+    display: flex;
+    align-items: center;
+    gap: 2px;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 8px;
+    padding: 3px;
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+}
+
+/* Individual language button */
+.lang-btn {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 34px;
+    height: 28px;
+    padding: 0 8px;
+    border: none;
+    border-radius: 6px;
+    background: transparent;
+    color: var(--text-muted, rgba(201, 210, 218, 0.5));
+    font-family: var(--font-heading, 'Space Grotesk', sans-serif);
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    cursor: pointer;
+    transition: all 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+    user-select: none;
+    -webkit-user-select: none;
+}
+
+.lang-btn:hover {
+    color: var(--text, rgba(201, 210, 218, 0.9));
+    background: rgba(255, 255, 255, 0.06);
+}
+
+/* Active state */
+.lang-btn.is-active {
+    color: #fff;
+    background: rgba(255, 255, 255, 0.12);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    box-shadow: 
+        0 0 12px rgba(255, 255, 255, 0.04),
+        inset 0 1px 0 rgba(255, 255, 255, 0.08);
+}
+
+.lang-btn.is-active::after {
+    content: '';
+    position: absolute;
+    bottom: -1px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 12px;
+    height: 2px;
+    background: var(--accent, #a78bfa);
+    border-radius: 1px;
+    opacity: 0.8;
+}
+
+/* ── Mobile Menu Language ── */
+.mobile-menu__lang {
+    margin-top: auto;
+    padding: 2rem 0 1rem;
+    display: flex;
+    justify-content: center;
+}
+
+.lang-switcher--mobile {
+    gap: 4px;
+    padding: 4px;
+    border-radius: 10px;
+}
+
+.lang-switcher--mobile .lang-btn {
+    min-width: 48px;
+    height: 36px;
+    font-size: 0.8rem;
+    border-radius: 8px;
+}
+
+/* ── Responsive ── */
+@media (max-width: 768px) {
+    .nav__right {
+        display: none !important;
+    }
+}

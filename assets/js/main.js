@@ -11,6 +11,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const teamCounter = document.querySelector('#teamCurrentNum');
     const teamMarker = document.querySelector('#teamMarkerText');
     const markerLabels = ['Fundador', 'Gestão'];
+    window._markerLabelsRef = markerLabels;
 
     if (teamThumbs.length) {
         teamThumbs.forEach((thumb, idx) => {
