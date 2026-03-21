@@ -70,6 +70,7 @@
             animation: globalStarsDrift 60s linear infinite;
             opacity: 0.35;
             will-change: transform;
+            contain: strict;
         }
         @keyframes globalStarsDrift {
             from { transform: translate(0, 0); }
@@ -134,11 +135,11 @@
         .section {
             position: relative;
             z-index: 2;
-            background: rgba(14, 15, 17, 0.85); /* Increased opacity to compensate for lack of blue over webgl */
+            background: rgba(14, 15, 17, 0.85);
             padding: clamp(6rem, 12vw, 10rem) 0;
             border-top: 1px solid rgba(255, 255, 255, 0.06);
             overflow: hidden;
-            box-shadow: inset 0 20px 40px -20px rgba(255, 255, 255, 0.03);
+            contain: content;
         }
 
         .section-bg-grid {
@@ -152,7 +153,7 @@
             -webkit-mask-image: radial-gradient(ellipse at center, black 30%, transparent 75%);
             pointer-events: none;
             z-index: 0;
-            will-change: transform;
+            contain: layout style;
         }
 
         .section-glow {
@@ -214,14 +215,13 @@
             overflow: hidden;
             border: 1px solid rgba(255, 255, 255, 0.06);
             border-radius: 20px;
-            transition: border-color 0.5s, box-shadow 0.5s, background 0.5s;
+            transition: border-color 0.5s, background 0.5s;
             padding: clamp(2.5rem, 4vw, 3.5rem);
             height: 100%;
             display: flex;
             flex-direction: column;
             transform-style: preserve-3d;
             perspective: 1000px;
-            will-change: transform;
         }
 
         .flashlight-card::before {
@@ -241,7 +241,7 @@
 
         .flashlight-card:hover {
             border-color: rgba(201, 210, 218, 0.20);
-            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5), inset 0 0 20px rgba(255, 255, 255, 0.01);
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5);
             background: rgba(255, 255, 255, 0.02);
             z-index: 10;
         }
@@ -274,7 +274,6 @@
             background: var(--accent);
             color: var(--bg);
             border-color: var(--accent);
-            box-shadow: 0 15px 30px rgba(201, 210, 218, 0.2);
         }
 
         .serv-card__title {

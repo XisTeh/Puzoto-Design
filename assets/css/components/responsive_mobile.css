@@ -280,7 +280,6 @@
                     radial-gradient(1px 1px at 90% 85%, rgba(201,210,218,0.7) 1px, transparent 0),
                     radial-gradient(1.5px 1.5px at 10% 60%, rgba(201,210,218,0.4) 1px, transparent 0) !important;
                 background-size: 300px 300px !important;
-                animation: heroStarsDrift 80s linear infinite !important;
                 opacity: 0.5 !important;
             }
 
@@ -548,60 +547,10 @@
         }
 
         /* ═══════════════════════════════════════════
-   FINAL POLISH PASS (GLOBAL REFINEMENTS)
+   FINAL POLISH PASS (GLOBAL REFINEMENTS — OPTIMIZED)
    ═══════════════════════════════════════════ */
-        
-        /* 1. Animated Film Grain (Cinematic Texture) */
-        .noise {
-            opacity: 0.02;
-            animation: filmGrain 0.6s steps(2) infinite;
-            will-change: transform;
-        }
 
-        @keyframes filmGrain {
-            0%, 100% { transform: translate(0, 0); }
-            10% { transform: translate(-5px, -5px); }
-            30% { transform: translate(5px, -5px); }
-            50% { transform: translate(-5px, 5px); }
-            70% { transform: translate(5px, 5px); }
-            90% { transform: translate(-3px, -3px); }
-        }
-
-        /* 2. Global Ambient Breathing Glow (Post-processing) */
-        body::after {
-            content: '';
-            position: fixed;
-            inset: 0;
-            background: radial-gradient(circle at 70% 20%, rgba(201, 210, 218, 0.015) 0%, transparent 50%),
-                        radial-gradient(circle at 30% 80%, rgba(180, 155, 100, 0.01) 0%, transparent 40%);
-            pointer-events: none;
-            z-index: 9999;
-        }
-
-        /* 3. Global Edge Lighting & Glassmorphism Transitions */
-        a, button, .process__card, .team__card, .projects__card, .flashlight-card {
-            transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.6s cubic-bezier(0.22, 1, 0.36, 1), border-color 0.6s cubic-bezier(0.22, 1, 0.36, 1), background-color 0.6s cubic-bezier(0.22, 1, 0.36, 1), color 0.6s cubic-bezier(0.22, 1, 0.36, 1) !important;
-        }
-
-        /* Elevating Card Hover State */
-        .process__card:hover, .team__card:hover, .projects__card:hover, .flashlight-card:hover {
-            border-color: rgba(255, 255, 255, 0.08) !important;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.5), inset 0 0 10px rgba(201, 210, 218, 0.02) !important;
-            transform: translateY(-4px) !important;
-        }
-
-        /* 4. Text Polish */
-        .text-muted, p {
-            letter-spacing: 0.01em;
-            text-shadow: 0 2px 10px rgba(0,0,0,0.5);
-        }
-        
-        h1, h2, h3 {
-            text-shadow: 0 10px 30px rgba(0,0,0,0.4); 
-            letter-spacing: -0.02em;
-        }
-        
-        /* 5. Smooth Sections Borders */
+        /* Smooth Sections Borders */
         section {
             border-top: none !important;
             border-bottom: none !important;

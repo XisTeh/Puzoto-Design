@@ -29,7 +29,7 @@
                     rgba(201, 210, 218, .04) 30%,
                     rgba(201, 210, 218, .01) 50%,
                     transparent 70%);
-            will-change: transform, opacity;
+            contain: layout style;
             opacity: 0.8;
             /* GSAP handles pulsing now */
         }

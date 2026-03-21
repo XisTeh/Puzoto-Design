@@ -208,9 +208,13 @@
                 });
                 const clock = new THREE.Clock();
 
-                // WebGL Render Loop
+                // WebGL Render Loop (throttled on mobile for perf)
+                let frameCount = 0;
                 (function anim() {
                     requestAnimationFrame(anim);
+                    frameCount++;
+                    // Mobile: render at ~30fps (skip every other frame)
+                    if (isMobile && frameCount % 2 !== 0) return;
                     const t = clock.getElapsedTime();
 
                     // Background FX parallax
@@ -251,8 +255,8 @@
                         r.mesh.scale.set(rPulse, rPulse, rPulse);
                     });
 
-                    // Swarm complex organic paths
-                    if (!isMobile || Math.floor(t * 15) % 2 === 0) {
+                    // Swarm complex organic paths (throttled: every 3rd frame on desktop, every 6th on mobile)
+                    if (frameCount % (isMobile ? 6 : 3) === 0) {
                         const swPosArr = swarmGeo.attributes.position.array;
                         for(let i=0; i<swarmCount; i++) {
                             const data = swarmData[i];
