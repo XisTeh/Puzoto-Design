@@ -105,7 +105,7 @@
 
         /* Deep particles — far background */
         const deepGeo = new THREE.BufferGeometry();
-        const deepN = 80;
+        const deepN = 40;
         const deepPos = new Float32Array(deepN * 3);
         for (let i = 0; i < deepN * 3; i++) deepPos[i] = (Math.random() - .5) * 400;
         deepGeo.setAttribute('position', new THREE.BufferAttribute(deepPos, 3));
@@ -115,7 +115,7 @@
 
         /* Mid particles */
         const midGeo = new THREE.BufferGeometry();
-        const midN = 50;
+        const midN = 25;
         const midPos = new Float32Array(midN * 3);
         for (let i = 0; i < midN * 3; i++) midPos[i] = (Math.random() - .5) * 250;
         midGeo.setAttribute('position', new THREE.BufferAttribute(midPos, 3));
@@ -125,7 +125,7 @@
 
         /* Close bright particles */
         const closeGeo = new THREE.BufferGeometry();
-        const closeN = 20;
+        const closeN = 12;
         const closePos = new Float32Array(closeN * 3);
         for (let i = 0; i < closeN * 3; i++) closePos[i] = (Math.random() - .5) * 150;
         closeGeo.setAttribute('position', new THREE.BufferAttribute(closePos, 3));
@@ -192,7 +192,7 @@
 
         // --- 4. SWARM PARTICLES (KINETIC FIELD) ---
         const swarmGeo = new THREE.BufferGeometry();
-        const swarmCount = 150;
+        const swarmCount = 75;
         const swarmPos = new Float32Array(swarmCount * 3);
         const swarmData = [];
         for (let i = 0; i < swarmCount; i++) {
@@ -271,8 +271,8 @@
                 r.mesh.scale.set(rPulse, rPulse, rPulse);
             });
 
-            // Swarm organic paths (throttled: every 3rd frame)
-            if (frameCount % 3 === 0) {
+            // Swarm organic paths (throttled: every 4th frame)
+            if (frameCount % 4 === 0) {
                 const swPosArr = swarmGeo.attributes.position.array;
                 for (let i = 0; i < swarmCount; i++) {
                     const data = swarmData[i];
