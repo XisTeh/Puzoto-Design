@@ -105,7 +105,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    /* ─── VIDEO CARDS HOVER PLAY/PAUSE ─── */
+    /* ─── VIDEO CARDS HOVER PLAY/PAUSE (Lazy-loaded) ─── */
     const cards = document.querySelectorAll('.project-card--video');
     cards.forEach(card => {
         const video = card.querySelector('.project-card__video');
@@ -115,8 +115,12 @@ document.addEventListener('DOMContentLoaded', () => {
         
         card.addEventListener('mouseenter', () => {
             clearTimeout(playTimeout);
+            // Lazy-load video src on first hover to prevent 4x downloads
+            if (!video.src && video.dataset.src) {
+                video.src = video.dataset.src;
+                video.load();
+            }
             video.currentTime = 0;
-            // Pequeno delay para sincronizar com o fade CSS
             playTimeout = setTimeout(() => {
                 video.play().catch(e => console.log('Video auto-play prevented:', e));
             }, 300);

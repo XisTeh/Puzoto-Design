@@ -67,9 +67,8 @@
                 radial-gradient(1.5px 1.5px at 90% 10%, rgba(201,210,218,0.5) 1px, transparent 0),
                 radial-gradient(2px 2px at 20% 90%, rgba(201,210,218,0.9) 1px, transparent 0);
             background-size: 400px 400px;
-            animation: globalStarsDrift 60s linear infinite;
+            animation: globalStarsDrift 120s linear infinite;
             opacity: 0.35;
-            will-change: transform;
             contain: strict;
         }
         @keyframes globalStarsDrift {
@@ -105,6 +104,13 @@
             50% { opacity: 0.8; }
             95% { opacity: 0.6; }
             100% { transform: translateY(150vh); opacity: 0; }
+        }
+
+        /* Composited transitions only for performance */
+        .flashlight-card,
+        .project-card,
+        .serv-card__icon {
+            will-change: auto;
         }
 
         a {

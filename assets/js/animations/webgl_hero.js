@@ -35,13 +35,22 @@
                 lenis = new Lenis({ duration: 1.2, easing: t => Math.min(1, 1.001 - Math.pow(2, -10 * t)), smoothWheel: true });
                 function raf(t) { lenis.raf(t); requestAnimationFrame(raf) }
                 requestAnimationFrame(raf);
-                gsap.ticker.add(t => lenis.raf(t * 1000));
+                // Single ticker instead of dual-driving Lenis
                 gsap.ticker.lagSmoothing(0);
             }
 
             /* ─── NAV ───────────────────────── */
             const nav = $('#nav');
-            window.addEventListener('scroll', () => { nav.classList.toggle('is-scrolled', window.scrollY > 60) }, { passive: true });
+            let scrollTick = false;
+            window.addEventListener('scroll', () => {
+                if (!scrollTick) {
+                    scrollTick = true;
+                    requestAnimationFrame(() => {
+                        nav.classList.toggle('is-scrolled', window.scrollY > 60);
+                        scrollTick = false;
+                    });
+                }
+            }, { passive: true });
 
             /* ─── MOBILE MENU ───────────────── */
             const mobileMenu = $('#mobileMenu');
@@ -84,7 +93,7 @@
 
                 /* Deep particles — far background */
                 const deepGeo = new THREE.BufferGeometry();
-                const deepN = isMobile ? 50 : 150;
+                const deepN = isMobile ? 30 : 100;
                 const deepPos = new Float32Array(deepN * 3);
                 for (let i = 0; i < deepN * 3; i++)deepPos[i] = (Math.random() - .5) * 400;
                 deepGeo.setAttribute('position', new THREE.BufferAttribute(deepPos, 3));
@@ -94,7 +103,7 @@
 
                 /* Mid particles */
                 const midGeo = new THREE.BufferGeometry();
-                const midN = isMobile ? 30 : 90;
+                const midN = isMobile ? 20 : 60;
                 const midPos = new Float32Array(midN * 3);
                 for (let i = 0; i < midN * 3; i++)midPos[i] = (Math.random() - .5) * 250;
                 midGeo.setAttribute('position', new THREE.BufferAttribute(midPos, 3));
@@ -104,7 +113,7 @@
 
                 /* Close bright particles */
                 const closeGeo = new THREE.BufferGeometry();
-                const closeN = isMobile ? 15 : 40;
+                const closeN = isMobile ? 10 : 25;
                 const closePos = new Float32Array(closeN * 3);
                 for (let i = 0; i < closeN * 3; i++)closePos[i] = (Math.random() - .5) * 150;
                 closeGeo.setAttribute('position', new THREE.BufferAttribute(closePos, 3));
@@ -113,14 +122,14 @@
                 scene.add(closePts);
 
                 /* Rings — geometric depth elements */
-                const ringGeo = new THREE.TorusGeometry(60, .12, 10, 80);
+                const ringGeo = new THREE.TorusGeometry(60, .12, 8, 60);
                 const ringMat = new THREE.MeshBasicMaterial({ color: '#C9D2DA', transparent: true, opacity: .05, wireframe: true });
                 const ring = new THREE.Mesh(ringGeo, ringMat);
                 ring.rotation.x = Math.PI * .45;
                 ring.position.z = -30;
                 scene.add(ring);
 
-                const ring2Geo = new THREE.TorusGeometry(42, .08, 8, 60);
+                const ring2Geo = new THREE.TorusGeometry(42, .08, 6, 48);
                 const ring2Mat = new THREE.MeshBasicMaterial({ color: '#6F767D', transparent: true, opacity: .035, wireframe: true });
                 const ring2 = new THREE.Mesh(ring2Geo, ring2Mat);
                 ring2.rotation.x = Math.PI * .55;
@@ -137,7 +146,7 @@
 
                 // --- 1. PULSING DATA CORE ---
                 const coreRadius = isMobile ? 12 : 18;
-                const coreGeo = new THREE.IcosahedronGeometry(coreRadius, isMobile ? 3 : 5);
+                const coreGeo = new THREE.IcosahedronGeometry(coreRadius, isMobile ? 2 : 4);
                 const coreMat = new THREE.PointsMaterial({
                     size: 0.2, color: '#ffffff', transparent: true, opacity: 0.9,
                     blending: THREE.AdditiveBlending, depthWrite: false
@@ -173,7 +182,7 @@
 
                 // --- 4. SWARM PARTICLES (KINETIC FIELD) ---
                 const swarmGeo = new THREE.BufferGeometry();
-                const swarmCount = isMobile ? 150 : 250; // Clean, non-polluted
+                const swarmCount = isMobile ? 80 : 180;
                 const swarmPos = new Float32Array(swarmCount * 3);
                 const swarmData = []; 
                 for(let i=0; i<swarmCount; i++) {
@@ -284,10 +293,14 @@
                     renderer.render(scene, camera);
                 })();
 
+                let resizeTimer;
                 window.addEventListener('resize', () => {
-                    camera.aspect = window.innerWidth / window.innerHeight;
-                    camera.updateProjectionMatrix();
-                    renderer.setSize(window.innerWidth, window.innerHeight);
+                    clearTimeout(resizeTimer);
+                    resizeTimer = setTimeout(() => {
+                        camera.aspect = window.innerWidth / window.innerHeight;
+                        camera.updateProjectionMatrix();
+                        renderer.setSize(window.innerWidth, window.innerHeight);
+                    }, 150);
                 });
             } catch (e) { console.log('WebGL error:', e) }
             }; // END threeScript.onload
@@ -368,7 +381,8 @@
             stElems.forEach((el) => {
                 // Mobile: only opacity + transform (no filter = much less TBT)
                 // Desktop: full premium blur effect
-                el.style.willChange = "opacity, transform";
+                // Removed willChange override — letting browser manage layer promotion
+                // Previously: el.style.willChange = "opacity, transform"; which caused excessive layer creation
 
                 // Disabled premium blur effect on desktop for high framerate reliability
                 const fromProps = isMobile
@@ -380,15 +394,13 @@
                         opacity: 1, y: 0,
                         duration: 1,
                         ease: 'power3.out',
-                        scrollTrigger: { trigger: el, start: 'top 95%', toggleActions: 'play none none reverse' },
-                        onComplete: () => { el.style.willChange = "auto"; }
+                        scrollTrigger: { trigger: el, start: 'top 95%', toggleActions: 'play none none reverse' }
                     }
                     : {
                         opacity: 1, y: 0, scale: 1,
                         duration: 1.6,
                         ease: 'expo.out',
-                        scrollTrigger: { trigger: el, start: 'top 85%', toggleActions: 'play none none reverse' },
-                        onComplete: () => { el.style.willChange = "auto"; }
+                        scrollTrigger: { trigger: el, start: 'top 85%', toggleActions: 'play none none reverse' }
                     };
 
                 gsap.fromTo(el, fromProps, toProps);
