@@ -17,9 +17,7 @@
         href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap"
         rel="stylesheet" />
 
-    <!-- Preload LCP image -->
-    <link rel="preload" as="image" href="assets/images/Bora.webp" type="image/webp" fetchpriority="high" />
-
+    <!-- Preload removed in favor of 3D Hero Element -->
 
     <!-- GSAP -->
     <script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
@@ -167,15 +165,7 @@
         <!-- Halo -->
         <div class="hero__halo" id="heroHalo"></div>
 
-        <!-- Character — CLEAN, no overlays on face -->
-        <div class="hero__figure" id="heroFigure">
-            <img src="assets/images/Bora.webp" alt="Puzoto Design — Experiências Digitais Premium" id="heroImg"
-                fetchpriority="high" draggable="false"  width="800" height="1000" />
-        </div>
-
-        <!-- Subtle Face Interaction Layer -->
-        <div class="hero__shimmer" id="heroShimmer"></div>
-        <div class="hero__face-hitbox" id="faceHitbox"></div>
+        <!-- Central 3D element rendered via WebGL on the global Canvas -->
 
         <!-- Overlays -->
         <div class="hero__overlay-radial"></div>

@@ -20,15 +20,14 @@
                 fill.style.width = '60%';
                 if (fill2) fill2.style.width = '40%';
             }
-            const heroImg = $('#heroImg');
             function dismiss() {
                 if (tick) clearInterval(tick);
                 fill.style.width = '100%';
                 if(fill2) setTimeout(() => { fill2.style.width = '100%'; }, isMobile ? 50 : 200);
-                setTimeout(() => { loader.classList.add('is-loaded'); runEntrance() }, isMobile ? 150 : 650);
+                setTimeout(() => { loader.classList.add('is-loaded'); runEntrance() }, isMobile ? 150 : 500);
             }
-            if (heroImg.complete || isMobile) setTimeout(dismiss, isMobile ? 50 : 500);
-            else { heroImg.addEventListener('load', () => setTimeout(dismiss, 100), { once: true }); setTimeout(dismiss, 3000) }
+            // Start dismiss sequence after slight delay
+            setTimeout(dismiss, isMobile ? 50 : 300);
 
             /* ─── LENIS ─────────────────────── */
             let lenis = null;
@@ -94,54 +93,23 @@
                 })();
             }
 
-            /* ─── FACE HOVER INTERACTION (Premium, Clean) ── */
-            const faceHitbox = $('#faceHitbox');
-            const shimmer = $('#heroShimmer');
-            let hoverTl = null;
+            /* ─── FACE HOVER INTERACTION (Removed) ── */
 
-            if (faceHitbox && !isMobile) {
-                const flashObj = { val: 0 };
-                faceHitbox.addEventListener('mouseenter', () => {
-                    if (hoverTl && hoverTl.isActive()) return;
-
-                    hoverTl = gsap.timeline();
-
-                    // 1. Shimmer overlay (micro interference)
-                    hoverTl.fromTo(shimmer,
-                        { opacity: 0, scaleY: 0.9, y: -20 },
-                        { opacity: 1, scaleY: 1, y: 15, duration: 0.2, ease: 'power2.out' }
-                    ).to(shimmer, { opacity: 0, y: 45, duration: 0.45, ease: 'power2.in' });
-
-                    // 2. Optical distortion (filter pulse on image)
-                    hoverTl.to(heroImg, { filter: 'contrast(1.09) brightness(1.06)', duration: 0.15, ease: 'none' }, 0)
-                        .to(heroImg, { filter: 'contrast(1.05) brightness(1.02)', duration: 0.6, ease: 'power2.out' }, 0.15);
-
-                    // 3. WebGL and Halo light pulse
-                    hoverTl.to(flashObj, {
-                        val: 1, duration: 0.15, ease: 'power2.out',
-                        onUpdate: () => { webglFlash = flashObj.val; }
-                    }, 0).to(flashObj, {
-                        val: 0, duration: 0.8, ease: 'power3.out',
-                        onUpdate: () => { webglFlash = flashObj.val; }
-                    }, 0.15);
-                });
-            }
-
-            /* ─── WEBGL 3D BACKGROUND (GLOBAL SITE-WIDE) ────────── */
-            if (!isMobile) {
-                const threeScript = document.createElement('script');
-                threeScript.src = 'https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js';
-                threeScript.onload = () => {
-                    try {
-                        const canvas = $('#webgl');
-                        const scene = new THREE.Scene();
-                        scene.background = null;
-                        scene.fog = new THREE.FogExp2(0x0E0F11, .003);
-                        const camera = new THREE.PerspectiveCamera(55, window.innerWidth / window.innerHeight, .1, 1000);
-                        camera.position.z = 100;
-                        const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: false, powerPreference: "high-performance" });
-                        renderer.setSize(window.innerWidth, window.innerHeight);
-                        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.5));
+            /* ─── WEBGL 3D ABSTRACT HERO + FX (GLOBAL) ────────── */
+            const threeScript = document.createElement('script');
+            threeScript.src = 'https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js';
+            threeScript.onload = () => {
+                try {
+                    const canvas = $('#webgl');
+                    if (!canvas) return; // Fallback handled via CSS
+                    const scene = new THREE.Scene();
+                    scene.background = null;
+                    scene.fog = new THREE.FogExp2(0x0E0F11, .003);
+                    const camera = new THREE.PerspectiveCamera(55, window.innerWidth / window.innerHeight, .1, 1000);
+                    camera.position.z = 100;
+                    const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: !isMobile, powerPreference: "high-performance" });
+                    renderer.setSize(window.innerWidth, window.innerHeight);
+                    renderer.setPixelRatio(Math.min(window.devicePixelRatio, isMobile ? 1 : 1.5));
 
                 /* Deep particles — far background */
                 const deepGeo = new THREE.BufferGeometry();
@@ -189,6 +157,79 @@
                 ring2.position.z = -15;
                 scene.add(ring2);
 
+                /* =======================================================
+                 * PREMIUM CENTRAL 3D: KINETIC HOLOGRAPHIC CORE (CLEAN)
+                 * ======================================================= */
+                const centralGroup = new THREE.Group();
+                window._puzotoCentral3D = centralGroup; 
+                scene.add(centralGroup);
+
+                // --- 1. PULSING DATA CORE ---
+                const coreRadius = isMobile ? 12 : 18;
+                const coreGeo = new THREE.IcosahedronGeometry(coreRadius, isMobile ? 3 : 5);
+                const coreMat = new THREE.PointsMaterial({
+                    size: 0.2, color: '#ffffff', transparent: true, opacity: 0.9,
+                    blending: THREE.AdditiveBlending, depthWrite: false
+                });
+                const dataCore = new THREE.Points(coreGeo, coreMat);
+                centralGroup.add(dataCore);
+
+                // --- 2. SINGLE GEOMETRIC CAGE ---
+                const shell1Geo = new THREE.IcosahedronGeometry(coreRadius + 3, 1);
+                const shell1Mat = new THREE.MeshBasicMaterial({
+                    color: '#C9D2DA', wireframe: true, transparent: true, opacity: 0.15, // Clean, pure
+                    blending: THREE.AdditiveBlending, depthWrite: false
+                });
+                const shell1 = new THREE.Mesh(shell1Geo, shell1Mat);
+                centralGroup.add(shell1);
+
+                // --- 3. ELEGANT DATA RINGS ---
+                const rings = [];
+                for(let i=0; i<2; i++) { // Only 2 rings, highly elegant
+                    const rGeo = new THREE.TorusGeometry(coreRadius + 14 + (i * 6), 0.1, 4, isMobile ? 60 : 100);
+                    const rMat = new THREE.PointsMaterial({
+                        size: 0.2, color: i === 0 ? '#C9D2DA' : '#E3E7EB', transparent: true, opacity: 0.5,
+                        blending: THREE.AdditiveBlending, depthWrite: false
+                    });
+                    const rMesh = new THREE.Points(rGeo, rMat);
+                    rMesh.rotation.x = Math.random() * Math.PI;
+                    rMesh.rotation.y = Math.random() * Math.PI;
+                    rings.push({
+                        mesh: rMesh, speedX: (Math.random() - 0.5) * 0.3, speedY: (Math.random() - 0.5) * 0.3, speedZ: (Math.random() - 0.5) * 0.3
+                    });
+                    centralGroup.add(rMesh);
+                }
+
+                // --- 4. SWARM PARTICLES (KINETIC FIELD) ---
+                const swarmGeo = new THREE.BufferGeometry();
+                const swarmCount = isMobile ? 150 : 250; // Clean, non-polluted
+                const swarmPos = new Float32Array(swarmCount * 3);
+                const swarmData = []; 
+                for(let i=0; i<swarmCount; i++) {
+                    const radius = coreRadius + 5 + Math.random() * 25;
+                    const theta = Math.random() * Math.PI * 2;
+                    const phi = Math.acos((Math.random() * 2) - 1);
+                    
+                    swarmPos[i*3] = radius * Math.sin(phi) * Math.cos(theta);
+                    swarmPos[i*3+1] = radius * Math.sin(phi) * Math.sin(theta);
+                    swarmPos[i*3+2] = radius * Math.cos(phi);
+                    
+                    swarmData.push({
+                        baseRadius: radius, theta: theta, phi: phi, speed: 0.2 + Math.random() * 1.0, oscillationOffset: Math.random() * Math.PI * 2
+                    });
+                }
+                swarmGeo.setAttribute('position', new THREE.BufferAttribute(swarmPos, 3));
+                const swarmMat = new THREE.PointsMaterial({
+                    size: 0.35, color: '#ffffff', transparent: true, opacity: 0.6,
+                    blending: THREE.AdditiveBlending, depthWrite: false
+                });
+                const swarm = new THREE.Points(swarmGeo, swarmMat);
+                centralGroup.add(swarm);
+
+                // Initial setup for GSAP timeline
+                centralGroup.scale.set(0.01, 0.01, 0.01);
+                centralGroup.position.set(0, -2, 0); 
+
                 let wmx = 0, wmy = 0;
                 document.addEventListener('mousemove', e => {
                     wmx = e.clientX / window.innerWidth - .5;
@@ -196,12 +237,12 @@
                 });
                 const clock = new THREE.Clock();
 
-                // WebGL Render Loop - Removed IntersectionObserver pause so it runs site-wide
+                // WebGL Render Loop
                 (function anim() {
                     requestAnimationFrame(anim);
                     const t = clock.getElapsedTime();
 
-                    // Each layer at different speed = depth parallax
+                    // Background FX parallax
                     deepPts.rotation.y = t * -.006 + (wmx * .08);
                     deepPts.rotation.x = t * .004 + (wmy * .06);
 
@@ -211,23 +252,59 @@
                     closePts.rotation.y = t * -.02 + (wmx * .28);
                     closePts.rotation.x = t * .012 + (wmy * .2);
 
-                    // Rings rotate slowly + mouse
+                    // Background Rings
                     ring.rotation.y = t * .025 + (wmx * .12);
                     ring.rotation.z = t * .008;
-
                     ring2.rotation.y = t * -.018 + (wmx * -.08);
                     ring2.rotation.z = t * -.01 + (wmy * .04);
 
-                    // Reaction to face hover (if triggered elsewhere)
-                    if (webglFlash > 0) {
-                        closePts.material.opacity = 0.4 + (webglFlash * 0.4);
-                        midPts.material.opacity = 0.3 + (webglFlash * 0.2);
-                        ring.material.opacity = 0.05 + (webglFlash * 0.07);
-                    } else {
-                        closePts.material.opacity = 0.4;
-                        midPts.material.opacity = 0.3;
-                        ring.material.opacity = 0.05;
+                    // --- Animate the Kinetic Core ---
+                    // Inner core breathing and twisting
+                    const pulse = Math.sin(t * 1.5) * 0.05 + 1;
+                    dataCore.scale.set(pulse, pulse, pulse);
+                    dataCore.rotation.y = t * 0.15;
+                    dataCore.rotation.x = Math.sin(t * 0.5) * 0.1;
+
+                    // Shell rotations & complex breathing
+                    shell1.rotation.y = t * -0.15;
+                    shell1.rotation.z = t * 0.1;
+                    const s1Pulse = Math.sin(t * 2) * 0.04 + 1;
+                    shell1.scale.set(s1Pulse, s1Pulse, s1Pulse);
+
+                    // Rings dynamic continuous rotation
+                    rings.forEach((r, idx) => {
+                        r.mesh.rotation.x += r.speedX * 0.01;
+                        r.mesh.rotation.y += r.speedY * 0.01;
+                        r.mesh.rotation.z += r.speedZ * 0.01;
+                        const rPulse = Math.sin(t * 1.5 + idx) * 0.05 + 1;
+                        r.mesh.scale.set(rPulse, rPulse, rPulse);
+                    });
+
+                    // Swarm complex organic paths
+                    if (!isMobile || Math.floor(t * 15) % 2 === 0) {
+                        const swPosArr = swarmGeo.attributes.position.array;
+                        for(let i=0; i<swarmCount; i++) {
+                            const data = swarmData[i];
+                            data.theta += data.speed * 0.005;
+                            data.phi += (Math.sin(t * 0.5 + data.oscillationOffset) * 0.005);
+                            
+                            // Particles expand and contract over time
+                            const dynamicRadius = data.baseRadius + Math.sin(t * 3 + data.oscillationOffset) * 6;
+
+                            swPosArr[i*3] = dynamicRadius * Math.sin(data.phi) * Math.cos(data.theta);
+                            swPosArr[i*3+1] = dynamicRadius * Math.sin(data.phi) * Math.sin(data.theta);
+                            swPosArr[i*3+2] = dynamicRadius * Math.cos(data.phi);
+                        }
+                        swarmGeo.attributes.position.needsUpdate = true;
                     }
+
+                    // Smooth buttery mouse parallax tracking
+                    centralGroup.rotation.y += ((wmx * 0.8) - centralGroup.rotation.y) * 0.05;
+                    centralGroup.rotation.x += ((wmy * 0.6) - centralGroup.rotation.x) * 0.05;
+                    
+                    // Floating effect
+                    centralGroup.position.x = wmx * 12;
+                    centralGroup.position.y = -2 + (wmy * -10) + Math.sin(t * 1.5) * 2.5;
 
                     renderer.render(scene, camera);
                 })();
@@ -238,21 +315,25 @@
                     renderer.setSize(window.innerWidth, window.innerHeight);
                 });
             } catch (e) { console.log('WebGL error:', e) }
-                }; // END threeScript.onload
-                document.head.appendChild(threeScript);
-            } // END if(!isMobile)
+            }; // END threeScript.onload
+            document.head.appendChild(threeScript);
 
             /* ─── ENTRANCE ──────────────────── */
             function runEntrance() {
                 const tl = gsap.timeline({ defaults: { ease: 'power4.out' } });
                 tl.fromTo(nav, { opacity: 0, y: -20 }, { opacity: 1, y: 0, duration: .9 }, .2);
 
-                const fig = $('#heroFigure');
+                if (window._puzotoCentral3D) {
+                    if (isMobile) {
+                        gsap.fromTo(window._puzotoCentral3D.scale, { x: 0.01, y: 0.01, z: 0.01 }, { x: 1, y: 1, z: 1, duration: 1.2, ease: 'power3.out' }, 0);
+                    } else {
+                        gsap.fromTo(window._puzotoCentral3D.scale, { x: 0.01, y: 0.01, z: 0.01 }, { x: 1, y: 1, z: 1, duration: 2.2, ease: 'expo.out' }, 0);
+                        gsap.fromTo(window._puzotoCentral3D.rotation, { y: -Math.PI }, { y: 0, duration: 3, ease: 'power3.out' }, 0);
+                    }
+                }
 
                 if (isMobile) {
-                    // Mobile: Lightweight entrance (no filter, shorter durations)
-                    tl.fromTo(fig, { opacity: 0 }, { opacity: 1, duration: .8, ease: 'power2.out' }, 0);
-
+                    // Mobile: Lightweight entrance (shorter durations)
                     document.querySelectorAll('[data-reveal]').forEach((el, i) => {
                         tl.to(el, { y: 0, duration: .8, ease: 'power3.out' }, .15 + i * .08);
                     });
@@ -270,8 +351,7 @@
                     tl.to('#heroScroll', { opacity: .5, y: 0, duration: .5 }, .7);
                 } else {
                     // Desktop: Full premium entrance with blur
-                    tl.fromTo(fig, { scale: 1.06, opacity: 0 }, { scale: 1, opacity: 1, duration: 1.8, ease: 'power2.out' }, 0);
-                    tl.fromTo(halo, { opacity: 0, scale: .8 }, { opacity: .6, scale: 1, duration: 1.4, ease: 'power2.out' }, .2);
+                    if (halo) tl.fromTo(halo, { opacity: 0, scale: .8 }, { opacity: .6, scale: 1, duration: 1.4, ease: 'power2.out' }, .2);
 
                     document.querySelectorAll('[data-reveal]').forEach((el, i) => {
                         tl.to(el, { y: 0, duration: 1.3, ease: 'power4.out' }, .25 + i * .12);
@@ -295,12 +375,9 @@
                 }
             }
 
-            /* ─── CINEMATIC ZOOM ────────────── */
-            if(!isMobile) gsap.to(heroImg, { scale: 1.02, duration: 20, ease: 'none', repeat: -1, yoyo: true });
-
             /* ─── HALO BREATHING ────────────── */
             // Replaced expensive boxShadow animation with opacity/scale composition
-            if(!isMobile) {
+            if(!isMobile && halo) {
                 gsap.to(halo, {
                     opacity: 0.7,
                     scale: 1.05,
