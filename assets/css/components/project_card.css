@@ -104,15 +104,11 @@
 
         .hero__title-line {
             display: block;
-            overflow: hidden;
-            padding: 20px 0;
-            margin: -20px 0;
         }
 
         .hero__title-line-inner {
-            display: inline-block;
-            transform: translateY(120%);
-            will-change: transform
+            display: block;
+            will-change: opacity, transform;
         }
 
         .hero__title-accent {

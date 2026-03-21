@@ -37,8 +37,10 @@
         requestAnimationFrame(raf);
         gsap.ticker.lagSmoothing(0);
     }
-    // Defer Lenis init to after first paint
-    requestAnimationFrame(() => requestAnimationFrame(initLenis));
+    // Defer Lenis init to solidly after first paint/fonts
+    setTimeout(() => {
+        requestAnimationFrame(initLenis);
+    }, 600);
 
     /* ─── NAV (passive scroll, RAF-batched) ───────────────────────── */
     const nav = $('#nav');
@@ -68,29 +70,27 @@
     /* ─── AMBIENT ORB REFS ── */
     const halo = $('#heroHalo');
 
-    /* ─── WEBGL 3D HERO (Desktop only, lazy-loaded) ────────── */
+    /* ─── WEBGL 3D HERO (Ativado Global) ────────── */
     let webglVisible = true;
 
-    if (!isMobile) {
-        const canvas = $('#webgl');
-        if (canvas) {
-            // WebGL agora continua ativo no fundo em todo o site (IntersectionObserver removido)
+    const canvas = $('#webgl');
+    if (canvas) {
+        // WebGL agora continua ativo no fundo em todo o site (IntersectionObserver removido)
 
-            // Lazy load Three.js only on desktop
-            const threeScript = document.createElement('script');
-            threeScript.src = 'https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js';
-            threeScript.onload = () => {
-                try {
-                    initWebGL(canvas);
-                } catch (e) { console.log('WebGL error:', e); }
-            };
-            // Load after first paint
+        // Lazy load Three.js
+        const threeScript = document.createElement('script');
+        threeScript.src = 'https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js';
+        threeScript.onload = () => {
+            try {
+                initWebGL(canvas);
+            } catch (e) { console.log('WebGL error:', e); }
+        };
+        // Load after first paint
+        requestAnimationFrame(() => {
             requestAnimationFrame(() => {
-                requestAnimationFrame(() => {
-                    document.head.appendChild(threeScript);
-                });
+                document.head.appendChild(threeScript);
             });
-        }
+        });
     }
 
     function initWebGL(canvas) {
@@ -316,40 +316,30 @@
 
         if (window._puzotoCentral3D) {
             gsap.fromTo(window._puzotoCentral3D.scale, { x: 0.01, y: 0.01, z: 0.01 }, { x: 1, y: 1, z: 1, duration: 2.2, ease: 'expo.out' }, 0);
-            if (!isMobile) {
-                gsap.fromTo(window._puzotoCentral3D.rotation, { y: -Math.PI }, { y: 0, duration: 3, ease: 'power3.out' }, 0);
-            }
+            gsap.fromTo(window._puzotoCentral3D.rotation, { y: -Math.PI }, { y: 0, duration: 3, ease: 'power3.out' }, 0);
         }
 
         if (isMobile) {
             // Mobile: Ultra-lightweight entrance
             document.querySelectorAll('[data-reveal]').forEach((el, i) => {
-                tl.to(el, { y: 0, duration: .6, ease: 'power3.out' }, .1 + i * .06);
+                tl.to(el, { opacity: 1, duration: .6, ease: 'power3.out' }, .1 + i * .06);
             });
-            gsap.set('#heroLabel', { y: 10 });
-            tl.to('#heroLabel', { opacity: 1, y: 0, duration: .5 }, .15);
-            gsap.set('#heroSub', { y: 10 });
-            tl.to('#heroSub', { opacity: 1, y: 0, duration: .5 }, .25);
-            gsap.set('#heroCtas', { y: 10 });
-            tl.to('#heroCtas', { opacity: 1, y: 0, duration: .4 }, .35);
-            gsap.set('#heroScroll', { y: 10 });
-            tl.to('#heroScroll', { opacity: .5, y: 0, duration: .4 }, .5);
+            tl.to('#heroLabel', { opacity: 1, duration: .5 }, .15);
+            tl.to('#heroSub', { opacity: 1, duration: .5 }, .25);
+            tl.to('#heroCtas', { opacity: 1, duration: .4 }, .35);
+            tl.to('#heroScroll', { opacity: .5, duration: .4 }, .5);
         } else {
-            // Desktop: Full premium entrance (NO filter/blur — only transform/opacity)
+            // Desktop: Premium entrance (Opacity focus to prevent layout jump on font load)
             if (halo) tl.fromTo(halo, { opacity: 0, scale: .8 }, { opacity: .6, scale: 1, duration: 1.4, ease: 'power2.out' }, .2);
 
             document.querySelectorAll('[data-reveal]').forEach((el, i) => {
-                tl.to(el, { y: 0, duration: 1.3, ease: 'power4.out' }, .25 + i * .12);
+                tl.to(el, { opacity: 1, duration: 1.3, ease: 'power4.out' }, .25 + i * .12);
             });
 
-            gsap.set('#heroLabel', { y: 15 });
-            tl.to('#heroLabel', { opacity: 1, y: 0, duration: .8 }, .35);
-            gsap.set('#heroSub', { y: 25 });
-            tl.to('#heroSub', { opacity: 1, y: 0, duration: .9 }, .6);
-            gsap.set('#heroCtas', { y: 20 });
-            tl.to('#heroCtas', { opacity: 1, y: 0, duration: .8 }, .8);
-            gsap.set('#heroScroll', { y: 15 });
-            tl.to('#heroScroll', { opacity: .5, y: 0, duration: .7 }, 1.1);
+            tl.to('#heroLabel', { opacity: 1, duration: .8 }, .35);
+            tl.to('#heroSub', { opacity: 1, duration: .9 }, .6);
+            tl.to('#heroCtas', { opacity: 1, duration: .8 }, .8);
+            tl.to('#heroScroll', { opacity: .5, duration: .7 }, 1.1);
             tl.to('#tagL', { opacity: .35, duration: .8 }, 1.2);
             tl.to('#tagR', { opacity: .35, duration: .8 }, 1.3);
             tl.to('.hero__corner', { opacity: 1, duration: .6, stagger: .08 }, 1);
@@ -415,16 +405,30 @@
                 const rotateXTo = gsap.quickTo(card, "rotateX", { duration: 0.4, ease: "power2.out" });
                 const rotateYTo = gsap.quickTo(card, "rotateY", { duration: 0.4, ease: "power2.out" });
 
+                let rect, centerX, centerY;
+                
+                card.addEventListener('mouseenter', () => {
+                    rect = card.getBoundingClientRect();
+                    centerX = rect.width / 2;
+                    centerY = rect.height / 2;
+                }, { passive: true });
+
                 card.addEventListener('mousemove', e => {
-                    const rect = card.getBoundingClientRect();
+                    if (!rect) {
+                        rect = card.getBoundingClientRect();
+                        centerX = rect.width / 2;
+                        centerY = rect.height / 2;
+                    }
                     const x = e.clientX - rect.left;
                     const y = e.clientY - rect.top;
-                    card.style.setProperty('--fx', `${x}px`);
-                    card.style.setProperty('--fy', `${y}px`);
-                    const centerX = rect.width / 2;
-                    const centerY = rect.height / 2;
-                    rotateXTo(((y - centerY) / centerY) * -5);
-                    rotateYTo(((x - centerX) / centerX) * 5);
+                    
+                    // Request animation frame to avoid layout thrashing during style sync
+                    window.requestAnimationFrame(() => {
+                        card.style.setProperty('--fx', `${x}px`);
+                        card.style.setProperty('--fy', `${y}px`);
+                        rotateXTo(((y - centerY) / centerY) * -5);
+                        rotateYTo(((x - centerX) / centerX) * 5);
+                    });
                 }, { passive: true });
 
                 card.addEventListener('mouseleave', () => {
