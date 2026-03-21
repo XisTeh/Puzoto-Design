@@ -134,30 +134,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     /* ─── MOBILE MENU LOGIC ─── */
-    const navToggle = document.getElementById('navToggle');
-    const mobileMenu = document.getElementById('mobileMenu');
-    const mobileClose = document.getElementById('mobileClose');
-    const mobileLinks = document.querySelectorAll('.mobile-menu__nav a[data-mobile-link]');
-
-    if (navToggle && mobileMenu) {
-        navToggle.addEventListener('click', () => {
-            mobileMenu.classList.add('is-open');
-        });
-    }
-
-    if (mobileClose && mobileMenu) {
-        mobileClose.addEventListener('click', () => {
-            mobileMenu.classList.remove('is-open');
-        });
-    }
-
-    if (mobileLinks.length && mobileMenu) {
-        mobileLinks.forEach(link => {
-            link.addEventListener('click', () => {
-                mobileMenu.classList.remove('is-open');
-            });
-        });
-    }
+    /* Handled by webgl_hero.js — removed to avoid duplicate listeners */
 
     /* ─── CUSTOM CTA SCROLL LOGIC ─── */
     const btnContacts = document.getElementById('btnScrollContato');

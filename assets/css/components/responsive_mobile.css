@@ -232,55 +232,35 @@
             .beams { 
                 opacity: 0.25 !important;
             }
-            /* Orbs — mais brilhantes e maiores no mobile */
+            /* Orbs — simplificados no mobile (sem animação pesada) */
             .hero__orb--a {
-                width: 350px !important;
-                height: 350px !important;
-                background: radial-gradient(circle, rgba(201, 210, 218, 0.09) 0%, transparent 60%) !important;
-                animation: orbDrift 10s ease-in-out infinite alternate !important;
+                width: 300px !important;
+                height: 300px !important;
+                background: radial-gradient(circle, rgba(201, 210, 218, 0.07) 0%, transparent 60%) !important;
+                animation: none !important;
             }
             .hero__orb--b {
-                width: 280px !important;
-                height: 280px !important;
-                background: radial-gradient(circle, rgba(111, 118, 125, 0.1) 0%, transparent 60%) !important;
-                animation: orbDrift 14s ease-in-out infinite alternate-reverse !important;
+                width: 240px !important;
+                height: 240px !important;
+                background: radial-gradient(circle, rgba(111, 118, 125, 0.08) 0%, transparent 60%) !important;
+                animation: none !important;
             }
             .hero__orb--c {
-                width: 200px !important;
-                height: 200px !important;
-                background: radial-gradient(circle, rgba(201, 210, 218, 0.07) 0%, transparent 60%) !important;
-                animation: orbDrift 18s ease-in-out infinite alternate !important;
+                display: none !important;
             }
-            /* Halo — maior e mais pulsante */
+            /* Halo — estável */
             .hero__halo {
-                width: clamp(300px, 70vw, 500px) !important;
-                height: clamp(300px, 70vw, 500px) !important;
-                opacity: 0.7 !important;
+                width: clamp(280px, 65vw, 450px) !important;
+                height: clamp(280px, 65vw, 450px) !important;
+                opacity: 0.5 !important;
             }
             /* Shimmer face — sutil brilho */
             .hero__shimmer {
                 opacity: 0.15 !important;
             }
-            /* Partículas / estrelas no fundo */
+            /* Partículas removidas no mobile (10 radial-gradients = caro) */
             .hero::before {
-                content: '' !important;
-                position: absolute !important;
-                inset: 0 !important;
-                z-index: 1 !important;
-                pointer-events: none !important;
-                background-image: 
-                    radial-gradient(1px 1px at 15% 25%, rgba(201,210,218,0.7) 1px, transparent 0),
-                    radial-gradient(1.5px 1.5px at 35% 55%, rgba(201,210,218,0.5) 1px, transparent 0),
-                    radial-gradient(1px 1px at 55% 15%, rgba(201,210,218,0.6) 1px, transparent 0),
-                    radial-gradient(2px 2px at 75% 70%, rgba(201,210,218,0.4) 1px, transparent 0),
-                    radial-gradient(1px 1px at 85% 35%, rgba(201,210,218,0.8) 1px, transparent 0),
-                    radial-gradient(1.5px 1.5px at 25% 80%, rgba(201,210,218,0.5) 1px, transparent 0),
-                    radial-gradient(1px 1px at 65% 45%, rgba(201,210,218,0.6) 1px, transparent 0),
-                    radial-gradient(2px 2px at 45% 90%, rgba(201,210,218,0.3) 1px, transparent 0),
-                    radial-gradient(1px 1px at 90% 85%, rgba(201,210,218,0.7) 1px, transparent 0),
-                    radial-gradient(1.5px 1.5px at 10% 60%, rgba(201,210,218,0.4) 1px, transparent 0) !important;
-                background-size: 300px 300px !important;
-                opacity: 0.5 !important;
+                display: none !important;
             }
 
             /* ═══════════════════════════════════════

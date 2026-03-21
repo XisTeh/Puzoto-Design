@@ -352,7 +352,7 @@
             padding: 18px 40px;
             min-height: 60px;
             font-family: var(--font-heading);
-            box-shadow: 0 10px 40px rgba(0,0,0,0.4);
+            box-shadow: 0 8px 30px rgba(0,0,0,0.35);
         }
 
         .cta__btn-custom::before {
@@ -388,7 +388,6 @@
 
         .cta__btn-custom:hover {
             transform: translateY(-4px) scale(1.02);
-            box-shadow: 0 20px 50px rgba(0,0,0,0.6);
         }
 
         .cta__btn-custom:hover::before {

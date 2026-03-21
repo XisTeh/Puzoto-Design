@@ -32,7 +32,7 @@
 
     <!-- Critical CSS (above-the-fold only) -->
     <link rel="stylesheet" href="assets/css/main.css" />
-    <!-- Loader + Hero inlined to eliminate render-blocking chain -->
+    <!-- Loader + Hero + Critical Above-the-fold inlined -->
     <style>
         .loader{position:fixed;inset:0;z-index:9999;background:var(--bg);display:flex;align-items:center;justify-content:center;flex-direction:column;gap:1.8rem;transition:opacity .8s cubic-bezier(.22,1,.36,1),visibility .8s}
         .loader.is-loaded{opacity:0;visibility:hidden;pointer-events:none}
@@ -41,8 +41,30 @@
         .loader__track{width:100%;height:2px;background:rgba(255,255,255,.06);position:relative;overflow:hidden;border-radius:2px}
         .loader__fill{position:absolute;left:0;top:0;height:100%;background:var(--accent);width:0%;transition:width .25s ease-out;border-radius:2px}
         .loader__track--2 .loader__fill{background:var(--accent-dark)}
-        .hero{position:relative;z-index:2;width:100%;min-height:100vh;overflow:hidden;display:flex;align-items:center;justify-content:center}
+        /* Hero — dimensões fixas para eliminar CLS */
+        .hero{position:relative;z-index:2;width:100%;min-height:100vh;min-height:100dvh;overflow:hidden;display:flex;align-items:center;justify-content:center;contain:layout style}
         .hero__halo{position:absolute;z-index:4;top:0;left:50%;transform:translateX(-50%);width:clamp(450px,48vw,850px);height:clamp(450px,48vw,850px);border-radius:50%;background:radial-gradient(circle,rgba(201,210,218,.08) 0%,rgba(201,210,218,.04) 30%,rgba(201,210,218,.01) 50%,transparent 70%);contain:layout style;opacity:.8}
+        /* Hero content visível desde o primeiro paint — sem depender de JS */
+        .hero__content{position:relative;z-index:10;display:flex;flex-direction:column;align-items:flex-start;gap:.8rem;max-width:680px;width:100%;padding:0 clamp(1.25rem,4vw,3rem)}
+        .hero__title{font-family:var(--font-heading);font-size:clamp(3.2rem,6.5vw,5.8rem);font-weight:700;line-height:1.05;letter-spacing:-.04em}
+        .hero__title-line{display:block;overflow:hidden}
+        .hero__title-line-inner{display:block;transform:translateY(110%)}
+        .hero__title-accent{color:var(--accent)}
+        .hero__label{display:flex;align-items:center;gap:.6rem;font-size:.65rem;font-weight:500;letter-spacing:.18em;text-transform:uppercase;color:var(--accent-dark);opacity:0}
+        .hero__label-dot{width:6px;height:6px;background:var(--accent);border-radius:50%}
+        .hero__subtitle{font-size:clamp(.9rem,1.2vw,1.15rem);line-height:1.7;color:var(--text-muted);max-width:540px;opacity:0}
+        .hero__ctas{display:flex;align-items:center;gap:1.2rem;margin-top:.5rem;opacity:0}
+        .btn-ghost{display:inline-flex;align-items:center;gap:.5rem;font-size:.85rem;font-weight:500;padding:.7rem 1.5rem;border:1px solid rgba(201,210,218,.15);border-radius:100px;transition:all .35s;color:var(--text)}
+        .hero__overlay-radial{position:absolute;inset:0;z-index:3;pointer-events:none;background:radial-gradient(ellipse at 50% 100%,rgba(14,15,17,.9) 0%,transparent 60%)}
+        /* Mobile: desabilitar efeitos visuais pesados */
+        @media(max-width:768px){
+            .noise{display:none!important}
+            .beams{display:none!important}
+            .global-stars{animation:none!important;opacity:.2!important}
+            .global-beams{display:none!important}
+            #webgl{display:none!important}
+            .hero__content{align-items:center;text-align:center}
+        }
     </style>
 
     <!-- Non-critical / Async CSS -->
@@ -210,7 +232,7 @@
                             class="hero__title-accent" data-i18n="hero-title-accent">Tudo</span></span>
                 </span>
             </h1>
-            <p class="hero__subtitle" id="heroSub" data-i18n="hero-subtitle" style="content-visibility:auto">
+            <p class="hero__subtitle" id="heroSub" data-i18n="hero-subtitle">
                 Construímos interfaces que transformam percepção em autoridade e estética em posicionamento.
             </p>
             <div class="hero__ctas" id="heroCtas">
@@ -1217,6 +1239,13 @@
     <script defer src="assets/js/animations/webgl_hero.js"></script>
     <script defer src="assets/js/i18n.js"></script>
     <script defer src="assets/js/main.js"></script>
+
+    <!-- Noscript fallback para CSS async -->
+    <noscript>
+        <link rel="stylesheet" href="assets/css/components/nav.css" />
+        <link rel="stylesheet" href="assets/css/components/noise.css" />
+        <link rel="stylesheet" href="assets/css/components/responsive_mobile.css" />
+    </noscript>
 </body>
 
 </html>
