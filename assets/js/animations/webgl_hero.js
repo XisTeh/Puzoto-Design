@@ -55,7 +55,7 @@
             $('#mobileClose').addEventListener('click', toggleMenu);
             document.querySelectorAll('[data-mobile-link]').forEach(l => l.addEventListener('click', toggleMenu));
 
-            /* ─── AMBIENT MOUSE — elegant, no spotlight ── */
+            /* ─── AMBIENT MOUSE (Optimized out: CSS/GSAP handles this cleanly) ── */
             const halo = $('#heroHalo');
             const orbA = $('#orbA');
             const orbB = $('#orbB');
@@ -63,35 +63,6 @@
 
             let webglFlash = 0; // Global for hover reaction
 
-            if (!isMobile) {
-                let mx = 0, my = 0, smx = 0, smy = 0;
-
-                document.addEventListener('mousemove', e => {
-                    mx = (e.clientX / window.innerWidth - .5) * 2;
-                    my = (e.clientY / window.innerHeight - .5) * 2;
-                });
-
-                (function ambientLoop() {
-                    // Very smooth interpolation — cinematic feel
-                    smx += (mx - smx) * .03;
-                    smy += (my - smy) * .03;
-
-                    // Halo: purely transform and opacity for max performance (hardware accelerated)
-                    const hScale = 1 + (Math.abs(smx) * 0.05) + (webglFlash * 0.04);
-                    const hOpac = 0.6 + (Math.abs(smx) * 0.05) + (webglFlash * 0.2); // simulating brightness
-                    if (halo) {
-                        halo.style.opacity = hOpac;
-                        halo.style.transform = `translateX(-50%) scale(${hScale}) translateZ(0)`;
-                    }
-
-                    // Orbs: gentle positional drift responding to mouse
-                    if (orbA) orbA.style.transform = `translate3d(${smx * -15}px,${smy * -10}px, 0)`;
-                    if (orbB) orbB.style.transform = `translate3d(${smx * 12}px,${smy * 14}px, 0)`;
-                    if (orbC) orbC.style.transform = `translate3d(${smx * -7}px,${smy * 8}px, 0)`;
-
-                    requestAnimationFrame(ambientLoop);
-                })();
-            }
 
             /* ─── FACE HOVER INTERACTION (Removed) ── */
 

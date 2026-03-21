@@ -37,38 +37,45 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         });
 
-        /* Hover 3D Tilt Effect on Photo */
+        /* Hover 3D Tilt Effect on Photo (Optimized) */
         if (teamWrap && !window.matchMedia('(max-width:768px)').matches) {
+            let ticking = false;
             teamWrap.addEventListener('mousemove', e => {
-                const rect = teamWrap.getBoundingClientRect();
-                const x = e.clientX - rect.left;
-                const y = e.clientY - rect.top;
-                
-                if (typeof gsap !== 'undefined') {
-                    gsap.to(teamWrap, {
-                        y: -4,
-                        boxShadow: '0 50px 100px rgba(0,0,0,0.7), 0 0 0 1px rgba(255,255,255,0.08), 0 0 80px rgba(201, 210, 218, 0.06)',
-                        duration: 0.4,
-                        ease: 'power2.out',
-                        overwrite: 'auto'
+                if (!ticking) {
+                    window.requestAnimationFrame(() => {
+                        const rect = teamWrap.getBoundingClientRect();
+                        const x = e.clientX - rect.left;
+                        const y = e.clientY - rect.top;
+                        
+                        if (typeof gsap !== 'undefined') {
+                            // Heavy box-shadow animation removed for DOM performance
+                            gsap.to(teamWrap, {
+                                y: -4,
+                                duration: 0.4,
+                                ease: 'power2.out',
+                                overwrite: 'auto'
+                            });
+
+                            if(teamGlare) {
+                                gsap.to(teamGlare, {
+                                    background: `radial-gradient(circle at ${x}px ${y}px, rgba(255,255,255,0.15), transparent 50%)`,
+                                    opacity: 1,
+                                    duration: 0.15
+                                });
+                            }
+
+                            const activeImg = teamWrap.querySelector('.team__member-img.is-active');
+                            if (activeImg) {
+                                gsap.to(activeImg, {
+                                    x: ((x / rect.width) - 0.5) * 8,
+                                    y: ((y / rect.height) - 0.5) * 8,
+                                    duration: 0.5
+                                });
+                            }
+                        }
+                        ticking = false;
                     });
-
-                    if(teamGlare) {
-                        gsap.to(teamGlare, {
-                            background: `radial-gradient(circle at ${x}px ${y}px, rgba(255,255,255,0.15), transparent 50%)`,
-                            opacity: 1,
-                            duration: 0.15
-                        });
-                    }
-
-                    const activeImg = teamWrap.querySelector('.team__member-img.is-active');
-                    if (activeImg) {
-                        gsap.to(activeImg, {
-                            x: ((x / rect.width) - 0.5) * 8,
-                            y: ((y / rect.height) - 0.5) * 8,
-                            duration: 0.5
-                        });
-                    }
+                    ticking = true;
                 }
             });
 
@@ -76,7 +83,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (typeof gsap !== 'undefined') {
                     gsap.to(teamWrap, {
                         y: 0,
-                        boxShadow: '0 40px 80px rgba(0,0,0,0.6), 0 0 0 1px rgba(255,255,255,0.06), 0 0 60px rgba(201, 210, 218, 0.04)',
                         duration: 0.8,
                         ease: 'power3.out'
                     });

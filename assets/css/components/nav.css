@@ -9,7 +9,7 @@
             right: 0;
             z-index: 100;
             padding: 1.5rem 0;
-            transition: background .4s, padding .4s, backdrop-filter .4s;
+            transition: background .4s, padding .4s;
             opacity: 0
         }
 
