@@ -70,6 +70,7 @@
             animation: globalStarsDrift 120s linear infinite;
             opacity: 0.35;
             contain: strict;
+            will-change: transform;
         }
         @keyframes globalStarsDrift {
             from { transform: translate(0, 0); }

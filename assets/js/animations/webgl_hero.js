@@ -219,6 +219,20 @@
         // Initial setup
         centralGroup.scale.set(0.01, 0.01, 0.01);
         centralGroup.position.set(0, -2, 0);
+        if (window._pendingEntrance3D && typeof gsap !== 'undefined') {
+            gsap.fromTo(centralGroup.scale, { x: 0.01, y: 0.01, z: 0.01 }, { x: 1, y: 1, z: 1, duration: 2.2, ease: 'expo.out' });
+            gsap.fromTo(centralGroup.rotation, { y: -Math.PI }, { y: 0, duration: 3, ease: 'power3.out' });
+        }
+
+        // Performance: Pause WebGL when Hero is out of view
+        let isHeroVisible = true;
+        const heroEl = document.getElementById('hero');
+        if (heroEl) {
+            const observer = new IntersectionObserver((entries) => {
+                isHeroVisible = entries[0].isIntersecting;
+            }, { threshold: 0.0 });
+            observer.observe(heroEl);
+        }
 
         // Mouse tracking with passive listener (perf)
         let wmx = 0, wmy = 0;
@@ -232,6 +246,7 @@
 
         (function anim() {
             requestAnimationFrame(anim);
+            if (!isHeroVisible) return;
 
             frameCount++;
             const t = clock.getElapsedTime();
@@ -317,6 +332,8 @@
         if (window._puzotoCentral3D) {
             gsap.fromTo(window._puzotoCentral3D.scale, { x: 0.01, y: 0.01, z: 0.01 }, { x: 1, y: 1, z: 1, duration: 2.2, ease: 'expo.out' }, 0);
             gsap.fromTo(window._puzotoCentral3D.rotation, { y: -Math.PI }, { y: 0, duration: 3, ease: 'power3.out' }, 0);
+        } else {
+            window._pendingEntrance3D = true;
         }
 
         if (isMobile) {
