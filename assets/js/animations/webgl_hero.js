@@ -246,9 +246,12 @@
 
         (function anim() {
             requestAnimationFrame(anim);
-            if (!isHeroVisible) return;
-
+            
             frameCount++;
+            // Quando sai do Hero, mantém o efeito funcionando MAS pula
+            // 1 a cada 2 frames (roda a ~30fps) para focar no desempenho
+            if (!isHeroVisible && frameCount % 2 !== 0) return;
+
             const t = clock.getElapsedTime();
 
             // Background FX parallax
