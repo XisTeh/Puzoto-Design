@@ -136,13 +136,5 @@ document.addEventListener('DOMContentLoaded', () => {
     /* ─── MOBILE MENU LOGIC ─── */
     /* Handled by webgl_hero.js — removed to avoid duplicate listeners */
 
-    /* ─── CUSTOM CTA SCROLL LOGIC ─── */
-    const btnContacts = document.getElementById('btnScrollContato');
-    const btnContacts2 = document.getElementById('btnScrollContato2');
-    const target = document.getElementById('contato');
-
-    if (target) {
-        if (btnContacts) btnContacts.addEventListener('click', () => target.scrollIntoView({behavior: 'smooth'}));
-        if (btnContacts2) btnContacts2.addEventListener('click', () => target.scrollIntoView({behavior: 'smooth'}));
-    }
+    /* ─── CUSTOM CTA SCROLL LOGIC REMOVED (Links changed to WhatsApp) ─── */
 });
