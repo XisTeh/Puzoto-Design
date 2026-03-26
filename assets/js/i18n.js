@@ -90,6 +90,8 @@ const translations = {
         'cta-desc': 'Desenvolvemos sites pensados para tirar o seu negócio do comum, apresentar melhor o que você faz e transmitir mais confiança no digital.',
         'cta-btn': 'Iniciar meu Projeto',
         'cta-footer': 'Criamos sites para negócios que querem se apresentar melhor, transmitir mais confiança e sair do comum.',
+        'cta-cnpj': 'PUZOTO LTDA — CNPJ 61.123.065/0001-19',
+        'cta-rights': '© 2026 Puzoto Design. Todos os direitos reservados.',
     },
 
     en: {
@@ -181,6 +183,8 @@ const translations = {
         'cta-desc': 'We develop websites designed to elevate your business, better present what you do and convey more trust in the digital world.',
         'cta-btn': 'Start my Project',
         'cta-footer': 'We create websites for businesses that want to present themselves better, convey more trust and stand out from the crowd.',
+        'cta-cnpj': 'PUZOTO LTDA — CNPJ 61.123.065/0001-19',
+        'cta-rights': '© 2026 Puzoto Design. All rights reserved.',
     }
 };
 

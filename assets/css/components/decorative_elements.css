@@ -62,8 +62,8 @@
         .cta {
             position: relative;
             z-index: 2;
-            min-height: 70vh; /* Ajustado de 100vh para menos vazio vertical */
-            padding: clamp(6rem, 12vw, 10rem) 0 clamp(3rem, 6vw, 4rem); /* Menos padding no bottom */
+            min-height: 70vh;
+            padding: clamp(6rem, 12vw, 10rem) 0 1.5rem; /* Reduzido o padding bottom drasticamente */
             background: rgba(14, 15, 17, 0.75);
             border-top: 1px solid rgba(255, 255, 255, 0.03);
             overflow: hidden;
@@ -460,7 +460,7 @@
         /* Glass effect over the entire text to separate it from the vortex */
         .cta__content-matte {
             background: radial-gradient(ellipse at center, rgba(14, 15, 17, 0.8) 0%, rgba(14, 15, 17, 0) 70%);
-            padding: 4rem 2rem;
+            padding: 4rem 2rem 1.5rem; /* Reduzido bottom de 4rem para 1.5rem */
             border-radius: 50%;
             display: flex;
             flex-direction: column;
@@ -469,10 +469,10 @@
         }
 
         @media (max-width: 768px) {
-            .cta { padding: clamp(4rem, 10vw, 6rem) 0; }
+            .cta { padding: clamp(4rem, 10vw, 6rem) 0 1rem; }
             .cta__container { padding: 0 1.25rem; }
             .cta__content-matte { 
-                padding: 2.5rem 1.25rem;
+                padding: 2.5rem 1.25rem 1rem; /* Reduzido bottom mobile */
                 border-radius: 24px;
                 background: radial-gradient(ellipse at center, rgba(14, 15, 17, 0.85) 0%, rgba(14, 15, 17, 0) 80%);
             }
